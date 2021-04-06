@@ -1,0 +1,7 @@
+# Dependency directories
+node_modules/
+package-lock.json
+
+backend/.env
+
+.DS_Store
