@@ -1,0 +1,27 @@
+{
+  "name": "drag-and-drop-backend",
+  "version": "1.0.0",
+  "description": "Express derived backend for S3 access",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MisterPea/drag-n-drop/tree/master/backend"
+  },
+  "author": "Perry Angelora",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.9.0",
+    "@aws-sdk/lib-storage": "^3.10.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-formidable": "^1.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
