@@ -10,14 +10,15 @@ const s3 = new S3Client({
 });
 
 /**
- * Class contianing methods completing a multipart upload to an S3 bucket.
+ * A class containing methods to complete a multipart upload to a S3 bucket.
  * The methods are:
- * - `getUploadId(bucket, key)` returns an `UploadId`
- * - `upload(params, finalChunk)` returns :Void
+ * - `getUploadId(bucket, key)` : returns an `UploadId`
+ * - `upload(params, finalChunk)` : returns :void
  * -- Being a server-side class, the file must be chunked prior to calling
- * upload. The frontend encoding accomplished by `FileReader.readAsDataUrl`,
- * so any `base64` encoding should work. The 'finalChunk' arg is a `Bool`
- * signifying whether the current chunk is the final chunk being sent/called.
+ * upload. The frontend encoding/chunking is accomplished
+ * by `FileReader.readAsDataUrl`, so any `base64` encoding should work.
+ * The 'finalChunk' arg is a `Bool` signifying whether the current chunk is
+ * the final chunk being sent/called.
  */
 module.exports = class S3Upload {
   // eslint-disable-next-line require-jsdoc
@@ -35,7 +36,7 @@ module.exports = class S3Upload {
  * Method to initiate multipart upload by getting an UploadId
  * @param {string} bucket S3 bucket name
  * @param {string} key Path and/or filename
- * @return {string} UploadId UploadId to be used for all upload parts
+ * @return {string} UploadId to be used for all upload parts
  */
   getUploadID(bucket, key) {
     const params = {
@@ -53,36 +54,41 @@ module.exports = class S3Upload {
   };
 
   /**
- * Helper function to conver the Body dataURL to a base64 buffer
+ * Helper function to convert the Body dataURL to a base64 buffer
  * @param {Object<string>} params Object containing items needed for upload
  * @param {bool} finalChunk Bool of whether the current data is the final chunk
+ * @param {number} numberOfChunks Number of chunks
  */
   uploads(params, finalChunk, numberOfChunks) {
     const { Body, Bucket, PartNumber, Key, UploadId } = params;
     const fileReaderData = Body.split(',');
     const buffer = Buffer.from(fileReaderData[1], 'base64');
-    this.numberOfChunks = Number(numberOfChunks)
+    this.numberOfChunks = Number(numberOfChunks);
     if (finalChunk) {
-      // this.numberOfChunks = PartNumber;
       this.completeParams.Bucket = Bucket;
       this.completeParams.Key = Key;
       this.completeParams.UploadId = UploadId;
     }
-    this.uploadChunk({Bucket, PartNumber, Key, UploadId, Body: buffer}, finalChunk);
+    this.uploadChunk({
+      Bucket,
+      PartNumber,
+      Key,
+      UploadId,
+      Body: buffer},
+    finalChunk);
   }
 
   /**
  * Method to append/assemble this.completeParams for use on finishUpload.
- * On upload of all parts, finishUpload is called, with this.completeParams arg.
- * @param {Object} data
+ * On upload of all parts, finishUpload is called, with the
+ * this.completeParams arg.
+ * @param {Object<mixed>} data contains an ETag, PartNumber, finalChunk
  */
   partsFunc(data) {
     this.completeParams.MultipartUpload.Parts[data.PartNumber - 1] = data;
     console.log('proc:', this.chunksProcessed, 'total:', this.numberOfChunks);
     if (this.chunksProcessed === this.numberOfChunks) {
-      console.log('finishe called')
       this.finishUpload(this.completeParams);
-      console.log(this.completeParams);
     }
   };
 
@@ -100,10 +106,8 @@ module.exports = class S3Upload {
           this.partsFunc({ETag, PartNumber: Number(PartNumber)}, finalChunk);
           ++this.chunksProcessed;
         })
-        .catch((err) => {
-          // console.log(`Error in upload: ${err}`);
+        .catch(() => {
           if (retries <= maxRetries) {
-            // console.log(`Retrying part: ${PartNumber}`);
             this.uploadChunk(params, finalChunk, ++retries);
           } else {
             console.log(`Failure uploading part: ${PartNumber}`);
@@ -113,17 +117,16 @@ module.exports = class S3Upload {
   }
 
   /**
- * s
- * @param {Object<mixed>} params a
+ * Method to signal the server that the upload is complete.
+ * @param {Object<mixed>} params contains an ETag, PartNumber, finalChunk,
+ * UploadId and Key
  */
   finishUpload(params) {
-    console.log('called')
     s3.send(new CompleteMultipartUploadCommand(params))
         .then((ret) => {
           console.log('Finish:', ret);
-          // clearObject(params.UploadId);
         })
-        .catch((err) => console.error('Error in finish upload:', err));
+        .catch((err) => console.error(`Error finishing the upload:${err}`));
   };
 };
 

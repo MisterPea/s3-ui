@@ -26,7 +26,7 @@ const getBucketList = () => {
 
 /**
  * Method to create an empty S3 bucket
- * @param {string} bucketName Lowercase 3-63 charachters a-z, 0-9, dots,hyphens.
+ * @param {string} bucketName Lowercase 3-63 characters a-z, 0-9, dots,hyphens.
  * Bucket naming rules:
  * https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html
  * @param {string} accessControl optional, defaults to private

@@ -16,8 +16,8 @@ export class MultipartUpload {
   }
 
   /**
-   * Method to retrive an UploadId for MultipartUpload
-   * @return {Promise<string>} Returns a promise containing `UploadId`
+   * Method to retrieve an UploadId for MultipartUpload
+   * @return {Promise<string>} Returns a promise containing an `UploadId`
    */
   getUploadId() {
     return axios({
@@ -35,7 +35,7 @@ export class MultipartUpload {
 
   /**
    * Method that divides the uploaded file,
-   * and sends its parts to `uploadFileChunks`
+   * and sends its parts to `uploadFileChunks`.
    * @param {string} uploadId is an identifier derived from `getUploadId`
    */
   uploadFile(uploadId) {
@@ -47,7 +47,6 @@ export class MultipartUpload {
     const numberOfChunks = Math.ceil(fileSize/chunkSize);
 
     const endOfFileInRange = () => {
-      console.log(`${fileSize} - ${offset} <= ${chunkSize}`);
       return fileSize - offset <= chunkSize;
     };
 
@@ -64,6 +63,13 @@ export class MultipartUpload {
       return this.file.slice(beginOffset, endOffset);
     };
 
+    /**
+     * In this method, the `UploadID` is passed as a URL param, so
+     * we can create a unique, identifiable class instance. This
+     * allows us to know where were sending upload data and allow us
+     * independently upload multiple files at once without worrying
+     * about the data from one file accidentally being added to another file.
+     */
     const sendChunk = () => {
       const reader = new FileReader();
       reader.readAsDataURL(fileChunk());
@@ -88,27 +94,10 @@ export class MultipartUpload {
             .then(() => {
               if (!finalChunk) {
                 sendChunk();
-              } else {
-                console.log('done');
               }
             });
       };
     };
     sendChunk();
   }
-//   /**
-//    * Method to handle the uploading of file chunks
-//    * @param {Object<FormData>} formData UploadId derived from `getUploadId`
-//    */
-//   uploadFileChunks(formData) {
-//     const uploadPartToS3 = axios({
-//       method: 'POST',
-//       url: 'http://192.168.1.152:3200/uploadChunks',
-//       data: formData,
-//       headers: {
-//         'content-type': 'multipart/form-data',
-//       },
-//     });
-//     this.sentPromises.push(uploadPartToS3);
-//   }
 }

@@ -12,12 +12,10 @@ export default function App() {
     const classObject = {};
     const images = document.querySelector('#file-upload').files;
     for (let i=0; i < images.length; i++) {
-      console.log(images[i])
-      classObject[`iter${i}`] = new MultipartUpload(images[i], 'another-one');
-      classObject[`iter${i}`].getUploadId()
+      classObject[`_${i}`] = new MultipartUpload(images[i], 'another-one');
+      classObject[`_${i}`].getUploadId()
           .then(({ data }) => {
-            console.log(data);
-            classObject[`iter${i}`].uploadFile(data);
+            classObject[`_${i}`].uploadFile(data);
           })
           .catch((err) => {
             console.error(`Upload failure: Can't reteive UploadId: ${err}`);
