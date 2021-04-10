@@ -3,7 +3,7 @@ import DragAndDrop from './DragAndDrop';
 import {MultipartUpload} from './MultipartUpload';
 
 /**
- * Application entrypoint
+ * Application entry point
  * @return {JSX}
  */
 export default function App() {
@@ -18,7 +18,7 @@ export default function App() {
             classObject[`_${i}`].uploadFile(data);
           })
           .catch((err) => {
-            console.error(`Upload failure: Can't reteive UploadId: ${err}`);
+            console.error(`Upload failure: Can't retrieve UploadId: ${err}`);
           });
     };
   };
