@@ -9,16 +9,20 @@ import {MultipartUpload} from './MultipartUpload';
 export default function App() {
   const sendImage = (e) => {
     e.preventDefault();
-    const image = document.querySelector('#file-upload').files[0];
-    const upload = new MultipartUpload(image, 'another-one');
-    upload.getUploadId()
-        .then(({data}) => {
-          console.log(data);
-          upload.uploadFile(data);
-        })
-        .catch((err)=> {
-          console.error(`Upload failure: Can't reteive UploadId: ${err}`);
-        });
+    const classObject = {};
+    const images = document.querySelector('#file-upload').files;
+    for (let i=0; i < images.length; i++) {
+      console.log(images[i])
+      classObject[`iter${i}`] = new MultipartUpload(images[i], 'another-one');
+      classObject[`iter${i}`].getUploadId()
+          .then(({ data }) => {
+            console.log(data);
+            classObject[`iter${i}`].uploadFile(data);
+          })
+          .catch((err) => {
+            console.error(`Upload failure: Can't reteive UploadId: ${err}`);
+          });
+    };
   };
 
   return (<div>
