@@ -44,6 +44,7 @@ export class MultipartUpload {
     let currentChunk = 0;
     let offset = 0;
     let finalChunk = false;
+    const numberOfChunks = Math.ceil(fileSize/chunkSize);
 
     const endOfFileInRange = () => {
       console.log(`${fileSize} - ${offset} <= ${chunkSize}`);
@@ -75,10 +76,10 @@ export class MultipartUpload {
         formData.append('UploadId', uploadId);
         formData.append('Body', reader.result);
         formData.append('finalChunk', finalChunk);
-        console.log(currentChunk);
+        formData.append('numberOfChunks', numberOfChunks);
         axios({
           method: 'POST',
-          url: 'http://192.168.1.152:3200/uploadChunks',
+          url: `http://192.168.1.152:3200/upload/${uploadId}`,
           data: formData,
           headers: {
             'content-type': 'multipart/form-data',
@@ -95,19 +96,19 @@ export class MultipartUpload {
     };
     sendChunk();
   }
-  /**
-   * Method to handle the uploading of file chunks
-   * @param {Object<FormData>} formData UploadId derived from `getUploadId`
-   */
-  uploadFileChunks(formData) {
-    const uploadPartToS3 = axios({
-      method: 'POST',
-      url: 'http://192.168.1.152:3200/uploadChunks',
-      data: formData,
-      headers: {
-        'content-type': 'multipart/form-data',
-      },
-    });
-    this.sentPromises.push(uploadPartToS3);
-  }
+//   /**
+//    * Method to handle the uploading of file chunks
+//    * @param {Object<FormData>} formData UploadId derived from `getUploadId`
+//    */
+//   uploadFileChunks(formData) {
+//     const uploadPartToS3 = axios({
+//       method: 'POST',
+//       url: 'http://192.168.1.152:3200/uploadChunks',
+//       data: formData,
+//       headers: {
+//         'content-type': 'multipart/form-data',
+//       },
+//     });
+//     this.sentPromises.push(uploadPartToS3);
+//   }
 }
