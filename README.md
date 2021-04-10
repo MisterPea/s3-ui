@@ -25,7 +25,7 @@ The basic setup for multipart-uploading is:
 
 #### To run:
 * From `/src`: `npm start`
-* From `/backend`: `nodemone server` or `node server`
+* From `/backend`: `nodemon server` or `node server`
 
 In the backend folder place your aws credentials into a `.env` file.
 The cedentials will look like:
