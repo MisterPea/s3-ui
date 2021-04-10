@@ -18,6 +18,6 @@ The basic setup for multipart-uploading is:
 #### To do:
 * [ ] Abstract-out the server-side actions to allow it to more behave like an api.
 * [ ] Look into ways to abstract-out front end calls by, perhaps, moving them to the server.
-* [ ] Have the `UploadId` derived on-the-fly rather than passed in. This will allow the front end to just send info without worrying about routing. 
+* [ ] Have the `UploadId` derived on-the-fly rather than passed in. This will allow the frontend to just send info without worrying about routing. 
 * [ ] Add flag to allow user to receive upload confirmation and file location.
 * [ ] Add method to track upload progress.
