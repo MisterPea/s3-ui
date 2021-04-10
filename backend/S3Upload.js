@@ -1,0 +1,129 @@
+const {
+  S3Client,
+  CreateMultipartUploadCommand,
+  UploadPartCommand,
+  CompleteMultipartUploadCommand } = require('@aws-sdk/client-s3');
+// const {clearObject} = require('./server');
+
+const s3 = new S3Client({
+  region: 'us-east-1',
+});
+
+/**
+ * Class contianing methods completing a multipart upload to an S3 bucket.
+ * The methods are:
+ * - `getUploadId(bucket, key)` returns an `UploadId`
+ * - `upload(params, finalChunk)` returns :Void
+ * -- Being a server-side class, the file must be chunked prior to calling
+ * upload. The frontend encoding accomplished by `FileReader.readAsDataUrl`,
+ * so any `base64` encoding should work. The 'finalChunk' arg is a `Bool`
+ * signifying whether the current chunk is the final chunk being sent/called.
+ */
+module.exports = class S3Upload {
+  // eslint-disable-next-line require-jsdoc
+  constructor() {
+    this.numberOfChunks = 0;
+    this.chunksProcessed = 1;
+    this.completeParams = {
+      MultipartUpload: {
+        Parts: [],
+      },
+    };
+  }
+
+  /**
+ * Method to initiate multipart upload by getting an UploadId
+ * @param {string} bucket S3 bucket name
+ * @param {string} key Path and/or filename
+ * @return {string} UploadId UploadId to be used for all upload parts
+ */
+  getUploadID(bucket, key) {
+    const params = {
+      Bucket: bucket,
+      Key: key,
+      CacheControl: 'max-age=1500', // in seconds
+    };
+    return s3.send(new CreateMultipartUploadCommand(params))
+        .then((data) => {
+          return data;
+        })
+        .catch((err) => {
+          return err;
+        });
+  };
+
+  /**
+ * Helper function to conver the Body dataURL to a base64 buffer
+ * @param {Object<string>} params Object containing items needed for upload
+ * @param {bool} finalChunk Bool of whether the current data is the final chunk
+ */
+  uploads(params, finalChunk, numberOfChunks) {
+    const { Body, Bucket, PartNumber, Key, UploadId } = params;
+    const fileReaderData = Body.split(',');
+    const buffer = Buffer.from(fileReaderData[1], 'base64');
+    this.numberOfChunks = Number(numberOfChunks)
+    if (finalChunk) {
+      // this.numberOfChunks = PartNumber;
+      this.completeParams.Bucket = Bucket;
+      this.completeParams.Key = Key;
+      this.completeParams.UploadId = UploadId;
+    }
+    this.uploadChunk({Bucket, PartNumber, Key, UploadId, Body: buffer}, finalChunk);
+  }
+
+  /**
+ * Method to append/assemble this.completeParams for use on finishUpload.
+ * On upload of all parts, finishUpload is called, with this.completeParams arg.
+ * @param {Object} data
+ */
+  partsFunc(data) {
+    this.completeParams.MultipartUpload.Parts[data.PartNumber - 1] = data;
+    console.log('proc:', this.chunksProcessed, 'total:', this.numberOfChunks);
+    if (this.chunksProcessed === this.numberOfChunks) {
+      console.log('finishe called')
+      this.finishUpload(this.completeParams);
+      console.log(this.completeParams);
+    }
+  };
+
+  /**
+ * Main upload method
+ * @param {Object<string>} params Object data for upload chunk
+ * @param {Bool} finalChunk Is the current chunk the last one sent?
+ * @param {?Number} retries Optional number, passed in on retries
+ */
+  uploadChunk(params, finalChunk, retries = 0) {
+    const {PartNumber} = params;
+    const maxRetries = 5;
+    s3.send(new UploadPartCommand(params))
+        .then(({ETag}) => {
+          this.partsFunc({ETag, PartNumber: Number(PartNumber)}, finalChunk);
+          ++this.chunksProcessed;
+        })
+        .catch((err) => {
+          // console.log(`Error in upload: ${err}`);
+          if (retries <= maxRetries) {
+            // console.log(`Retrying part: ${PartNumber}`);
+            this.uploadChunk(params, finalChunk, ++retries);
+          } else {
+            console.log(`Failure uploading part: ${PartNumber}`);
+            return;
+          }
+        });
+  }
+
+  /**
+ * s
+ * @param {Object<mixed>} params a
+ */
+  finishUpload(params) {
+    console.log('called')
+    s3.send(new CompleteMultipartUploadCommand(params))
+        .then((ret) => {
+          console.log('Finish:', ret);
+          // clearObject(params.UploadId);
+        })
+        .catch((err) => console.error('Error in finish upload:', err));
+  };
+};
+
