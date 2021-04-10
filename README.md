@@ -21,3 +21,16 @@ The basic setup for multipart-uploading is:
 * [ ] Have the `UploadId` derived on-the-fly rather than passed in. This will allow the frontend to just send info without worrying about routing. 
 * [ ] Add flag to allow user to receive upload confirmation and file location.
 * [ ] Add method to track upload progress.
+<hr />
+
+#### To run:
+* From `/src`: `npm start`
+* From `/backend`: `nodemone server` or `node server`
+
+In the backend folder place your aws credentials into a `.env` file.
+The cedentials will look like:
+```
+AWS_ACCESS_KEY_ID=ABCDEFGHIJ123456789
+AWS_SECRET_ACCESS_KEY=O12ABC3456DEFGHIJKLMNOPQRXTUVWX987654321 
+AWS_REGION=us-east-1
+``` 
