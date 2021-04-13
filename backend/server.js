@@ -5,8 +5,9 @@ const cors = require('cors');
 const formidable = require('express-formidable');
 const jsonParser = express.json();
 const S3Upload = require('./S3Upload');
+const {getBucketList} = require('./s3BucketMethods');
 
-const S3UploadId = new S3Upload;
+const S3UploadId = new S3Upload();
 const classObject = {};
 
 app.use(cors());
@@ -32,7 +33,8 @@ app.post('/upload/:uid', formidable(), (req, res) => {
     Body,
     finalChunk,
     numberOfChunks } = req.fields;
-
+  
+  // classObject is a holder for independent class instances, so we have a way to keep track of them.
   classObject[req.params.uid].uploads({
     Bucket,
     PartNumber: Number(PartNumber),
@@ -43,6 +45,16 @@ app.post('/upload/:uid', formidable(), (req, res) => {
   // this res.send() pings the caller to send another chunk:
   // MultipartUpload - Lines 95-98
   res.send();
+});
+
+app.get('/bucketList', (req, res) => {
+  getBucketList()
+      .then((data) => {
+        res.send(data);
+      })
+      .catch((err) => {
+        console.error(`There was a problem retrieving your buckets:${err}`);
+      });
 });
 
 app.listen(PORT, () => {
