@@ -1,41 +1,38 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import DragAndDrop from './DragAndDrop';
-import {MultipartUpload} from './MultipartUpload';
+import {getBucketList} from './frontendBucketMethods';
 
 /**
  * Application entry point
  * @return {JSX}
  */
 export default function App() {
-  const sendImage = (e) => {
-    e.preventDefault();
-    const classObject = {};
-    const images = document.querySelector('#file-upload').files;
-    for (let i=0; i < images.length; i++) {
-      classObject[`_${i}`] = new MultipartUpload(images[i], 'another-one');
-      classObject[`_${i}`].getUploadId()
-          .then(({ data }) => {
-            classObject[`_${i}`].uploadFile(data);
-          })
-          .catch((err) => {
-            console.error(`Upload failure: Can't retrieve UploadId: ${err}`);
-          });
-    };
-  };
+  const [bucketList, setBucketList] = useState([]);
+
+  useEffect(() => {
+    getBucketList()
+        .then(([data]) => {
+          setBucketList(data);
+        })
+        .catch((err) => {
+          console.error(`There's been a problem getting bucket list: ${err}`);
+        });
+  }, []);
 
   return (<div>
     <h2>S3 Upload</h2>
     <hr />
-    <form>
-      <input
-        type="file"
-        accept="image/*"
-        id="file-upload"
-        multiple
-      />
-      <button onClick={(e) => sendImage(e)}>Submit</button>
-    </form>
-    <DragAndDrop />
+
+    <div className='bucket-list'>
+      <ul>
+      current buckets
+        {bucketList.map(({Name}, index)=> (
+          <li key={index}>
+            <DragAndDrop label={Name} />
+          </li>
+        ))}
+      </ul>
+    </div>
   </div>);
 };
 
