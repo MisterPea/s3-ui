@@ -11,9 +11,12 @@ export class MultipartUpload {
    */
   constructor(file, bucket) {
     this.file = file;
+    this.size = this.file.size;
     this.bucket = bucket;
     this.sentPromises = [];
-  }
+    this.totalBytesLoaded = 0;
+    this.base64Size = Math.round((4 * ((this.size + 2) / 3)));
+  };
 
   /**
    * Method to retrieve an UploadId for MultipartUpload
@@ -38,16 +41,15 @@ export class MultipartUpload {
    * and sends its parts to `uploadFileChunks`.
    * @param {string} uploadId is an identifier derived from `getUploadId`
    */
-  uploadFile(uploadId) {
-    const fileSize = this.file.size;
+  uploadFile(uploadId, callback) {
     const chunkSize = 1024 ** 2 * 5; // 5MB
     let currentChunk = 0;
     let offset = 0;
     let finalChunk = false;
-    const numberOfChunks = Math.ceil(fileSize/chunkSize);
+    const numberOfChunks = Math.ceil(this.size/chunkSize);
 
     const endOfFileInRange = () => {
-      return fileSize - offset <= chunkSize;
+      return this.size - offset <= chunkSize;
     };
 
     const fileChunk = () => {
@@ -55,7 +57,7 @@ export class MultipartUpload {
       let endOffset;
       if (endOfFileInRange()) {
         finalChunk = true;
-        endOffset = fileSize;
+        endOffset = this.size;
       } else {
         endOffset = offset + chunkSize;
       }
@@ -89,6 +91,16 @@ export class MultipartUpload {
           data: formData,
           headers: {
             'content-type': 'multipart/form-data',
+          },
+          onUploadProgress: (fileInfo) => {
+            this.totalBytesLoaded += fileInfo.loaded;
+            const percent = Math.round((
+              this.totalBytesLoaded * 100)/this.base64Size);
+            callback({
+              title: this.file.name,
+              p: `${percent <= 100 ? percent : 100 }%`,
+            });
+            // console.log(`${percent <= 100 ? percent : 100 }%`);
           },
         })
             .then(() => {
