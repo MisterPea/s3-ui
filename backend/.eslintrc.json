@@ -17,5 +17,6 @@
     },
     "rules": {
         "object-curly-spacing":"off"
-    }
+    },
+    "parser": "babel-eslint"
 }
