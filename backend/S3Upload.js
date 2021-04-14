@@ -57,7 +57,7 @@ module.exports = class S3Upload {
  * Helper function to convert the Body dataURL to a base64 buffer
  * @param {Object<string>} params Object containing items needed for upload
  * @param {bool} finalChunk Bool of whether the current data is the final chunk
- * @param {number} numberOfChunks Number of chunks
+ * @param {number} numberOfChunks Number of chunks that will be sent
  */
   uploads(params, finalChunk, numberOfChunks) {
     const { Body, Bucket, PartNumber, Key, UploadId } = params;
