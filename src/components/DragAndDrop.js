@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import {MultipartUpload} from './MultipartUpload';
 
@@ -10,6 +10,11 @@ import {MultipartUpload} from './MultipartUpload';
 export default function DragAndDrop({ label }) {
   const [onFileDrag, setOnFileDrag] = useState(false);
   const [activeUpload, setActiveUpload] = useState([]);
+  const activeUploadRef = useRef();
+  activeUploadRef.current = activeUpload;
+  // The encapsulation of the state inside of a useRef instance
+  // allows the persistance of state, which was getting
+  // inadvertently reset when spreading the array whilst pushing to it.
 
   const boxStyle = {
     marginTop: '20px',
@@ -29,11 +34,10 @@ export default function DragAndDrop({ label }) {
   };
 
   const callback = (data) => {
-    console.log(data)
-    // setActiveUpload((oldArray) => [...oldArray, {title: data.title, p: data.p}]);
-  }
-
-  console.log(activeUpload);
+    setActiveUpload(activeUploadRef.current.map((upload) => {
+      return upload.title === data.title ? {...upload, p: data.p} : upload;
+    }));
+  };
 
   const sendImage = (fileList, bucket) => {
     const classObject = {};
@@ -41,6 +45,7 @@ export default function DragAndDrop({ label }) {
       classObject[`_${i}`] = new MultipartUpload(fileList[i], bucket);
       classObject[`_${i}`].getUploadId()
           .then(({ data }) => {
+            setActiveUpload((cur) => [...cur, {title: fileList[i].name, p: 0}]);
             classObject[`_${i}`].uploadFile(data, callback);
           })
           .catch((err) => {
@@ -82,7 +87,9 @@ export default function DragAndDrop({ label }) {
       onDrop={(e) => handleDropEvent(e)}
       onDragLeave={handleDragLeave}>
       {label}
-
+      {activeUploadRef.current.map(({title, p}, index) => (
+        <p key={index}>{title}-{p}</p>
+      ))}
     </div>
   );
 };
@@ -90,4 +97,4 @@ export default function DragAndDrop({ label }) {
 DragAndDrop.propTypes = {
   label: PropTypes.string,
   sendFunction: PropTypes.func,
-}
+};
