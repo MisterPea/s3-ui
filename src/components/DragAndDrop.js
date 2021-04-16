@@ -1,6 +1,7 @@
-import React, {useRef, useState} from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {MultipartUpload} from './MultipartUpload';
+import { MultipartUpload } from './MultipartUpload';
+import { ListFiles, getBucketRegion } from './ListFiles';
 
 /**
  * Drag and drop component
@@ -9,12 +10,21 @@ import {MultipartUpload} from './MultipartUpload';
  */
 export default function DragAndDrop({ label }) {
   const [onFileDrag, setOnFileDrag] = useState(false);
+  const [viewContents, setViewContents] = useState(false);
+  const [region, setRegion] = useState(null);
   const [activeUpload, setActiveUpload] = useState([]);
   const activeUploadRef = useRef();
   activeUploadRef.current = activeUpload;
   // The encapsulation of the state inside of a useRef instance
   // allows the persistance of state, which was getting
   // inadvertently reset when spreading the array whilst pushing to it.
+
+  useEffect(() => {
+    const location = getBucketRegion(label);
+    location.then((res) => {
+      setRegion(res ? res : undefined);
+    });
+  }, []);
 
   const boxStyle = {
     marginTop: '20px',
@@ -35,17 +45,19 @@ export default function DragAndDrop({ label }) {
 
   const callback = (data) => {
     setActiveUpload(activeUploadRef.current.map((upload) => {
-      return upload.title === data.title ? {...upload, p: data.p} : upload;
+      return upload.title === data.title ? { ...upload, p: data.p } : upload;
     }));
   };
 
-  const sendImage = (fileList, bucket) => {
+  const sendFile = (fileList, bucket) => {
     const classObject = {};
-    for (let i=0; i < fileList.length; i++) {
+    for (let i = 0; i < fileList.length; i++) {
       classObject[`_${i}`] = new MultipartUpload(fileList[i], bucket);
       classObject[`_${i}`].getUploadId()
           .then(({ data }) => {
-            setActiveUpload((cur) => [...cur, {title: fileList[i].name, p: 0}]);
+            setActiveUpload((cur) => [...cur, {
+              title: fileList[i].name, p: 0,
+            }]);
             classObject[`_${i}`].uploadFile(data, callback);
           })
           .catch((err) => {
@@ -74,22 +86,42 @@ export default function DragAndDrop({ label }) {
   const handleDropEvent = (e) => {
     e.preventDefault();
     setOnFileDrag(false);
-    sendImage(e.dataTransfer.files, label);
+    sendFile(e.dataTransfer.files, label);
+  };
+
+  const handleViewContentsOpen = (e) => {
+    e.preventDefault();
+    setViewContents(true);
+  };
+
+  const handleViewContentsClose = (e) => {
+    e.preventDefault();
+    setViewContents(false);
   };
 
 
   return (
-    <div
-      className='dropArea'
-      style={onFileDrag ? {...boxStyle, ...appendedStyle}: boxStyle}
-      onDragEnter={(e) => handleOnDragEnter(e)}
-      onDragOver={(e) => handleOnDragOver(e)}
-      onDrop={(e) => handleDropEvent(e)}
-      onDragLeave={handleDragLeave}>
-      {label}
-      {activeUploadRef.current.map(({title, p}, index) => (
-        <p key={index}>{title}-{p}</p>
-      ))}
+    <div>
+      <div
+        className='dropArea'
+        style={onFileDrag ? { ...boxStyle, ...appendedStyle } : boxStyle}
+        onDragEnter={(e) => handleOnDragEnter(e)}
+        onDragOver={(e) => handleOnDragOver(e)}
+        onDrop={(e) => handleDropEvent(e)}
+        onDragLeave={handleDragLeave}>
+        {label}
+        {activeUploadRef.current.map(({ title, p }, index) => (
+          <p key={index}>{title}-{p}</p>
+        ))}
+      </div>
+      <button onClick={handleViewContentsOpen}>
+        View Contents
+      </button>
+      {viewContents && <ListFiles
+        bucketName={label}
+        region={region}
+        callback={handleViewContentsClose
+        } />}
     </div>
   );
 };
