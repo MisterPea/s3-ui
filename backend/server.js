@@ -5,7 +5,12 @@ const cors = require('cors');
 const formidable = require('express-formidable');
 const jsonParser = express.json();
 const S3Upload = require('./S3Upload');
-const {getBucketList} = require('./s3BucketMethods');
+const {
+  getBucketList,
+  createBucket,
+  listBucketContents,
+  getBucketRegion} = require('./s3BucketMethods');
+const { ConcatenationScope } = require('webpack');
 
 const S3UploadId = new S3Upload();
 const classObject = {};
@@ -55,6 +60,37 @@ app.get('/bucketList', (req, res) => {
       .catch((err) => {
         console.error(`There was a problem retrieving your buckets:${err}`);
       });
+});
+
+app.post('/addBucket', jsonParser, (req, res) => {
+  const {bucket} = req.body
+  createBucket(bucket)
+    .then((res) => {
+      console.log('server:::::',res)
+    })
+    .catch((err) => console.log(`Error creating bucket: ${err}`))
+})
+
+app.post('/listBucketContents', jsonParser, (req, res) => {
+  const {bucket, region} = req.body;
+  listBucketContents(bucket, region)
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.error(`Error retrieving bucket contents: ${err}`);
+    });
+});
+
+app.post('/getBucketRegion', jsonParser, (req, res) => {
+  const {bucket} = req.body;
+  getBucketRegion(bucket)
+    .then((result) => {
+      res.send(result)
+    })
+    .catch((err) => {
+      console.error(`Error retrieving bucket region: ${err}`)
+    });
 });
 
 app.listen(PORT, () => {
