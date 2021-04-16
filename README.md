@@ -20,7 +20,7 @@ The basic setup for multipart-uploading is:
 * [ ] Look into ways to abstract-out front end calls by, perhaps, moving them to the server.
 * [ ] Have the `UploadId` derived on-the-fly rather than passed in. This will allow the frontend to just send info without worrying about routing. 
 * [ ] Add flag to allow user to receive upload confirmation and file location.
-* [ ] Add method to track upload progress.
+* [x] Add method to track upload progress.
 * [ ] Frontend design.
 <hr />
 
