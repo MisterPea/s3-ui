@@ -4,6 +4,8 @@ const {
   S3Client,
   ListBucketsCommand,
   CreateBucketCommand,
+  ListObjectsV2Command,
+  GetBucketLocationCommand,
 } = require('@aws-sdk/client-s3');
 
 const s3 = new S3Client({
@@ -53,21 +55,39 @@ const createBucket = (bucketName, accessControl = 'private') => {
       });
 };
 
-// /**
-//  * Helper method to pull filename and data from base64 string
-//  * @param {String} file base64 string
-//  * @return {Object<String>} Returns an object of strings, keyed:
-//  * - filename
-//  * - fileBuffer
-//  */
-// const getFilenameAndFileData = (file) => {
-//   const data = file.split(',');
-//   const fileBuffer = Buffer.from(data[1], 'base64');
-//   const filename = (data[0].split('data')[0]);
-//   return { filename, fileBuffer };
-// };
+const listBucketContents = (bucketName, region) => {
+  let s3Local;
+  if (region) {
+    localizedS3Client(region)
+  } else {
+    localizedS3Client('us-east-1')
+  }
+
+  function localizedS3Client(localRegion) {
+    s3Local = new S3Client({
+      region: localRegion,
+    })
+  }
+
+  const fileList = s3Local.send(new ListObjectsV2Command({Bucket: bucketName}))
+  return fileList.then((res) => {
+    return res
+  })
+  .catch((err) => console.error('File list error:', err))
+}
+
+const getBucketRegion = (bucketName) => {
+  const bucketRegion = s3.send(new GetBucketLocationCommand({Bucket: bucketName}))
+  return bucketRegion.then(({LocationConstraint}) => {
+      return LocationConstraint
+    })
+    .catch((err) => console.error(err))
+}
 
 module.exports = {
   getBucketList,
   createBucket,
+  listBucketContents,
+  getBucketRegion,
 };
+ 
