@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import DragAndDrop from './DragAndDrop';
+import AddBucket from './AddBucket';
 import {getBucketList} from './frontendBucketMethods';
 
 /**
@@ -31,6 +32,9 @@ export default function App() {
             <DragAndDrop label={Name} />
           </li>
         ))}
+        <li>
+          <AddBucket bucketList={bucketList}/>
+        </li>
       </ul>
     </div>
   </div>);
