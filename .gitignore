@@ -5,3 +5,5 @@ package-lock.json
 backend/.env
 
 .DS_Store
+src/components/side_effects/testData.js
+src/components/side_effects/deriveFolders.js
