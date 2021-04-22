@@ -12,6 +12,7 @@ const s3 = new S3Client({
   region: 'us-east-1',
 });
 
+
 /**
  * Method to retrieve the Names and Creation Date of existing S3 buckets
  * @return {Promise<objects[]>} Keys: Name & CreationDate
@@ -25,6 +26,7 @@ const getBucketList = () => {
         console.log(err);
       });
 };
+
 
 /**
  * Method to create an empty S3 bucket
@@ -55,6 +57,13 @@ const createBucket = (bucketName, accessControl = 'private') => {
       });
 };
 
+
+/**
+ * Method to retrieve bucket contents
+ * @param {string} bucketName Name of S3 bucket
+ * @param {string} region Region that the bucket resides in
+ * - use the `getBucketRegion` method if region is not known
+ */
 const listBucketContents = (bucketName, region) => {
   let s3Local;
   if (region) {
@@ -71,17 +80,93 @@ const listBucketContents = (bucketName, region) => {
 
   const fileList = s3Local.send(new ListObjectsV2Command({Bucket: bucketName}))
   return fileList.then((res) => {
-    return res
+    const fileArray = sortFileArray(res.Contents)
+    return tree(fileArray);
   })
   .catch((err) => console.error('File list error:', err))
 }
 
+
+/**
+ * Synchronous method to retrieve the region a bucket resides in
+ * @param {string} bucketName Name of S3 bucket
+ * @returns {string} bucket region
+ */
 const getBucketRegion = (bucketName) => {
   const bucketRegion = s3.send(new GetBucketLocationCommand({Bucket: bucketName}))
   return bucketRegion.then(({LocationConstraint}) => {
       return LocationConstraint
     })
     .catch((err) => console.error(err))
+}
+
+
+/**
+ * Method to turn paths and file info into hierarchial object organized by path
+ * @param {object[]} fileList Array of objects coming from S3 listBucketContents
+ * @returns {object[]} Return is an array of hierarchial objects representing the directory
+ */
+function tree(fileList) {
+  let root = [];
+  for (const entry of fileList) {
+    const {Key, Size} = entry;
+    const path = Key.split('/');
+    const fileName = path.pop();
+    const pathLength = path.length;
+
+    let scope = root;
+    let currentPath = '';
+
+    for (let i = 0; i < pathLength; i++) {
+      // are there folder matches?
+      const match = scope.find((query) => query.name === path[i]);
+      currentPath += (`/${path[i]}`);
+      if (!match) {
+        const child = {
+          'type': 'folder',
+          'name': path[i],
+          'path': currentPath,
+          'children': [],
+        };
+        scope.push(child);
+        scope = child.children;
+      } else {
+        scope = match.children;
+      }
+      // at end of parsed string, push file
+      if (i === pathLength - 1) {
+        const file = {
+          'type': 'file',
+          'name': fileName, 
+          'size': Size,
+          'path': currentPath,
+        };
+        scope.push(file);
+      }
+    };
+    // if we're root-level
+    if (path.length === 0) {
+      const file = {
+        'type': 'file',
+        'name': fileName, 
+        'size': Size,
+      };
+      scope.push(file);
+    }
+  }
+  return root;
+}
+
+
+/**
+ * Helper method to sort the initial fileList array by path/filename (Key)
+ * @param {object[]} fileArray Array of objects from the listBucketContents method
+ * @returns {object[]} return is a sorted array of objects
+ */
+function sortFileArray(fileArray) {
+  return fileArray.sort(({Key: a}, {Key: b}) => {
+    return (a.match(/\//g) || []).length - (b.match(/\//g) || []).length;
+  });
 }
 
 module.exports = {
