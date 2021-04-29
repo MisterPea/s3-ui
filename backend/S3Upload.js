@@ -3,14 +3,11 @@ const {
   CreateMultipartUploadCommand,
   UploadPartCommand,
   CompleteMultipartUploadCommand } = require('@aws-sdk/client-s3');
-// const {clearObject} = require('./server');
 
-const s3 = new S3Client({
-  region: 'us-east-1',
-});
 
 /**
  * A class containing methods to complete a multipart upload to a S3 bucket.
+ * @param {String} region Region S3 bucket resides in. 
  * The methods are:
  * - `getUploadId(bucket, key)` : returns an `UploadId`
  * - `upload(params, finalChunk)` : returns :void
@@ -22,7 +19,9 @@ const s3 = new S3Client({
  */
 module.exports = class S3Upload {
   // eslint-disable-next-line require-jsdoc
-  constructor() {
+  constructor(region) {
+    this.region = region;
+    this.s3 = new S3Client({ region: this.region });
     this.numberOfChunks = 0;
     this.chunksProcessed = 1;
     this.completeParams = {
@@ -34,9 +33,9 @@ module.exports = class S3Upload {
 
   /**
  * Method to initiate multipart upload by getting an UploadId
- * @param {string} bucket S3 bucket name
- * @param {string} key Path and/or filename
- * @return {string} UploadId to be used for all upload parts
+ * @param {String} bucket S3 bucket name
+ * @param {String} key Path and/or filename
+ * @return {String} UploadId to be used for all upload parts
  */
   getUploadID(bucket, key) {
     const params = {
@@ -44,7 +43,7 @@ module.exports = class S3Upload {
       Key: key,
       CacheControl: 'max-age=1500', // in seconds
     };
-    return s3.send(new CreateMultipartUploadCommand(params))
+    return this.s3.send(new CreateMultipartUploadCommand(params))
         .then((data) => {
           return data;
         })
@@ -101,7 +100,7 @@ module.exports = class S3Upload {
   uploadChunk(params, finalChunk, retries = 0) {
     const {PartNumber} = params;
     const maxRetries = 5;
-    s3.send(new UploadPartCommand(params))
+    this.s3.send(new UploadPartCommand(params))
         .then(({ETag}) => {
           this.partsFunc({ETag, PartNumber: Number(PartNumber)}, finalChunk);
           ++this.chunksProcessed;
@@ -122,7 +121,7 @@ module.exports = class S3Upload {
  * UploadId and Key
  */
   finishUpload(params) {
-    s3.send(new CompleteMultipartUploadCommand(params))
+    this.s3.send(new CompleteMultipartUploadCommand(params))
         .then((ret) => {
           console.log('Finish:', ret);
         })
