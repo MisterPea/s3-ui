@@ -30,10 +30,10 @@ const getBucketList = () => {
 
 /**
  * Method to create an empty S3 bucket
- * @param {string} bucketName Lowercase 3-63 characters a-z, 0-9, dots,hyphens.
+ * @param {String} bucketName Lowercase 3-63 characters a-z, 0-9, dots,hyphens.
  * Bucket naming rules:
  * https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html
- * @param {string} accessControl optional, defaults to private
+ * @param {String} accessControl optional, defaults to private
  * - Other ACL options are: public-read | public-read-write | authenticated-read
  * - Other options are available, and this function can be extended
  * https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#createBucket-property
@@ -60,8 +60,8 @@ const createBucket = (bucketName, accessControl = 'private') => {
 
 /**
  * Method to retrieve bucket contents
- * @param {string} bucketName Name of S3 bucket
- * @param {string} region Region that the bucket resides in
+ * @param {String} bucketName Name of S3 bucket
+ * @param {String} region Region that the bucket resides in
  * - use the `getBucketRegion` method if region is not known
  */
 const listBucketContents = (bucketName, region) => {
@@ -89,8 +89,8 @@ const listBucketContents = (bucketName, region) => {
 
 /**
  * Synchronous method to retrieve the region a bucket resides in
- * @param {string} bucketName Name of S3 bucket
- * @returns {string} bucket region
+ * @param {String} bucketName Name of S3 bucket
+ * @returns {String} bucket region
  */
 const getBucketRegion = (bucketName) => {
   const bucketRegion = s3.send(new GetBucketLocationCommand({Bucket: bucketName}))
