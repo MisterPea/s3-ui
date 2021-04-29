@@ -10,18 +10,18 @@ const {
   createBucket,
   listBucketContents,
   getBucketRegion} = require('./s3BucketMethods');
-const { ConcatenationScope } = require('webpack');
 
-const S3UploadId = new S3Upload();
 const classObject = {};
 
 app.use(cors());
 
 app.post('/getUploadId', jsonParser, (req, res, next) => {
-  const { bucket, key } = req.body;
-  S3UploadId.getUploadID(bucket, key)
+  const { bucket, key, region } = req.body;
+  const S3UploadId = new S3Upload(region)
+
+  S3UploadId.getUploadID(bucket, key, region)
       .then(({ UploadId }) => {
-        classObject[UploadId] = new S3Upload;
+        classObject[UploadId] = new S3Upload(region);
         res.send(UploadId);
       })
       .catch((err) => {
@@ -75,6 +75,7 @@ app.post('/listBucketContents', jsonParser, (req, res) => {
   const {bucket, region} = req.body;
   listBucketContents(bucket, region)
     .then((result) => {
+
       res.send(result);
     })
     .catch((err) => {
