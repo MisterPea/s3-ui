@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
+@mixin header-text {
+    font-family: 'Space Mono', monospace;
+    font-weight: 700; 
+}
+
+@mixin plain-text {
+    font-family: 'Space Mono', monospace;
+    font-weight: 400;
+}
+
+@mixin blue-hover {
+    background: rgba(71, 151, 134, 0);
+    transition: background 200ms ease-in-out, color 200ms ease-in-out;
+}

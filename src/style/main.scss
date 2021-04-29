@@ -1,0 +1,128 @@
+@import './mixins.scss';
+
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+    margin: 0;
+}
+
+ul {
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
+.body-text {
+    @include plain-text;
+};
+
+.bold-text {
+    @include header-text;
+    margin: 0;
+    padding: 5px 10px 0;  
+};
+
+.xlg-text {
+    font-size: 20px;
+};
+
+.lg-text {
+    font-size: 16px;
+};
+
+.md-text {
+    font-size: 14px;
+};
+
+.sm-text {
+    font-size: 13px;
+}
+
+// Bucket list item
+.bucket-li-wrapper {
+    display: table;
+    margin: 6px 0;
+}
+
+.bucket-li {
+    display: inline-flex;
+    flex-direction: row;
+    // margin: 20px 0 0;
+    height: 30px;
+    background: rgba(45, 61, 80, 1);
+    color: #FFF;
+    padding: 5px 8px;
+    cursor: pointer;
+    transition: background 250ms ease-in-out;
+}
+
+.bucket-text {
+    @include plain-text;
+    padding-left: 6px;
+    pointer-events: none;
+};
+
+.bucket-icon {
+    height: 100%;
+}
+
+// CreateJSXTree.js
+.jsx-tree-ul {
+    display: table-row;
+}
+
+.jsx-li {
+    color: rgba(45, 61, 80, 1);
+    flex:1;
+    padding: 4px 0;
+    padding-left: 8px;
+    @include blue-hover;
+}
+
+.file-text {
+    @include plain-text;
+    padding-left: 10px;
+    pointer-events: none;
+}
+
+.folder-text {
+    @include plain-text;
+    padding-left: 3px;
+    pointer-events: none;
+}
+
+.folder-icon {
+    // background-color: cornflowerblue;
+    height: 100%;
+}
+
+.folder {
+    padding-top: 2px;
+    padding-left: 20px;
+    @include blue-hover;
+}
+.folder-children-close {
+    display: none;
+    height: 0;
+    overflow: hidden;
+}
+
+.folder-children-open {
+    display:block;  
+}
+
+.drag-active {
+    background: rgba(71, 151, 134, 1);
+    color: rgba(255, 255, 255, 1);
+}
+
+// .drag-element {
+//     background-color: khaki;
+// }
