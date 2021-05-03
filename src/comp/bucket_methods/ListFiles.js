@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import {CreateJSXTree} from './CreateJSXTree';
+import JsxPathHolder from './JsxPathHolder';
 
 /**
  * Method to retrieve the region of a bucket
@@ -55,11 +56,13 @@ export function ListFiles({ bucketName, region }) {
 
   return (
     <ul className='jsx-tree-ul'>
-      <CreateJSXTree
-        region={region ? region : 'us-east-1'}
-        bucket={bucketName}
-        data={fileList}
-        setState={setFileList}/>
+      <JsxPathHolder>
+        <CreateJSXTree
+          region={region ? region : 'us-east-1'}
+          bucket={bucketName}
+          data={fileList}
+          setState={retrieveFolderContents}/>
+      </JsxPathHolder>
     </ul>
   );
 }
@@ -68,4 +71,3 @@ ListFiles.propTypes = {
   bucketName: PropTypes.string,
   region: PropTypes.string,
 };
-
