@@ -17,8 +17,9 @@ app.use(cors());
 
 app.post('/getUploadId', jsonParser, (req, res, next) => {
   const { bucket, key, region } = req.body;
+  
   const S3UploadId = new S3Upload(region)
-
+  
   S3UploadId.getUploadID(bucket, key, region)
       .then(({ UploadId }) => {
         classObject[UploadId] = new S3Upload(region);
@@ -30,6 +31,12 @@ app.post('/getUploadId', jsonParser, (req, res, next) => {
 });
 
 app.post('/upload/:uid', formidable(), (req, res) => {
+  const metaDataCallback = (uploadResult=null) => {
+    if (uploadResult) {
+      finish(uploadResult) 
+    }
+  };
+
   const {
     Bucket,
     PartNumber,
@@ -46,10 +53,24 @@ app.post('/upload/:uid', formidable(), (req, res) => {
     Key,
     UploadId,
     Body,
-  }, !!finalChunk, numberOfChunks);
+  }, !!finalChunk, numberOfChunks, metaDataCallback);
   // this res.send() pings the caller to send another chunk:
-  // MultipartUpload - Lines 95-98
-  res.send();
+  // MultipartUpload - Lines 112-115
+  if (Number(PartNumber) < Number(numberOfChunks)) {
+    res.send()
+  }
+  const finish = (data) => {
+    console.log(data)
+    res.sendStatus(data.$metadata.httpStatusCode)
+  }
+  
+
+
+  
+
+ 
+  
+
 });
 
 app.get('/bucketList', (req, res) => {
