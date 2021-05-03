@@ -9,7 +9,7 @@ import {MultipartUpload} from './MultipartUpload';
  * @param {String?} path Optional path property, for nested links
  * @return {object}
  */
-export default function DragDrop({ children, bucket, path = '' }) {
+export default function DragDrop({ children, bucket, path = '', setState}) {
   const prevTarget = useRef('');
   const [activeUpload, setActiveUpload] = useState([]);
   const activeUploadRef = useRef();
@@ -18,11 +18,22 @@ export default function DragDrop({ children, bucket, path = '' }) {
   // allows the persistance of state, which was getting
   // inadvertently reset when spreading the array whilst pushing to it.
 
-  const callback = (data) => {
+  const uploadCallback = (data) => {
     setActiveUpload(activeUploadRef.current.map((upload) => {
       return upload.title === data.title ? { ...upload, p: data.p } : upload;
     }));
   };
+
+  const serverCallback = (data) => {
+    if (data.status === 200) {
+      setState(bucket);
+    }
+  };
+
+
+  activeUpload.forEach((a) => {
+    console.log(a);
+  });
 
   /**
    * The sendFile method takes in a list of files for upload. It parses out
@@ -43,7 +54,11 @@ export default function DragDrop({ children, bucket, path = '' }) {
             setActiveUpload((cur) => [...cur, {
               title: fileList[i].name, p: 0,
             }]);
-            classObject[`_${i}`].uploadFile(data, callback);
+            classObject[`_${i}`].uploadFile(
+                data,
+                uploadCallback,
+                serverCallback,
+            );
           })
           .catch((err) => {
             console.error(`Upload failure: Can't retrieve UploadId: ${err}`);
@@ -105,4 +120,5 @@ DragDrop.propTypes = {
   children: PropTypes.object,
   bucket: PropTypes.string,
   path: PropTypes.string,
+  setState: PropTypes.func,
 };
