@@ -20,5 +20,6 @@ export function getBucketList() {
  * @return {String} Returns a string of the sanitized string
  */
 export function makeCssValid(classString) {
-  return classString.split('.').join('-');
+  const removePeriods = classString.split('.').join('-');
+  return removePeriods.split('/').join(' ');
 };
