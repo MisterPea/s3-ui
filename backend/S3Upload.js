@@ -58,7 +58,7 @@ module.exports = class S3Upload {
  * @param {bool} finalChunk Bool of whether the current data is the final chunk
  * @param {number} numberOfChunks Number of chunks that will be sent
  */
-  uploads(params, finalChunk, numberOfChunks) {
+  uploads(params, finalChunk, numberOfChunks, callbackPassedIn) {
     const { Body, Bucket, PartNumber, Key, UploadId } = params;
     const fileReaderData = Body.split(',');
     const buffer = Buffer.from(fileReaderData[1], 'base64');
@@ -67,6 +67,7 @@ module.exports = class S3Upload {
       this.completeParams.Bucket = Bucket;
       this.completeParams.Key = Key;
       this.completeParams.UploadId = UploadId;
+      this.completeParams.callback = callbackPassedIn;
     }
     this.uploadChunk({
       Bucket,
@@ -121,9 +122,11 @@ module.exports = class S3Upload {
  * UploadId and Key
  */
   finishUpload(params) {
+    const callback = params.callback;
+    delete params.callback;
     this.s3.send(new CompleteMultipartUploadCommand(params))
         .then((ret) => {
-          console.log('Finish:', ret);
+          callback(ret)
         })
         .catch((err) => console.error(`Error finishing the upload:${err}`));
   };
