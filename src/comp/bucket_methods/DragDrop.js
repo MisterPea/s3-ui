@@ -30,7 +30,6 @@ export default function DragDrop({ children, bucket, path = '', setState}) {
     }
   };
 
-
   activeUpload.forEach((a) => {
     console.log(a);
   });
