@@ -46,9 +46,10 @@ export class MultipartUpload {
    * Method that divides the uploaded file,
    * and sends its parts to `uploadFileChunks`.
    * @param {String} uploadId is an identifier derived from `getUploadId`
-   * @param {func} callback Progress callback
+   * @param {func} uploadCallback Progress callback
+   * @param {func} serverCallback Callback fired when server resolves upload
     */
-  uploadFile(uploadId, callback) {
+  uploadFile(uploadId, uploadCallback, serverCallback) {
     const chunkSize = 1024 ** 2 * 5; // 5MB
     let currentChunk = 0;
     let offset = 0;
@@ -103,13 +104,16 @@ export class MultipartUpload {
             this.totalBytesLoaded += fileInfo.loaded;
             const percent = Math.round((
               this.totalBytesLoaded * 100)/this.base64Size);
-            callback({
+            uploadCallback({
               title: this.file.name,
               p: `${percent <= 100 ? percent : 100 }%`,
             });
           },
         })
-            .then(() => {
+            .then((metaDataReturn) => {
+              if (metaDataReturn) {
+                serverCallback(metaDataReturn);
+              }
               if (!finalChunk) {
                 sendChunk();
               }
