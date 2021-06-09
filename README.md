@@ -29,7 +29,7 @@ The basic setup for multipart-uploading is:
 * `$ backend` `nodemon server` or `node server`
 
 In the backend folder place your aws credentials into a `.env` file.
-The cedentials will look like:
+The credentials will look like:
 ```
 AWS_ACCESS_KEY_ID=ABCDEFGHIJ123456789
 AWS_SECRET_ACCESS_KEY=O12ABC3456DEFGHIJKLMNOPQRXTUVWX987654321 
