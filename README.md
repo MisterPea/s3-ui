@@ -15,21 +15,16 @@ The basic setup for multipart-uploading is:
 - At this point the file chunks are stitched back together into a recognizable file.
 <hr />
 
-#### To do:
-* [ ] Abstract-out the server-side actions to allow it to more behave like an api.
-* [ ] Look into ways to abstract-out front end calls by, perhaps, moving them to the server.
-* [x] Have the `UploadId` derived on-the-fly rather than passed in. This will allow the frontend to just send info without worrying about routing. 
-* [ ] Add flag to allow user to receive upload confirmation and file location.
-* [x] Add method to track upload progress.
-* [ ] Frontend design.
-  - [ ] Animations.
-  - [ ] Icons for different file-types.
-  - [ ] Slide out tool for downloading/deleting.
-  - [ ] Upload progress - via React portal
-* [ ] User intergrations.
-  - [ ] Download to browser.
-  - [ ] Delete file.
-  - [ ] Click to upload.
+### To do:
+**API Methods:**
+* [ ] Get List of Buckets - Name - Date Created - AWS Region
+* [ ] Create New Bucket
+* [ ] Get Files/Folders
+* [ ] Add Folder
+* [ ] Add File(s)
+* [ ] Delete Files
+* [ ] Get/Subscribe to Loading Percentage
+* [ ] Send Email
 <hr />
 
 #### To run:
@@ -50,8 +45,7 @@ http://192.168.1.152:8080
 
 ##### Stack:
 * React
-* React-Icons
 * Axios
 * Expressjs
 * AWS S3 Client V3 - `@aws-sdk/client-s3`
-
+* Adobe XD
