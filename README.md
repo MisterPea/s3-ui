@@ -22,6 +22,14 @@ The basic setup for multipart-uploading is:
 * [ ] Add flag to allow user to receive upload confirmation and file location.
 * [x] Add method to track upload progress.
 * [ ] Frontend design.
+  - [ ] Animations.
+  - [ ] Icons for different file-types.
+  - [ ] Slide out tool for downloading/deleting.
+  - [ ] Upload progress - via React portal
+* [ ] User intergrations.
+  - [ ] Download to browser.
+  - [ ] Delete file.
+  - [ ] Click to upload.
 <hr />
 
 #### To run:
@@ -37,3 +45,13 @@ AWS_REGION=us-east-1
 ``` 
 Access via:
 http://192.168.1.152:8080
+
+<hr />
+
+##### Stack:
+* React
+* React-Icons
+* Axios
+* Expressjs
+* AWS S3 Client V3 - `@aws-sdk/client-s3`
+
