@@ -1,0 +1,369 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Bucket Display Component Renders the content of buckets array 1`] = `
+<Fragment>
+  <div
+    className="table-head"
+  >
+    <h3
+      className="name-header"
+    >
+      Bucket Name
+    </h3>
+    <h3
+      className="date-header"
+    >
+      Creation Date
+    </h3>
+    <h3
+      className="region-header"
+    >
+      AWS Region
+    </h3>
+  </div>
+  <ul>
+    <li
+      key="1.newBucket"
+    >
+      <div
+        className="bucket-row"
+        onClick={[Function]}
+        onKeyDown={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <div
+          className="bucket-table-data name"
+        >
+          <div
+            className="bucket-logo"
+          >
+            <BucketLogo />
+          </div>
+          <p
+            className="bucket-name"
+          >
+            1.newBucket
+          </p>
+        </div>
+        <p
+          className="bucket-table-data date"
+        >
+          2021-06-15T15:50:10.000Z
+        </p>
+        <p
+          className="bucket-table-data region"
+        >
+          us-east-1
+        </p>
+      </div>
+    </li>
+    <li
+      key="cf-templates-1ringo9ne14-us-east-1"
+    >
+      <div
+        className="bucket-row"
+        onClick={[Function]}
+        onKeyDown={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <div
+          className="bucket-table-data name"
+        >
+          <div
+            className="bucket-logo"
+          >
+            <BucketLogo />
+          </div>
+          <p
+            className="bucket-name"
+          >
+            cf-templates-1ringo9ne14-us-east-1
+          </p>
+        </div>
+        <p
+          className="bucket-table-data date"
+        >
+          2020-08-11T00:22:08.000Z
+        </p>
+        <p
+          className="bucket-table-data region"
+        >
+          us-east-1
+        </p>
+      </div>
+    </li>
+    <li
+      key="elasticbeanstalk-us-east-1-897278278762"
+    >
+      <div
+        className="bucket-row"
+        onClick={[Function]}
+        onKeyDown={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <div
+          className="bucket-table-data name"
+        >
+          <div
+            className="bucket-logo"
+          >
+            <BucketLogo />
+          </div>
+          <p
+            className="bucket-name"
+          >
+            elasticbeanstalk-us-east-1-897278278762
+          </p>
+        </div>
+        <p
+          className="bucket-table-data date"
+        >
+          2020-08-13T18:36:57.000Z
+        </p>
+        <p
+          className="bucket-table-data region"
+        >
+          us-east-1
+        </p>
+      </div>
+    </li>
+    <li
+      key="logs.misterpea.me"
+    >
+      <div
+        className="bucket-row"
+        onClick={[Function]}
+        onKeyDown={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <div
+          className="bucket-table-data name"
+        >
+          <div
+            className="bucket-logo"
+          >
+            <BucketLogo />
+          </div>
+          <p
+            className="bucket-name"
+          >
+            logs.misterpea.me
+          </p>
+        </div>
+        <p
+          className="bucket-table-data date"
+        >
+          2020-02-23T21:01:23.000Z
+        </p>
+        <p
+          className="bucket-table-data region"
+        >
+          us-east-2
+        </p>
+      </div>
+    </li>
+    <li
+      key="misterpea.me"
+    >
+      <div
+        className="bucket-row"
+        onClick={[Function]}
+        onKeyDown={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <div
+          className="bucket-table-data name"
+        >
+          <div
+            className="bucket-logo"
+          >
+            <BucketLogo />
+          </div>
+          <p
+            className="bucket-name"
+          >
+            misterpea.me
+          </p>
+        </div>
+        <p
+          className="bucket-table-data date"
+        >
+          2020-02-23T19:57:48.000Z
+        </p>
+        <p
+          className="bucket-table-data region"
+        >
+          us-east-2
+        </p>
+      </div>
+    </li>
+    <li
+      key="misterpea.me-emails"
+    >
+      <div
+        className="bucket-row"
+        onClick={[Function]}
+        onKeyDown={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <div
+          className="bucket-table-data name"
+        >
+          <div
+            className="bucket-logo"
+          >
+            <BucketLogo />
+          </div>
+          <p
+            className="bucket-name"
+          >
+            misterpea.me-emails
+          </p>
+        </div>
+        <p
+          className="bucket-table-data date"
+        >
+          2021-01-25T03:06:10.000Z
+        </p>
+        <p
+          className="bucket-table-data region"
+        >
+          us-east-1
+        </p>
+      </div>
+    </li>
+    <li
+      key="new-ass-bucket"
+    >
+      <div
+        className="bucket-row"
+        onClick={[Function]}
+        onKeyDown={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <div
+          className="bucket-table-data name"
+        >
+          <div
+            className="bucket-logo"
+          >
+            <BucketLogo />
+          </div>
+          <p
+            className="bucket-name"
+          >
+            new-ass-bucket
+          </p>
+        </div>
+        <p
+          className="bucket-table-data date"
+        >
+          2021-04-15T13:48:06.000Z
+        </p>
+        <p
+          className="bucket-table-data region"
+        >
+          us-east-1
+        </p>
+      </div>
+    </li>
+    <li
+      key="topStories.misterpea.me"
+    >
+      <div
+        className="bucket-row"
+        onClick={[Function]}
+        onKeyDown={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <div
+          className="bucket-table-data name"
+        >
+          <div
+            className="bucket-logo"
+          >
+            <BucketLogo />
+          </div>
+          <p
+            className="bucket-name"
+          >
+            topStories.misterpea.me
+          </p>
+        </div>
+        <p
+          className="bucket-table-data date"
+        >
+          2020-04-09T22:56:59.000Z
+        </p>
+        <p
+          className="bucket-table-data region"
+        >
+          us-east-2
+        </p>
+      </div>
+    </li>
+    <li
+      key="www.misterpea.me"
+    >
+      <div
+        className="bucket-row"
+        onClick={[Function]}
+        onKeyDown={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <div
+          className="bucket-table-data name"
+        >
+          <div
+            className="bucket-logo"
+          >
+            <BucketLogo />
+          </div>
+          <p
+            className="bucket-name"
+          >
+            www.misterpea.me
+          </p>
+        </div>
+        <p
+          className="bucket-table-data date"
+        >
+          2020-02-23T19:59:01.000Z
+        </p>
+        <p
+          className="bucket-table-data region"
+        >
+          us-east-2
+        </p>
+      </div>
+    </li>
+  </ul>
+  <div
+    className="add-bucket-bar"
+  >
+    <span
+      className="bucket-button-elements"
+    >
+      <div
+        className="bucket-cta-wrapper"
+      >
+        <h3>
+          Creat New S3 Bucket
+        </h3>
+        <IoAddCircleSharp
+          className="add-bucket-plus"
+        />
+      </div>
+    </span>
+  </div>
+</Fragment>
+`;
