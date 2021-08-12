@@ -45,7 +45,9 @@ http://192.168.1.152:8080
 
 ##### Stack:
 * React
+* Redux
 * Axios
 * Expressjs
 * AWS S3 Client V3 - `@aws-sdk/client-s3`
+* Jest/Enzyme
 * Adobe XD
