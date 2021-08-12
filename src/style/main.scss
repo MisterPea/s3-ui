@@ -1,11 +1,142 @@
+@import "./mixins.scss";
+
 html {
   box-sizing: border-box;
 }
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: inherit;
 }
 
 body {
   margin: 0;
   padding: 0;
+  background-color: #343541;
+}
+
+.main-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 50px;
+}
+
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.logo-lg {
+  width: 150px;
+}
+
+.contact-btn {
+  @include type-reg;
+  font-size: 15px;
+  color: #fff;
+  margin: 0;
+  padding: 10px;
+  align-self: flex-start;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 350ms;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+/* ***************************************** */
+/* ***************** Table ***************** */
+/* ***************************************** */
+
+.table-head {
+  width: 100%;
+  margin-top: 70px;
+  background-color: #52535d;
+  display: flex;
+  border-radius: 10px 10px 0 0;
+  h3 {
+    @include type-bold;
+    text-align: center;
+    margin: 0;
+    letter-spacing: 0.16rem;
+    font-size: 15px;
+    color: rgb(200, 200, 200);
+    padding: 10px 0;
+  }
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.bucket-row {
+  background-color: #fff;
+  display: flex;
+  width: 100%;
+  margin-top: 5px;
+  cursor: pointer;
+  p {
+    @include type-reg;
+    font-size: 14px;
+    color: #35537b;
+    margin: 0;
+    justify-content: center;
+  }
+}
+
+.bucket-table-data {
+  display: flex;
+  padding: 8px 0;
+  align-items: center;
+}
+
+.bucket-logo {
+  height: 20px;
+  width: 20px;
+  margin: 0 10px;
+}
+
+.name-header,
+.name {
+  width: 40%;
+}
+.date-header,
+.date {
+  width: 40%;
+}
+.region-header,
+.region {
+  width: 20%;
+}
+.add-bucket-bar {
+  height: 32px;
+  margin: 5px 0 0;
+  background-color: #93bf98;
+  border-radius: 2px 2px 20px 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  .bucket-cta-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  h3 {
+    @include type-bold;
+    margin: 0;
+    color: #fff;
+    font-size: 15px;
+    margin-right: 10px;
+  }
+  .add-bucket-plus {
+    color: #fff;
+    height: 22px;
+    width: 22px;
+  }
 }
