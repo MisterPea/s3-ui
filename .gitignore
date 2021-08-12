@@ -4,3 +4,5 @@ package-lock.json
 lib/.env
 
 .DS_Store
+lib/***s3BucketMethods.js
+lib/***S3Upload.js
