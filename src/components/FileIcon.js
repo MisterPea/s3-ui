@@ -1,8 +1,8 @@
 import * as React from 'react';
 import propTypes from 'prop-types';
 import {
-  FaFileArchive, FaFileCode, FaFileImage, FaFile, FaFilePdf,
-} from 'react-icons/fa';
+  Zip, Image, Code, PDF, Default, Media, Font,
+} from './Icons';
 
 export default function FileIcon({ name }) {
   const extension = name.split('.');
@@ -15,7 +15,7 @@ export default function FileIcon({ name }) {
     case 'png':
     case 'svg':
     case 'ico':
-      return <FaFileImage className="file-icon" />;
+      return <Image />;
     case 'html':
     case 'htm':
     case 'js':
@@ -26,17 +26,32 @@ export default function FileIcon({ name }) {
     case 'py':
     case 'php':
     case 'sh':
-      return <FaFileCode className="file-icon" />;
+    case 'xml':
+    case 'md':
+      return <Code />;
     case 'pdf':
     case 'ps':
-      return <FaFilePdf className="file-icon" />;
+      return <PDF />;
     case 'zip':
     case 'pkg':
     case 'gz':
     case 'rar':
-      return <FaFileArchive className="file-icon" />;
+      return <Zip />;
+    case 'mp3':
+    case 'mp4':
+    case 'aiff':
+    case 'mpeg':
+    case 'ogg':
+    case 'wav':
+      return <Media />;
+    case 'ttf':
+    case 'woff':
+    case 'otf':
+    case 'eot':
+    case 'fnt':
+      return <Font />;
     default:
-      return <FaFile className="file-icon" />;
+      return <Default />;
   }
 }
 
