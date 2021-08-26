@@ -6,3 +6,8 @@ lib/.env
 .DS_Store
 lib/***s3BucketMethods.js
 lib/***S3Upload.js
+design/main-icon.ai
+lib/sampleTest.js
+design/s3Logo-small.ai
+design/s3Logo-large.ai
+tests/__snapshots__/BucketDisplay.test.js.snap

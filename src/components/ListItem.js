@@ -1,6 +1,6 @@
 import * as React from 'react';
 import propTypes from 'prop-types';
-import { FaRegFolder } from 'react-icons/fa';
+import { Folder } from './Icons';
 import FileIcon from './FileIcon';
 
 /**
@@ -17,9 +17,7 @@ export default function ListItem({
 }) {
   function onKeyDownFolder(e) {
     e.preventDefault();
-    if (e.keyCode === 13) {
-      callback(filePath);
-    }
+    if (e.key === 'Enter') callback(filePath);
   }
 
   if (type === 'folder') {
@@ -31,7 +29,7 @@ export default function ListItem({
         onClick={() => callback(filePath)}
         onKeyDown={(e) => onKeyDownFolder(e)}
       >
-        <FaRegFolder className="file-icon" />
+        <div className="icon-wrapper"><Folder /></div>
         <p className="file-table-data">{name}</p>
       </div>
     );
@@ -40,11 +38,11 @@ export default function ListItem({
     <div
       className="file-row"
     >
-      <FileIcon name={name} />
-      <p className="file-table-data">{name}</p>
-      <p className="file-table-data">{lastModified}</p>
-      <p className="file-table-data">{size}</p>
-      <div className="file-table-data">Options</div>
+      <div className="icon-wrapper"><FileIcon name={name} /></div>
+      <p className="file-table-data name">{name}</p>
+      <p className="file-table-data last-modified">{lastModified}</p>
+      <p className="file-table-data size">{size}</p>
+      <div className="file-table-data options">Options</div>
     </div>
   );
 }

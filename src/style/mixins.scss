@@ -1,13 +1,33 @@
+// Media Queries
+$phone: 768px;
+$tablet: 768px;
+$desktop: 1024px;
+
+// Colors
+$blue-text: #35537b;
+$green: #93bf98;
+$green-disabled: #cee0d1;
+$white: #fff;
+$white-disabled: rgb(243, 243, 243);
+
 @import url("https://use.typekit.net/wgv2kbv.css");
 
 @mixin type-reg {
-  font-family: pt-mono,monospace;
+  font-family: pt-mono, monospace;
   font-weight: 400;
   font-style: normal;
 }
 
 @mixin type-bold {
-  font-family: pt-mono,monospace;
+  font-family: pt-mono, monospace;
   font-weight: 700;
   font-style: normal;
 }
+
+@mixin phone {
+  @media only screen and (min-width: #{$phone}) {
+    @content;
+  }
+}
+
+  
