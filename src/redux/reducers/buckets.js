@@ -25,7 +25,7 @@ export default function buckets(state = [], action) {
     case GET_BUCKETS_AND_CONTENTS:
       return action.buckets;
     case CREATE_BUCKET:
-      return {};
+      return state.concat([{ Name: action.name }]);
     case DELETE_BUCKET:
       return {};
     default:
