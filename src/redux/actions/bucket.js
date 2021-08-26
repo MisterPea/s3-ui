@@ -31,6 +31,13 @@ function getBucketsAndContents(buckets) {
   };
 }
 
+export function addBucket(name) {
+  return {
+    type: CREATE_BUCKET,
+    name,
+  };
+}
+
 export function getBucketList() {
   return (dispatch) => {
     axios({
@@ -69,5 +76,11 @@ export function getBucketsAndContentsList(region, bucket) {
     }).then(({ data }) => {
       dispatch(getBucketsAndContents(data));
     }).catch(() => dispatch(errorGettingBucketContents()));
+  };
+}
+
+export function addNewBucketToList(name) {
+  return (dispatch) => {
+    dispatch(addBucket(name));
   };
 }

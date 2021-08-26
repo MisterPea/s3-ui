@@ -4,6 +4,7 @@ import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import toJson from 'enzyme-to-json';
 import * as reactRedux from 'react-redux';
+import { BrowserRouter as Router } from 'react-router-dom';
 import BucketDisplay from '../src/components/BucketDisplay';
 
 configure({ adapter: new Adapter() });
@@ -23,10 +24,13 @@ const buckets = [
 describe('Bucket Display Component', () => {
   const useSelectorMock = jest.spyOn(reactRedux, 'useSelector');
   useSelectorMock.mockReturnValue(buckets);
+  const spyUseDispatchMock = jest.spyOn(reactRedux, 'useDispatch');
+  const useDispatchMock = jest.fn();
+  spyUseDispatchMock.mockReturnValue(useDispatchMock);
 
   it('Renders without crashing', () => {
     const div = document.createElement('DIV');
-    ReactDOM.render(<BucketDisplay />, div);
+    ReactDOM.render(<Router><BucketDisplay /></Router>, div);
     ReactDOM.unmountComponentAtNode(div);
   });
 

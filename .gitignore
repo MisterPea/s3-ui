@@ -10,3 +10,4 @@ design/main-icon.ai
 design/s3Logo-large.ai
 design/s3Logo-small.ai
 lib/sampleTest.js
+tests/__snapshots__/BucketDisplay.test.js.snap

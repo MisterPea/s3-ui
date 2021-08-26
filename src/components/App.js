@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import MainLogo from './MainLogo';
+import { Route, Switch } from 'react-router';
+import NavBar from './NavBar';
 import BucketDisplay from './BucketDisplay';
-import { getBucketList } from '../actions/bucket';
+import FileDisplay from './FileDisplay';
+
 import '../style/main.scss';
 
 /**
@@ -11,19 +11,17 @@ import '../style/main.scss';
  * @return {JSX}
  */
 export default function App() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getBucketList());
-  }, [dispatch]);
-
   return (
     <>
       <div className="main-wrapper">
-        <div className="nav-bar">
-          <div className="logo-lg"><MainLogo /></div>
-          <p className="contact-btn">Contact</p>
+        <NavBar />
+        <div className="main-body-wrapper">
+          <Switch>
+            <Route exact path="/" component={BucketDisplay} />
+            <Route exact path="/S3" component={FileDisplay} />
+            <Route path="*" component={() => <h1>404</h1>} />
+          </Switch>
         </div>
-        <BucketDisplay />
       </div>
     </>
   );
