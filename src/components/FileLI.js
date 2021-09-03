@@ -1,7 +1,7 @@
 import * as React from 'react';
 import propTypes from 'prop-types';
-import { FaRegFolder } from 'react-icons/fa';
-import FileIcon from './FileIcon';
+import { Folder } from './graphic_elements/Icons';
+import FileIcon from './helpers/FileIcon';
 
 /**
  * Component to render a folder or a file
@@ -12,14 +12,12 @@ import FileIcon from './FileIcon';
  * @prop {string} filePath File path leading to children (Only for folders)
  * @return {JSX}
  */
-export default function ListItem({
+export default function FileLI({
   type, name, lastModified = null, size = null, filePath = null, callback,
 }) {
   function onKeyDownFolder(e) {
     e.preventDefault();
-    if (e.keyCode === 13) {
-      callback(filePath);
-    }
+    if (e.key === 'Enter') callback(filePath);
   }
 
   if (type === 'folder') {
@@ -31,7 +29,7 @@ export default function ListItem({
         onClick={() => callback(filePath)}
         onKeyDown={(e) => onKeyDownFolder(e)}
       >
-        <FaRegFolder className="file-icon" />
+        <div className="icon-wrapper"><Folder /></div>
         <p className="file-table-data">{name}</p>
       </div>
     );
@@ -40,16 +38,16 @@ export default function ListItem({
     <div
       className="file-row"
     >
-      <FileIcon name={name} />
-      <p className="file-table-data">{name}</p>
-      <p className="file-table-data">{lastModified}</p>
-      <p className="file-table-data">{size}</p>
-      <div className="file-table-data">Options</div>
+      <div className="icon-wrapper"><FileIcon name={name} /></div>
+      <p className="file-table-data name">{name}</p>
+      <p className="file-table-data last-modified">{lastModified}</p>
+      <p className="file-table-data size">{size}</p>
+      <div className="file-table-data options">Options</div>
     </div>
   );
 }
 
-ListItem.defaultProps = {
+FileLI.defaultProps = {
   type: '',
   name: '',
   lastModified: null,
@@ -58,7 +56,7 @@ ListItem.defaultProps = {
   callback: null,
 };
 
-ListItem.propTypes = {
+FileLI.propTypes = {
   type: propTypes.string,
   name: propTypes.string,
   lastModified: propTypes.string,

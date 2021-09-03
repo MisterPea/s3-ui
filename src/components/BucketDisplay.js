@@ -1,63 +1,116 @@
 import * as React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { motion, AnimatePresence } from 'framer-motion';
 import { IoAddCircleSharp } from 'react-icons/io5';
-import BucketLogo from './BucketLogo';
-import { getBucketContentsList } from '../actions/bucket';
+import LoadingBar from './graphic_elements/LoadingBar';
+import { getBucketList, addNewBucketToList } from '../redux/actions/bucket';
+import CreateBucketModal from './Modal_AddBucket';
+import BucketUL from './BucketUL';
 
-/**
- * Component to render bucket and info
- * @return {JSX}
- */
 export default function BucketDisplay() {
-  const buckets = useSelector((state) => state.buckets);
+  const { loading, buckets } = useSelector((state) => state);
+  const [addBucketModal, setAddBucketModal] = useState(false);
+
   const dispatch = useDispatch();
-  function handleBucketClick(name, region) {
-    dispatch(getBucketContentsList(region, name));
+  useEffect(() => {
+    dispatch(getBucketList());
+  }, []);
+
+  const loaderVariant = {
+    exit: {
+      opacity: 0,
+      transition: {
+        ease: 'circOut',
+        when: 'beforeChildren',
+        duration: 0.3,
+      },
+    },
+  };
+
+  function addBucket(nameAndRegion) {
+    const { name, region } = nameAndRegion;
+    const newBucket = {
+      Name: name,
+      Region: region,
+      CreationDate: new Date().toISOString(),
+    };
+    dispatch(addNewBucketToList(newBucket));
   }
 
-  function onKeyDownHandler(e, name, region) {
-    if (e.keyCode === 13) {
-      handleBucketClick(name, region);
+  function handleToggleModal() {
+    if (addBucketModal === false) {
+      const body = document.querySelector('body');
+      const modal = document.createElement('DIV');
+      const root = document.getElementById('root');
+      modal.id = 'modal-mount';
+      body.insertBefore(modal, root);
+    } else {
+      const modal = document.getElementById('modal-mount');
+      modal.remove();
+    }
+    setAddBucketModal((state) => !state);
+  }
+
+  function handleKeyPress(e) {
+    e.preventDefault();
+    if (e.key === 'Enter') {
+      handleToggleModal();
     }
   }
 
+  const pageVariants = {
+    in: {
+      opacity: 1,
+      x: 0,
+    },
+    out: {
+      opacity: 0,
+      x: 0,
+    },
+    exit: {
+      opacity: 0,
+      x: '-100vw',
+    },
+  };
+
   return (
-    <>
-      <div className="table-head">
+    <motion.div
+      variants={pageVariants}
+      initial="out"
+      animate="in"
+      exit="exit"
+    >
+      <div className="buckets-number">{`Buckets (${buckets ? buckets.length : '0'})`}</div>
+      <div className="table-head bucket-display">
         <h3 className="name-header">Bucket Name</h3>
         <h3 className="date-header">Creation Date</h3>
         <h3 className="region-header">AWS Region</h3>
       </div>
+      <AnimatePresence>
+        {loading && (
+          <motion.div key="abc" variants={loaderVariant} exit="exit">
+            <LoadingBar key="loadingBar" />
+          </motion.div>
+        )}
+        <BucketUL key="def" buckets={buckets} loading={!loading} />
+      </AnimatePresence>
 
-      <ul>
-        {buckets.map(({ Name, CreationDate, Region }) => (
-          <li key={Name}>
-            <div
-              className="bucket-row"
-              role="button"
-              tabIndex={0}
-              onClick={() => handleBucketClick(Name, Region)}
-              onKeyDown={(e) => onKeyDownHandler(e, Name, Region)}
-            >
-              <div className="bucket-table-data name">
-                <div className="bucket-logo"><BucketLogo /></div>
-                <p className="bucket-name">{Name}</p>
-              </div>
-              <p className="bucket-table-data date">{CreationDate}</p>
-              <p className="bucket-table-data region">{Region}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
-
-      <div className="add-bucket-bar">
+      <div
+        onClick={handleToggleModal}
+        onKeyPress={(e) => handleKeyPress(e)}
+        role="button"
+        tabIndex={0}
+        className="add-bucket-bar"
+      >
         <span className="bucket-button-elements">
           <div className="bucket-cta-wrapper">
-            <h3>Creat New S3 Bucket</h3>
+            <h3>Create New S3 Bucket</h3>
             <IoAddCircleSharp className="add-bucket-plus" />
           </div>
         </span>
       </div>
-    </>
+      {addBucketModal && <CreateBucketModal close={handleToggleModal} addBucket={addBucket} />}
+    </motion.div>
   );
 }

@@ -19,13 +19,13 @@ export default function buckets(state = [], action) {
     case GET_BUCKET_CONTENTS:
       return state.map((bucket) => (
         bucket.Name === action.bucket
-          ? ({ ...bucket, contents: action.contents.data })
+          ? ({ ...bucket, contents: action.contents })
           : bucket
       ));
     case GET_BUCKETS_AND_CONTENTS:
       return action.buckets;
     case CREATE_BUCKET:
-      return {};
+      return state.concat([action.bucket]).sort((a, b) => a.Name.localeCompare(b.Name));
     case DELETE_BUCKET:
       return {};
     default:

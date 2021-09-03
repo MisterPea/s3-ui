@@ -1,18 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
+// import App from './components/App';
 import App from './components/App';
-import reducers from './reducers';
-import middleware from './middleware';
+import reducers from './redux/reducers';
+import middleware from './redux/middleware';
 
 const store = createStore(reducers, middleware);
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <Router>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </Router>
   </React.StrictMode>,
   document.getElementById('root'),
 );

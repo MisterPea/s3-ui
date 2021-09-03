@@ -4,9 +4,11 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { IoAddCircleSharp } from 'react-icons/io5';
 import { useHistory } from 'react-router';
+import { motion } from 'framer-motion';
 import useParseQuery from './helpers/useParseQuery';
 import { getBucketContentsList, getBucketsAndContentsList } from '../redux/actions/bucket';
-import ListItem from './ListItem';
+import FileLI from './FileLI';
+import sortFiles from './helpers/sortFiles';
 
 /**
  * Component to render Files and Folders
@@ -61,7 +63,7 @@ export default function FileDisplay() {
       }
 
       if (newPath === null) {
-        return setFiles(bucket.contents);
+        return setFiles(sortFiles(bucket.contents));
       }
       const pathArray = newPath.split('/');
       let currentChild = bucket.contents;
@@ -69,7 +71,7 @@ export default function FileDisplay() {
         for (let j = 0; j < currentChild.length; j += 1) {
           if (currentChild[j].name === pathArray[i]) {
             if (pathArray.length - 1 === i) {
-              return setFiles(currentChild[j].children);
+              return setFiles(sortFiles(currentChild[j].children));
             }
             currentChild = currentChild[j].children;
           }
@@ -95,9 +97,47 @@ export default function FileDisplay() {
     }
   }
 
+  const pageVariants = {
+    in: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        type: 'tween',
+        duration: 0.2,
+      },
+    },
+    out: {
+      opacity: 0,
+      x: '-100vw',
+      transition: {
+        type: 'tween',
+        duration: 0.2,
+      },
+    },
+    exit: {
+      opacity: 0,
+      x: '100vw',
+      transition: {
+        type: 'tween',
+        duration: 0.2,
+      },
+    },
+  };
+
   return (
-    <>
-      <div className="table-head">
+    <motion.div
+      variants={pageVariants}
+      initial="out"
+      animate="in"
+      exit="exit"
+    >
+      <div className="add-file-wrapper">
+        <div className="add-file">
+          <p>Add file(s)</p>
+          <IoAddCircleSharp className="add-file-plus" />
+        </div>
+      </div>
+      <div className="table-head file-display">
         <h3 className="name-header">Name</h3>
         <h3 className="last-modified-header">Last Modified</h3>
         <h3 className="size-header">Size</h3>
@@ -109,7 +149,7 @@ export default function FileDisplay() {
           type, name, lastModified = null, size, path: filePath,
         }, index) => (
           <li key={name + index.toString()}>
-            <ListItem
+            <FileLI
               type={type}
               name={name}
               lastModified={lastModified}
@@ -124,11 +164,11 @@ export default function FileDisplay() {
       <div className="add-bucket-bar">
         <span className="bucket-button-elements">
           <div className="bucket-cta-wrapper">
-            <h3>Creat New S3 Bucket</h3>
+            <h3>Add Folder</h3>
             <IoAddCircleSharp className="add-bucket-plus" />
           </div>
         </span>
       </div>
-    </>
+    </motion.div>
   );
 }
