@@ -1,29 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Bucket Display Component Renders the content of buckets array 1`] = `
+exports[`File Display Component Renders the content of the search query 1`] = `
 <div>
   <div
-    className="buckets-number"
+    className="add-file-wrapper"
   >
-    Buckets (0)
+    <div
+      className="add-file"
+    >
+      <p>
+        Add file(s)
+      </p>
+      <IoAddCircleSharp
+        className="add-file-plus"
+      />
+    </div>
   </div>
   <div
-    className="table-head bucket-display"
+    className="table-head file-display"
   >
     <h3
       className="name-header"
     >
-      Bucket Name
+      Name
     </h3>
     <h3
-      className="date-header"
+      className="last-modified-header"
     >
-      Creation Date
+      Last Modified
     </h3>
     <h3
-      className="region-header"
+      className="size-header"
     >
-      AWS Region
+      Size
+    </h3>
+    <h3
+      className="options-header"
+    >
+      Options
     </h3>
   </div>
   <AnimatePresence
@@ -33,34 +47,21 @@ exports[`Bucket Display Component Renders the content of buckets array 1`] = `
       animate="open"
       exit="closed"
       initial="closed"
-      key="bucketUL"
       variants={
         Object {
           "closed": Object {
             "opacity": 0,
-            "transition": Object {},
           },
           "open": Object {
             "opacity": 1,
-            "transition": Object {
-              "ease": "easeIn",
-            },
           },
         }
       }
-    >
-      <BucketUL
-        buckets={Array []}
-        loading={true}
-      />
-    </ForwardRef(MotionComponent)>
+    />
   </AnimatePresence>
   <div
     className="add-bucket-bar"
     onClick={[Function]}
-    onKeyPress={[Function]}
-    role="button"
-    tabIndex={0}
   >
     <span
       className="bucket-button-elements"
@@ -69,7 +70,7 @@ exports[`Bucket Display Component Renders the content of buckets array 1`] = `
         className="bucket-cta-wrapper"
       >
         <h3>
-          Create New S3 Bucket
+          Add Folder
         </h3>
         <IoAddCircleSharp
           className="add-bucket-plus"

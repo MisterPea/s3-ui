@@ -26,6 +26,7 @@ export default function BucketUL({ buckets, loading }) {
   return (
     <AnimateSharedLayout>
       <motion.ul
+        key="bucketULInner"
         layout
         variants={parentVariant}
         animate={loading ? 'open' : 'closed'}

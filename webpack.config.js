@@ -38,6 +38,8 @@ module.exports = {
     historyApiFallback: true,
     inline: true,
     port: 8080,
-    host: '192.168.1.152',
+    // host: 'localhost'
+    // host: '192.168.1.152',
+    host: '192.168.1.145',
   },
 };

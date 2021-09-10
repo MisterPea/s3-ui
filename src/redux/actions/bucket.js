@@ -59,6 +59,7 @@ export function getBucketList() {
 
 export function getBucketContentsList(region, bucket) {
   return (dispatch) => {
+    dispatch(showLoader());
     axios({
       method: 'POST',
       url: `http://${hostname}:3200/getBucketContents`,
@@ -68,12 +69,16 @@ export function getBucketContentsList(region, bucket) {
       },
     }).then(({ data }) => {
       dispatch(getBucketContents(bucket, data));
-    }).catch((err) => err);
+      dispatch(hideLoader());
+    }).catch(() => {
+      dispatch(hideLoader());
+    });
   };
 }
 
 export function getBucketsAndContentsList(region, bucket) {
   return (dispatch) => {
+    dispatch(showLoader());
     axios({
       method: 'POST',
       url: `http://${hostname}:3200/getBucketsAndContents`,
@@ -83,7 +88,11 @@ export function getBucketsAndContentsList(region, bucket) {
       },
     }).then(({ data }) => {
       dispatch(getBucketsAndContents(data));
-    }).catch(() => dispatch(errorGettingBucketContents()));
+      dispatch(hideLoader());
+    }).catch(() => {
+      dispatch(errorGettingBucketContents());
+      dispatch(hideLoader());
+    });
   };
 }
 
