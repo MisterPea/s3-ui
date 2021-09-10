@@ -16,15 +16,23 @@ The basic setup for multipart-uploading is:
 <hr />
 
 ### To do:
-**API Methods:**
-* [ ] Get List of Buckets - Name - Date Created - AWS Region
-* [ ] Create New Bucket
-* [ ] Get Files/Folders
+* [x] Get List of Buckets - Name - Date Created - AWS Region
+* [x] Create New Bucket
+* [ ] Delete Buckets
+* [ ] Error catching - Bucket Creation
+* [x] Get Files/Folders
+* [x] Framer Motion integration
 * [ ] Add Folder
+* [ ] Error catching - Folder Creation
 * [ ] Add File(s)
+* [ ] Error catching - File Upload
 * [ ] Delete Files
+* [ ] Error catching - File Deletion
 * [ ] Get/Subscribe to Loading Percentage
 * [ ] Send Email
+* [x] Mobile Layout
+* [ ] Tablet Layout
+* [ ] Desktop Layout
 <hr />
 
 #### To run:
