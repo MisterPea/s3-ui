@@ -2,7 +2,7 @@ import * as React from 'react';
 import propTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import useParseQuery from './helpers/useParseQuery';
-import MainLogo from './MainLogo';
+import MainLogo from './graphic_elements/MainLogo';
 import createId from './helpers/createId';
 import removeQuery from './helpers/removeQuery';
 

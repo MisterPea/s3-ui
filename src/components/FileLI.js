@@ -1,7 +1,7 @@
 import * as React from 'react';
 import propTypes from 'prop-types';
-import { Folder } from './Icons';
-import FileIcon from './FileIcon';
+import { Folder } from './graphic_elements/Icons';
+import FileIcon from './helpers/FileIcon';
 
 /**
  * Component to render a folder or a file
@@ -12,7 +12,7 @@ import FileIcon from './FileIcon';
  * @prop {string} filePath File path leading to children (Only for folders)
  * @return {JSX}
  */
-export default function ListItem({
+export default function FileLI({
   type, name, lastModified = null, size = null, filePath = null, callback,
 }) {
   function onKeyDownFolder(e) {
@@ -47,7 +47,7 @@ export default function ListItem({
   );
 }
 
-ListItem.defaultProps = {
+FileLI.defaultProps = {
   type: '',
   name: '',
   lastModified: null,
@@ -56,7 +56,7 @@ ListItem.defaultProps = {
   callback: null,
 };
 
-ListItem.propTypes = {
+FileLI.propTypes = {
   type: propTypes.string,
   name: propTypes.string,
   lastModified: propTypes.string,

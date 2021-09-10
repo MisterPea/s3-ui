@@ -462,7 +462,7 @@ jest.mock('../src/components/helpers/useParseQuery', () => () => ({ id: 'misterp
 
 describe('File Display Component', () => {
   const useSelectorMock = jest.spyOn(reactRedux, 'useSelector');
-  useSelectorMock.mockReturnValue(buckets);
+  useSelectorMock.mockReturnValue({ buckets });
   const spyUseDispatchMock = jest.spyOn(reactRedux, 'useDispatch');
   const useDispatchMock = jest.fn();
   spyUseDispatchMock.mockReturnValue(useDispatchMock);

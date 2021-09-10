@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Bucket Display Component Renders the content of buckets array 1`] = `
-<Fragment>
+<div>
   <div
     className="buckets-number"
   >
-    Buckets (9)
+    Buckets (0)
   </div>
   <div
     className="table-head bucket-display"
@@ -26,350 +26,35 @@ exports[`Bucket Display Component Renders the content of buckets array 1`] = `
       AWS Region
     </h3>
   </div>
-  <ul>
-    <li
-      key="1.newBucket"
+  <AnimatePresence
+    exitBeforeEnter={true}
+  >
+    <ForwardRef(MotionComponent)
+      animate="open"
+      exit="closed"
+      initial="closed"
+      key="bucketUL"
+      variants={
+        Object {
+          "closed": Object {
+            "opacity": 0,
+            "transition": Object {},
+          },
+          "open": Object {
+            "opacity": 1,
+            "transition": Object {
+              "ease": "easeIn",
+            },
+          },
+        }
+      }
     >
-      <Link
-        to="/S3/?id=1.newBucket&loc=us-east-1"
-      >
-        <div
-          className="bucket-row"
-          role="button"
-          tabIndex={0}
-        >
-          <div
-            className="bucket-table-data name"
-          >
-            <div
-              className="bucket-logo"
-            >
-              <BucketLogo />
-            </div>
-            <p
-              className="bucket-name"
-            >
-              1.newBucket
-            </p>
-          </div>
-          <p
-            className="bucket-table-data date"
-          >
-            2021-06-15T15:50:10.000Z
-          </p>
-          <p
-            className="bucket-table-data region"
-          >
-            us-east-1
-          </p>
-        </div>
-      </Link>
-    </li>
-    <li
-      key="cf-templates-1ringo9ne14-us-east-1"
-    >
-      <Link
-        to="/S3/?id=cf-templates-1ringo9ne14-us-east-1&loc=us-east-1"
-      >
-        <div
-          className="bucket-row"
-          role="button"
-          tabIndex={0}
-        >
-          <div
-            className="bucket-table-data name"
-          >
-            <div
-              className="bucket-logo"
-            >
-              <BucketLogo />
-            </div>
-            <p
-              className="bucket-name"
-            >
-              cf-templates-1ringo9ne14-us-east-1
-            </p>
-          </div>
-          <p
-            className="bucket-table-data date"
-          >
-            2020-08-11T00:22:08.000Z
-          </p>
-          <p
-            className="bucket-table-data region"
-          >
-            us-east-1
-          </p>
-        </div>
-      </Link>
-    </li>
-    <li
-      key="elasticbeanstalk-us-east-1-897278278762"
-    >
-      <Link
-        to="/S3/?id=elasticbeanstalk-us-east-1-897278278762&loc=us-east-1"
-      >
-        <div
-          className="bucket-row"
-          role="button"
-          tabIndex={0}
-        >
-          <div
-            className="bucket-table-data name"
-          >
-            <div
-              className="bucket-logo"
-            >
-              <BucketLogo />
-            </div>
-            <p
-              className="bucket-name"
-            >
-              elasticbeanstalk-us-east-1-897278278762
-            </p>
-          </div>
-          <p
-            className="bucket-table-data date"
-          >
-            2020-08-13T18:36:57.000Z
-          </p>
-          <p
-            className="bucket-table-data region"
-          >
-            us-east-1
-          </p>
-        </div>
-      </Link>
-    </li>
-    <li
-      key="logs.misterpea.me"
-    >
-      <Link
-        to="/S3/?id=logs.misterpea.me&loc=us-east-2"
-      >
-        <div
-          className="bucket-row"
-          role="button"
-          tabIndex={0}
-        >
-          <div
-            className="bucket-table-data name"
-          >
-            <div
-              className="bucket-logo"
-            >
-              <BucketLogo />
-            </div>
-            <p
-              className="bucket-name"
-            >
-              logs.misterpea.me
-            </p>
-          </div>
-          <p
-            className="bucket-table-data date"
-          >
-            2020-02-23T21:01:23.000Z
-          </p>
-          <p
-            className="bucket-table-data region"
-          >
-            us-east-2
-          </p>
-        </div>
-      </Link>
-    </li>
-    <li
-      key="misterpea.me"
-    >
-      <Link
-        to="/S3/?id=misterpea.me&loc=us-east-2"
-      >
-        <div
-          className="bucket-row"
-          role="button"
-          tabIndex={0}
-        >
-          <div
-            className="bucket-table-data name"
-          >
-            <div
-              className="bucket-logo"
-            >
-              <BucketLogo />
-            </div>
-            <p
-              className="bucket-name"
-            >
-              misterpea.me
-            </p>
-          </div>
-          <p
-            className="bucket-table-data date"
-          >
-            2020-02-23T19:57:48.000Z
-          </p>
-          <p
-            className="bucket-table-data region"
-          >
-            us-east-2
-          </p>
-        </div>
-      </Link>
-    </li>
-    <li
-      key="misterpea.me-emails"
-    >
-      <Link
-        to="/S3/?id=misterpea.me-emails&loc=us-east-1"
-      >
-        <div
-          className="bucket-row"
-          role="button"
-          tabIndex={0}
-        >
-          <div
-            className="bucket-table-data name"
-          >
-            <div
-              className="bucket-logo"
-            >
-              <BucketLogo />
-            </div>
-            <p
-              className="bucket-name"
-            >
-              misterpea.me-emails
-            </p>
-          </div>
-          <p
-            className="bucket-table-data date"
-          >
-            2021-01-25T03:06:10.000Z
-          </p>
-          <p
-            className="bucket-table-data region"
-          >
-            us-east-1
-          </p>
-        </div>
-      </Link>
-    </li>
-    <li
-      key="new-ass-bucket"
-    >
-      <Link
-        to="/S3/?id=new-ass-bucket&loc=us-east-1"
-      >
-        <div
-          className="bucket-row"
-          role="button"
-          tabIndex={0}
-        >
-          <div
-            className="bucket-table-data name"
-          >
-            <div
-              className="bucket-logo"
-            >
-              <BucketLogo />
-            </div>
-            <p
-              className="bucket-name"
-            >
-              new-ass-bucket
-            </p>
-          </div>
-          <p
-            className="bucket-table-data date"
-          >
-            2021-04-15T13:48:06.000Z
-          </p>
-          <p
-            className="bucket-table-data region"
-          >
-            us-east-1
-          </p>
-        </div>
-      </Link>
-    </li>
-    <li
-      key="topStories.misterpea.me"
-    >
-      <Link
-        to="/S3/?id=topStories.misterpea.me&loc=us-east-2"
-      >
-        <div
-          className="bucket-row"
-          role="button"
-          tabIndex={0}
-        >
-          <div
-            className="bucket-table-data name"
-          >
-            <div
-              className="bucket-logo"
-            >
-              <BucketLogo />
-            </div>
-            <p
-              className="bucket-name"
-            >
-              topStories.misterpea.me
-            </p>
-          </div>
-          <p
-            className="bucket-table-data date"
-          >
-            2020-04-09T22:56:59.000Z
-          </p>
-          <p
-            className="bucket-table-data region"
-          >
-            us-east-2
-          </p>
-        </div>
-      </Link>
-    </li>
-    <li
-      key="www.misterpea.me"
-    >
-      <Link
-        to="/S3/?id=www.misterpea.me&loc=us-east-2"
-      >
-        <div
-          className="bucket-row"
-          role="button"
-          tabIndex={0}
-        >
-          <div
-            className="bucket-table-data name"
-          >
-            <div
-              className="bucket-logo"
-            >
-              <BucketLogo />
-            </div>
-            <p
-              className="bucket-name"
-            >
-              www.misterpea.me
-            </p>
-          </div>
-          <p
-            className="bucket-table-data date"
-          >
-            2020-02-23T19:59:01.000Z
-          </p>
-          <p
-            className="bucket-table-data region"
-          >
-            us-east-2
-          </p>
-        </div>
-      </Link>
-    </li>
-  </ul>
+      <BucketUL
+        buckets={Array []}
+        loading={true}
+      />
+    </ForwardRef(MotionComponent)>
+  </AnimatePresence>
   <div
     className="add-bucket-bar"
     onClick={[Function]}
@@ -392,5 +77,5 @@ exports[`Bucket Display Component Renders the content of buckets array 1`] = `
       </div>
     </span>
   </div>
-</Fragment>
+</div>
 `;

@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { errorGettingBucketContents } from './error';
+import { errorGettingBucketContents, errorGettingBuckets, errorCreatingBucket } from './error';
+import { showLoader, hideLoader } from './loading';
 
 export const GET_BUCKETS = 'GET_BUCKETS';
 export const CREATE_BUCKET = 'CREATE_BUCKET';
@@ -31,26 +32,34 @@ function getBucketsAndContents(buckets) {
   };
 }
 
-export function addBucket(name) {
+function addBucket(newBucket) {
+  const { Name, Region, CreationDate } = newBucket;
   return {
     type: CREATE_BUCKET,
-    name,
+    bucket: {
+      Name,
+      Region,
+      CreationDate,
+    },
   };
 }
 
 export function getBucketList() {
   return (dispatch) => {
+    dispatch(showLoader());
     axios({
       method: 'GET',
       url: `http://${hostname}:3200/getBucketList`,
     }).then(({ data }) => {
+      dispatch(hideLoader());
       dispatch(getBuckets(data));
-    });
+    }).catch(() => dispatch(errorGettingBuckets()));
   };
 }
 
 export function getBucketContentsList(region, bucket) {
   return (dispatch) => {
+    dispatch(showLoader());
     axios({
       method: 'POST',
       url: `http://${hostname}:3200/getBucketContents`,
@@ -58,14 +67,18 @@ export function getBucketContentsList(region, bucket) {
       headers: {
         'content-type': 'application/json',
       },
-    }).then((contents) => {
-      dispatch(getBucketContents(bucket, contents));
-    }).catch((err) => err);
+    }).then(({ data }) => {
+      dispatch(getBucketContents(bucket, data));
+      dispatch(hideLoader());
+    }).catch(() => {
+      dispatch(hideLoader());
+    });
   };
 }
 
 export function getBucketsAndContentsList(region, bucket) {
   return (dispatch) => {
+    dispatch(showLoader());
     axios({
       method: 'POST',
       url: `http://${hostname}:3200/getBucketsAndContents`,
@@ -75,7 +88,24 @@ export function getBucketsAndContentsList(region, bucket) {
       },
     }).then(({ data }) => {
       dispatch(getBucketsAndContents(data));
-    }).catch(() => dispatch(errorGettingBucketContents()));
+      dispatch(hideLoader());
+    }).catch(() => {
+      dispatch(errorGettingBucketContents());
+      dispatch(hideLoader());
+    });
+  };
+}
+
+export function addNewBucketToList(newBucket) {
+  return (dispatch) => {
+    axios({
+      method: 'POST',
+      url: `http://${hostname}:3200/createBucket`,
+      data: JSON.stringify({ locale: newBucket.Region, bucket: newBucket.Name }),
+      headers: {
+        'content-type': 'application/json',
+      },
+    }).then(() => dispatch(addBucket(newBucket))).catch(() => dispatch(errorCreatingBucket()));
   };
 }
 

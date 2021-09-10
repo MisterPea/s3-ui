@@ -1,26 +1,30 @@
 import * as React from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Switch, useLocation } from 'react-router';
+import { AnimatePresence } from 'framer-motion';
 import NavBar from './NavBar';
-import BucketDisplay from './BucketDisplay';
 import FileDisplay from './FileDisplay';
-
-import '../style/main.scss';
+import './style/styles.scss';
+import BucketDisplay from './BucketDisplay';
 
 /**
  * Application entry point
  * @return {JSX}
  */
 export default function App() {
+  const location = useLocation();
+
   return (
     <>
       <div className="main-wrapper">
         <NavBar />
         <div className="main-body-wrapper">
-          <Switch>
-            <Route exact path="/" component={BucketDisplay} />
-            <Route exact path="/S3" component={FileDisplay} />
-            <Route path="*" component={() => <h1>404</h1>} />
-          </Switch>
+          <AnimatePresence exitBeforeEnter>
+            <Switch key={`${location.pathname}`}>
+              <Route exact path="/" component={BucketDisplay} />
+              <Route exact path="/S3" component={FileDisplay} />
+              <Route path="*" component={() => <h1>404</h1>} />
+            </Switch>
+          </AnimatePresence>
         </div>
       </div>
     </>

@@ -4,10 +4,14 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { IoAddCircleSharp } from 'react-icons/io5';
 import { useHistory } from 'react-router';
+import { motion, AnimatePresence } from 'framer-motion';
 import useParseQuery from './helpers/useParseQuery';
 import { getBucketContentsList, getBucketsAndContentsList } from '../redux/actions/bucket';
-import ListItem from './ListItem';
+import FileLI from './FileLI';
 import sortFiles from './helpers/sortFiles';
+import LoadingBar from './graphic_elements/LoadingBar';
+import ModalComponentWrapper from './ModalComponentWrapper';
+import AddFolderModal from './AddFolderModal';
 
 /**
  * Component to render Files and Folders
@@ -16,10 +20,11 @@ import sortFiles from './helpers/sortFiles';
  */
 export default function FileDisplay() {
   const { id, loc, path = null } = useParseQuery();
-  const buckets = useSelector((state) => state.buckets);
+  const { buckets, loading } = useSelector((state) => state);
   const dispatch = useDispatch();
-  const [files, setFiles] = useState([{ Key: 'Nothing here' }]);
+  const [files, setFiles] = useState([]);
   const history = useHistory();
+  const [addFolderModal, setAddFolderModal] = useState(false);
 
   useEffect(() => {
     checkForBucket();
@@ -53,6 +58,7 @@ export default function FileDisplay() {
       bucket.Name === id ? testPath(bucket) : null
     ));
 
+    // eslint-disable-next-line consistent-return
     function testPath(bucket) {
       let newPath;
       if (updatedPath === null) {
@@ -96,8 +102,32 @@ export default function FileDisplay() {
     }
   }
 
+  function handleToggleModal() {
+    setAddFolderModal((s) => !s);
+  }
+
+  const loaderVariant = {
+    exit: {
+      opacity: 0,
+      transition: {
+        ease: 'circOut',
+        when: 'beforeChildren',
+        duration: 0.3,
+      },
+    },
+  };
+
+  const fileVariants = {
+    open: {
+      opacity: 1,
+    },
+    closed: {
+      opacity: 0,
+    },
+  };
+
   return (
-    <>
+    <div>
       <div className="add-file-wrapper">
         <div className="add-file">
           <p>Add file(s)</p>
@@ -110,25 +140,38 @@ export default function FileDisplay() {
         <h3 className="size-header">Size</h3>
         <h3 className="options-header">Options</h3>
       </div>
+      <AnimatePresence exitBeforeEnter>
+        {loading ? <motion.div variants={loaderVariant} exit="exit"><LoadingBar /></motion.div>
+          : (
+            <motion.ul
+              variants={fileVariants}
+              initial="closed"
+              animate="open"
+              exit="closed"
+            >
+              {files && files.map(({
+                type, name, lastModified = null, size, path: filePath,
+              }, index) => (
+                <li key={name + index.toString()}>
+                  <FileLI
+                    key={`${type}-${name}`}
+                    type={type}
+                    name={name}
+                    lastModified={lastModified}
+                    size={size}
+                    filePath={filePath}
+                    callback={handleFolderClick}
+                  />
+                </li>
+              ))}
+            </motion.ul>
+          )}
+      </AnimatePresence>
 
-      <ul>
-        {files && files.map(({
-          type, name, lastModified = null, size, path: filePath,
-        }, index) => (
-          <li key={name + index.toString()}>
-            <ListItem
-              type={type}
-              name={name}
-              lastModified={lastModified}
-              size={size}
-              filePath={filePath}
-              callback={handleFolderClick}
-            />
-          </li>
-        ))}
-      </ul>
-
-      <div className="add-bucket-bar">
+      <div
+        className="add-bucket-bar"
+        onClick={handleToggleModal}
+      >
         <span className="bucket-button-elements">
           <div className="bucket-cta-wrapper">
             <h3>Add Folder</h3>
@@ -136,6 +179,13 @@ export default function FileDisplay() {
           </div>
         </span>
       </div>
-    </>
+      {addFolderModal
+      && (
+      <ModalComponentWrapper close={handleToggleModal}>
+        <AddFolderModal />
+      </ModalComponentWrapper>
+      )}
+    </div>
+
   );
 }

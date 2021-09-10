@@ -1,72 +1,90 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { motion, AnimatePresence } from 'framer-motion';
 import { IoAddCircleSharp } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
-import BucketLogo from './BucketLogo';
-import { getBucketList, addNewBucketToList } from '../redux/actions/bucket';
-import CreateBucketModal from './Modal-createBucket';
+import LoadingBar from './graphic_elements/LoadingBar';
+import { getBucketList } from '../redux/actions/bucket';
+import ModalComponentWrapper from './ModalComponentWrapper';
+import AddBucketModal from './AddBucketModal';
+import BucketUL from './BucketUL';
 
-/**
- * Component to render bucket and info
- * @return {JSX}
- */
 export default function BucketDisplay() {
-  const buckets = useSelector((state) => state.buckets);
-  const dispatch = useDispatch();
-  const [addBuckedModal, setAddBucketModal] = useState(false);
+  const { loading, buckets } = useSelector((state) => state);
+  const [addBucketModal, setAddBucketModal] = useState(false);
 
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getBucketList());
-  }, [dispatch]);
+  }, []);
 
   function handleToggleModal() {
-    setAddBucketModal(!addBuckedModal);
+    setAddBucketModal((s) => !s);
   }
 
   function handleKeyPress(e) {
     e.preventDefault();
-    if (e.key === 'Enter') handleToggleModal();
+    if (e.key === 'Enter') {
+      handleToggleModal();
+    }
   }
 
-  function addBucket(name) {
-    dispatch(addNewBucketToList(name))
-  }
+  const loaderVariant = {
+    exit: {
+      opacity: 0,
+      transition: {
+        ease: 'circOut',
+        when: 'beforeChildren',
+        duration: 0.3,
+      },
+    },
+  };
+
+  const bucketVariant = {
+    open: {
+      opacity: 1,
+      transition: {
+        ease: 'easeIn',
+
+      },
+    },
+    closed: {
+      opacity: 0,
+      transition: {
+        // delay: 0.5,
+      },
+    },
+  };
 
   return (
-    <>
-      <div className="buckets-number">{`Buckets (${buckets.length})`}</div>
+    <div>
+      <div className="buckets-number">{`Buckets (${buckets ? buckets.length : '0'})`}</div>
       <div className="table-head bucket-display">
         <h3 className="name-header">Bucket Name</h3>
         <h3 className="date-header">Creation Date</h3>
         <h3 className="region-header">AWS Region</h3>
       </div>
-
-      <ul>
-        {buckets.map(({ Name, CreationDate, Region }) => (
-          <li key={Name}>
-            <Link to={`/S3/?id=${Name}&loc=${Region}`}>
-              <div
-                className="bucket-row"
-                role="button"
-                tabIndex={0}
-              >
-                <div className="bucket-table-data name">
-                  <div className="bucket-logo"><BucketLogo /></div>
-                  <p className="bucket-name">{Name}</p>
-                </div>
-                <p className="bucket-table-data date">{CreationDate}</p>
-                <p className="bucket-table-data region">{Region}</p>
-              </div>
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <AnimatePresence exitBeforeEnter>
+        {loading && (
+          <motion.div key="loadingBar" variants={loaderVariant} exit="exit">
+            <LoadingBar key="loadingBar" />
+          </motion.div>
+        )}
+        <motion.div
+          key="bucketUL"
+          variants={bucketVariant}
+          animate="open"
+          initial="closed"
+          exit="closed"
+        >
+          <BucketUL buckets={buckets} loading={!loading} />
+        </motion.div>
+      </AnimatePresence>
 
       <div
-        role="button"
         onClick={handleToggleModal}
         onKeyPress={(e) => handleKeyPress(e)}
+        role="button"
         tabIndex={0}
         className="add-bucket-bar"
       >
@@ -77,12 +95,13 @@ export default function BucketDisplay() {
           </div>
         </span>
       </div>
-      {addBuckedModal && (
-      <CreateBucketModal
-        close={handleToggleModal}
-        addBucket={addBucket}
-      />
-      )}
-    </>
+
+      {addBucketModal
+        && (
+        <ModalComponentWrapper close={handleToggleModal}>
+          <AddBucketModal />
+        </ModalComponentWrapper>
+        )}
+    </div>
   );
 }

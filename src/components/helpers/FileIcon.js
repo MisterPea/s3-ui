@@ -2,7 +2,7 @@ import * as React from 'react';
 import propTypes from 'prop-types';
 import {
   Zip, Image, Code, PDF, Default, Media, Font,
-} from './Icons';
+} from '../graphic_elements/Icons';
 
 export default function FileIcon({ name }) {
   const extension = name.split('.');
