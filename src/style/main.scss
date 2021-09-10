@@ -424,7 +424,8 @@ ul {
     border: 1px rgb(99, 99, 99) solid;
     text-align: center;
   }
-  .bucket-modal-instructions {
+  .bucket-modal-instructions,
+  .folder-modal-instructions {
     @include type-reg;
     color: $blue-text;
     font-size: 10px;
