@@ -12,7 +12,6 @@ import BucketDisplay from './BucketDisplay';
  */
 export default function App() {
   const location = useLocation();
-  console.log(location.pathname)
 
   return (
     <>
@@ -20,7 +19,7 @@ export default function App() {
         <NavBar />
         <div className="main-body-wrapper">
           <AnimatePresence exitBeforeEnter>
-            <Switch key={location.search}>
+            <Switch key={`${location.pathname}`}>
               <Route exact path="/" component={BucketDisplay} />
               <Route exact path="/S3" component={FileDisplay} />
               <Route path="*" component={() => <h1>404</h1>} />
