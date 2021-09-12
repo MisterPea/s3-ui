@@ -11,6 +11,7 @@ const {
 const { tree } = require('./utilities');
 
 const region = 'us-east-1';
+const endpoint = encodeURI('http://localhost:4566');
 
 /**
  * Method to create a new S3Client
@@ -19,7 +20,12 @@ const region = 'us-east-1';
  */
 const newClient = (locale) => new S3Client({
   region: locale,
+  endpoint: endpoint,
+  forcePathStyle: true,
 });
+// const newClient = (locale) => new S3Client({
+//   region: locale,
+// });
 
 /**
  * Method standardizing error error reporting
