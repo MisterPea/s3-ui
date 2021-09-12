@@ -1,0 +1,28 @@
+version: "3.9"
+
+services: 
+  frontend:
+    build: ./frontend
+    # image: "s3-frontend"
+    ports: 
+      - "8080:8080"
+    
+  backend:
+    build: ./backend
+    # image: "s3-backend"
+    ports: 
+      - "3200:3200"
+   
+  mock-s3:
+    image: localstack/localstack:latest
+    ports:
+      - "4566-4583:4566-4583"
+    environment:
+      - AWS_DEFAULT_REGION=us-east-1
+      - EDGE_PORT=4566
+      - SERVICES=s3
+      - DEBUG=1
+      - DATA_DIR=/tmp/localstack/data
+    volumes:
+      - "./.tmp/localstack}:/tmp/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
