@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`File Display Component Renders the content of the search query 1`] = `
+<div>
+  <div
+    className="add-file-wrapper"
+  >
+    <div
+      className="add-file"
+    >
+      <p>
+        Add file(s)
+      </p>
+      <IoAddCircleSharp
+        className="add-file-plus"
+      />
+    </div>
+  </div>
+  <div
+    className="table-head file-display"
+  >
+    <h3
+      className="name-header"
+    >
+      Name
+    </h3>
+    <h3
+      className="last-modified-header"
+    >
+      Last Modified
+    </h3>
+    <h3
+      className="size-header"
+    >
+      Size
+    </h3>
+    <h3
+      className="options-header"
+    >
+      Options
+    </h3>
+  </div>
+  <AnimatePresence
+    exitBeforeEnter={true}
+  >
+    <ForwardRef(MotionComponent)
+      animate="open"
+      exit="closed"
+      initial="closed"
+      variants={
+        Object {
+          "closed": Object {
+            "opacity": 0,
+          },
+          "open": Object {
+            "opacity": 1,
+          },
+        }
+      }
+    />
+  </AnimatePresence>
+  <div
+    className="add-bucket-bar"
+    onClick={[Function]}
+  >
+    <span
+      className="bucket-button-elements"
+    >
+      <div
+        className="bucket-cta-wrapper"
+      >
+        <h3>
+          Add Folder
+        </h3>
+        <IoAddCircleSharp
+          className="add-bucket-plus"
+        />
+      </div>
+    </span>
+  </div>
+</div>
+`;

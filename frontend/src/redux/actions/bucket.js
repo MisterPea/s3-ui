@@ -109,8 +109,8 @@ export function addNewBucketToList(newBucket) {
   };
 }
 
-export function addNewBucketToList(name) {
-  return (dispatch) => {
-    dispatch(addBucket(name));
-  };
-}
+// export function addNewBucketToList(name) {
+//   return (dispatch) => {
+//     dispatch(addBucket(name));
+//   };
+// }
