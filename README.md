@@ -22,7 +22,7 @@ The basic setup for multipart-uploading is:
 * [ ] Error catching - Bucket Creation
 * [x] Get Files/Folders
 * [x] Framer Motion integration
-* [ ] Add Folder
+* [x] Add Folder
 * [ ] Error catching - Folder Creation
 * [ ] Add File(s)
 * [ ] Error catching - File Upload
@@ -51,11 +51,18 @@ http://192.168.1.152:8080
 
 <hr />
 
+#### localStack CLI intergration:
+Command line usage:
+`aws s3 ls --endpoint-url http://localhost:4566 s3://myS3Bucket`
+
+AWS S3 CLI Reference: https://docs.aws.amazon.com/cli/latest/reference/s3/
+
 ##### Stack:
 * React
 * Redux
 * Axios
 * Expressjs
 * AWS S3 Client V3 - `@aws-sdk/client-s3`
+* localStack
 * Jest/Enzyme
 * Adobe XD
