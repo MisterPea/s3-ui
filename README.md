@@ -55,7 +55,7 @@ http://192.168.1.152:8080
 Command line usage:
 `aws s3 ls --endpoint-url http://localhost:4566 s3://myS3Bucket`
 
-AWS S3 CLI Reference: https://docs.aws.amazon.com/cli/latest/reference/s3/
+AWS S3 CLI Reference: https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3/index.html#cli-aws-s3
 
 ##### Stack:
 * React
