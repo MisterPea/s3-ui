@@ -36,8 +36,9 @@ The basic setup for multipart-uploading is:
 <hr />
 
 #### To run:
-* `$ cd src` `npm start`
-* `$ backend` `nodemon server` or `node server`
+* `$ cd frontend` `npm start`
+* `$ cd backend` `nodemon server` or `node server`
+* To start aws development server `localstack start`
 
 In the backend folder place your aws credentials into a `.env` file.
 The credentials will look like:
@@ -52,8 +53,11 @@ http://192.168.1.152:8080
 <hr />
 
 #### localStack CLI intergration:
-Command line usage:
+Command line usage - s3:
 `aws s3 ls --endpoint-url http://localhost:4566 s3://myS3Bucket`
+
+Command line usage - s3api: 
+`aws s3api put-object --endpoint-url http://localhost:4566 --bucket myS3Bucket --key folder_one/`
 
 AWS S3 CLI Reference: https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3/index.html#cli-aws-s3
 
