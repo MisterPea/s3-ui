@@ -48,7 +48,7 @@ AWS_SECRET_ACCESS_KEY=O12ABC3456DEFGHIJKLMNOPQRXTUVWX987654321
 AWS_REGION=us-east-1
 ``` 
 Access via:
-http://192.168.1.152:8080
+Your local ip: e.g.: http://192.168.1.152:8080
 
 <hr />
 
