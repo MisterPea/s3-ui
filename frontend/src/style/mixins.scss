@@ -6,6 +6,7 @@ $desktop: 1024px;
 // Colors
 $blue-text: #35537b;
 $green: #93bf98;
+$orange: rgb(224,135, 33);
 $green-disabled: #cee0d1;
 $white: #fff;
 $white-disabled: rgb(243, 243, 243);
@@ -22,6 +23,12 @@ $white-disabled: rgb(243, 243, 243);
   font-family: pt-mono, monospace;
   font-weight: 700;
   font-style: normal;
+}
+
+@mixin text-overflow-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @mixin phone {
