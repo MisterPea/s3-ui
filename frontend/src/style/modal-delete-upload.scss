@@ -1,0 +1,58 @@
+.warning-red {
+  color: red;
+  font-size: 16px;
+
+  letter-spacing: 0.04rem;
+  // margin-top: 0;
+ 
+  
+  .center-warning {
+    text-align: center;
+    margin: 0 auto;
+    width: fit-content;
+  }
+  .warning-body-wrapper {
+    margin: 5px 0 10px;
+    .warning-body {
+      margin-top: 0;
+      padding: 10px 14px;
+      text-align: center;
+      // background-color: rgba(255, 0, 0, 0.1); 
+      line-height: 1.35rem;
+      border-radius: 4px;
+    }
+  }
+}
+
+.warning-rule {
+  margin: 0;
+}
+
+.folder-path-warning {
+  font-style: italic;
+  color: rgb(173, 2, 2);
+}
+
+.confirm-message {
+  padding: 10px 10px 0;
+  margin-bottom: 5px;
+  .confirm-folder {
+    font-style: italic;
+  }
+}
+
+.confirm-input {
+  @include type-reg;
+  margin-bottom: 20px;
+  font-size: 100%;
+  padding: 6px 6px;
+  width: 100%;
+  background-color: rgba(192, 169, 169, 0.1); 
+  color:rgb(143, 47, 47);
+  border-radius: 3px;
+  border: 1px rgb(99, 99, 99) solid;
+  text-align: center;
+  &:placeholder-shown {
+    font-style: italic;
+  }
+} 
