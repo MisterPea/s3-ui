@@ -1,15 +1,15 @@
 node_modules/
 package-lock.json
 
-lib/.env
+backend/.env
 
 .DS_Store
-lib/***s3BucketMethods.js
-lib/***S3Upload.js
+backend/***s3BucketMethods.js
+backend/***S3Upload.js
 design/main-icon.ai
 design/s3Logo-large.ai
 design/s3Logo-small.ai
-lib/sampleTest.js
+backend/sampleTest.js
 tests/__snapshots__/BucketDisplay.test.js.snap
 backend/node_modules/.package-lock.json
 backend/node_modules/.bin/acorn
@@ -4969,3 +4969,5 @@ backend/node_modules/fast-json-stable-stringify/example/value_cmp.js
 .tmp/localstack}/server.test.pem.key
 .tmp/localstack}/data/recorded_api_calls.json
 .tmp/localstack}/data/startup_info.json
+backend/***s3BucketMethods.js
+backend/***s3BucketMethods.js
