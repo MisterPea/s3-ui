@@ -23,6 +23,7 @@ The basic setup for multipart-uploading is:
 * [x] Get Files/Folders
 * [x] Framer Motion integration
 * [x] Add Folder
+* [x] Delete Folder
 * [ ] Error catching - Folder Creation
 * [ ] Add File(s)
 * [ ] Error catching - File Upload
@@ -53,7 +54,7 @@ Your local ip: e.g.: http://192.168.1.152:8080
 <hr />
 
 #### localStack CLI intergration:
-Your actual S3 buckets can be cloned and populated into your localStack mock with [this script.](https://github.com/MisterPea/S3-Uploader/blob/7344a8b93800075aa24e0854601a2bd7a4956dad/shell%20scripts/CloneS3ToLocalstack.sh)
+Your actual S3 buckets can be cloned and populated into your localStack mock with [this script.](https://github.com/MisterPea/S3-Uploader/blob/d03793e7afabbc8ad6cc0580a94cbafae822fda2/shell%20scripts/CloneS3ToLocalstack.sh)
 
 Command line usage - s3:
 `aws s3 ls --endpoint-url http://localhost:4566 s3://myS3Bucket`
