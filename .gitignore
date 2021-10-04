@@ -4971,3 +4971,6 @@ backend/node_modules/fast-json-stable-stringify/example/value_cmp.js
 .tmp/localstack}/data/startup_info.json
 backend/***s3BucketMethods.js
 backend/***s3BucketMethods.js
+frontend/src/components/style-delete/loading-bar.scss
+frontend/src/components/style-delete/mixins.scss
+frontend/src/components/style-delete/styles.scss
