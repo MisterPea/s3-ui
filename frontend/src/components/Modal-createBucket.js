@@ -31,8 +31,6 @@ export default function CreateBucketModal({ close, addBucket }) {
 
   function handleAddBucket() {
     addBucket(inputValue);
-    // console.log('handler', inputValue)
-    // addBucket(inputValue);
   }
 
   const jsxT = (
@@ -43,6 +41,7 @@ export default function CreateBucketModal({ close, addBucket }) {
 
           <h1>Create Bucket</h1>
           <input
+            className="basic-input"
             type="text"
             placeholder="Enter bucket name"
             tabIndex={0}
