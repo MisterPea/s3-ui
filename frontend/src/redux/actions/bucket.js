@@ -108,9 +108,3 @@ export function addNewBucketToList(newBucket) {
     }).then(() => dispatch(addBucket(newBucket))).catch(() => dispatch(errorCreatingBucket()));
   };
 }
-
-// export function addNewBucketToList(name) {
-//   return (dispatch) => {
-//     dispatch(addBucket(name));
-//   };
-// }
