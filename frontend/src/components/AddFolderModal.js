@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { validateFolderName } from './helpers/validation';
 import { addFolderToBucket } from '../redux/actions/folder';
+import useParseQuery from './helpers/useParseQuery';
 
 /**
  * Content to be wrapped by ModalComponentWrapper - Initiates the creation of an empty folder
@@ -16,17 +17,18 @@ export default function AddFolderModal({ setModalOpen }) {
   const [inputValue, setInputValue] = useState('');
   const [validEntry, setValidEntry] = useState(false);
   const dispatch = useDispatch();
+  const { id: bucket, loc: locale, path: folderPath = '/' } = useParseQuery();
 
   useEffect(() => {
     document.getElementById('folder-text-input').focus();
   }, []);
 
   useEffect(() => {
-    if (validateFolderName(inputValue)) {
-      if (!validEntry) {
+    if (validateFolderName(inputValue) === true) {
+      if (validEntry === false) {
         setValidEntry(true);
-      } else if (validEntry) setValidEntry(false);
-    }
+      }
+    } else if (validEntry) setValidEntry(false);
   }, [inputValue]);
 
   function handleInputChange(e) {
@@ -35,7 +37,8 @@ export default function AddFolderModal({ setModalOpen }) {
   }
 
   function handleAddFolder() {
-    dispatch(addFolderToBucket())
+    dispatch(addFolderToBucket(locale, folderPath, bucket, inputValue));
+    setModalOpen();
   }
 
   return (
@@ -47,26 +50,27 @@ export default function AddFolderModal({ setModalOpen }) {
         placeholder="Enter new folder name"
         tabIndex={0}
         value={inputValue}
+        autoComplete="off"
         onChange={(e) => handleInputChange(e)}
       />
-      <ul className="folder-modal-instructions">
-        <li>
-          Folder name can be up to 1024 characters long.
-        </li>
+      <ul className="modal-instructions">
+        <li>Folder name can be up to 1024 characters long.</li>
         <li>
           Name can be comprised of uppercase and lowercase characters,
-          numbers, parenthesis /(/), underscores, hyphens, exclamation points,
+          numbers, parenthesis, underscores, hyphens, exclamation points,
           and single quotes.
         </li>
-        <button
-          tabIndex={0}
-          type="button"
-          disabled={!validEntry}
-          onClick={handleAddFolder}
-        >
-          Create Folder
-        </button>
       </ul>
+      <button
+        className="folder-submit"
+        tabIndex={0}
+        type="button"
+        disabled={!validEntry}
+        onClick={handleAddFolder}
+      >
+        Create Folder
+      </button>
+
     </div>
   );
 }
