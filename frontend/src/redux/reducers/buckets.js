@@ -1,3 +1,4 @@
+import { addFolder, deleteFolder } from './helperFunctions';
 import {
   GET_BUCKETS,
   CREATE_BUCKET,
@@ -5,6 +6,11 @@ import {
   GET_BUCKET_CONTENTS,
   GET_BUCKETS_AND_CONTENTS,
 } from '../actions/bucket';
+
+import {
+  ADD_FOLDER,
+  DELETE_FOLDER,
+} from '../actions/folder';
 
 /**
  * Pure function to handle bucket actions
@@ -28,6 +34,10 @@ export default function buckets(state = [], action) {
       return state.concat([action.bucket]).sort((a, b) => a.Name.localeCompare(b.Name));
     case DELETE_BUCKET:
       return {};
+    case ADD_FOLDER:
+      return addFolder(action.folderPath, action.folderName, action.bucket, state);
+    case DELETE_FOLDER:
+      return deleteFolder(action.bucket, action.pathToDelete, state);
     default:
       return state;
   }
