@@ -22,7 +22,7 @@ The basic setup for multipart-uploading is:
 * [ ] Error catching - Bucket Creation
 * [x] Get Files/Folders
 * [x] Framer Motion integration
-* [ ] Add Folder
+* [x] Add Folder
 * [ ] Error catching - Folder Creation
 * [ ] Add File(s)
 * [ ] Error catching - File Upload
@@ -36,8 +36,9 @@ The basic setup for multipart-uploading is:
 <hr />
 
 #### To run:
-* `$ cd src` `npm start`
-* `$ backend` `nodemon server` or `node server`
+* `$ cd frontend` `npm start`
+* `$ cd backend` `nodemon server` or `node server`
+* To start aws development server `localstack start`
 
 In the backend folder place your aws credentials into a `.env` file.
 The credentials will look like:
@@ -47,9 +48,20 @@ AWS_SECRET_ACCESS_KEY=O12ABC3456DEFGHIJKLMNOPQRXTUVWX987654321
 AWS_REGION=us-east-1
 ``` 
 Access via:
-http://192.168.1.152:8080
+Your local ip: e.g.: http://192.168.1.152:8080
 
 <hr />
+
+#### localStack CLI intergration:
+Command line usage - s3:
+`aws s3 ls --endpoint-url http://localhost:4566 s3://myS3Bucket`
+
+Command line usage - s3api: 
+`aws s3api put-object --endpoint-url http://localhost:4566 --bucket myS3Bucket --key folder_one/`
+
+AWS S3 CLI Reference: https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3/index.html#cli-aws-s3
+
+AWS S3api CLI Reference: https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3api/index.html
 
 ##### Stack:
 * React
@@ -57,5 +69,6 @@ http://192.168.1.152:8080
 * Axios
 * Expressjs
 * AWS S3 Client V3 - `@aws-sdk/client-s3`
+* localStack
 * Jest/Enzyme
 * Adobe XD
