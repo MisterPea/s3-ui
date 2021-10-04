@@ -13,6 +13,12 @@ import LoadingBar from './graphic_elements/LoadingBar';
 import ModalComponentWrapper from './ModalComponentWrapper';
 import AddFolderModal from './AddFolderModal';
 
+function EmptyBucket() {
+  return (
+    <><p className="empty-bucket">Looks like this is empty.</p></>
+  );
+}
+
 /**
  * Component to render Files and Folders
  * ** Note: id and loc are derived from query strings**
@@ -22,7 +28,7 @@ export default function FileDisplay() {
   const { id, loc, path = null } = useParseQuery();
   const { buckets, loading } = useSelector((state) => state);
   const dispatch = useDispatch();
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState(undefined);
   const history = useHistory();
   const [addFolderModal, setAddFolderModal] = useState(false);
 
@@ -54,9 +60,11 @@ export default function FileDisplay() {
    * @return {func} Returns a state-setting function
    */
   function setFilePath(updatedPath = null) {
-    buckets.filter((bucket) => (
-      bucket.Name === id ? testPath(bucket) : null
-    ));
+    if (buckets[0] !== undefined) {
+      buckets.filter((bucket) => (
+        bucket.Name === id ? testPath(bucket) : null
+      ));
+    }
 
     // eslint-disable-next-line consistent-return
     function testPath(bucket) {
@@ -102,8 +110,25 @@ export default function FileDisplay() {
     }
   }
 
-  function handleToggleModal() {
+  function handleToggleAddFolder() {
     setAddFolderModal((s) => !s);
+  }
+
+  /**
+   * Test to determine if file list has been loaded and whether
+   * it's just an artefact from folder creation
+   * @param {Array{}} fileList Array of objects containing file/folder info.
+   */
+  function isEmptyFile(fileList) {
+    if (fileList !== undefined) {
+      if (fileList.length === 0) {
+        return true;
+      } if (fileList.length === 1 && fileList[0].name === '') {
+        return true;
+      }
+      return false;
+    }
+    return true;
   }
 
   const loaderVariant = {
@@ -149,18 +174,23 @@ export default function FileDisplay() {
               animate="open"
               exit="closed"
             >
-              {files && files.map(({
+              {isEmptyFile(files) ? <EmptyBucket /> : files.filter((file) => file.name !== '').map(({
                 type, name, lastModified = null, size, path: filePath,
               }, index) => (
-                <li key={name + index.toString()}>
+                <li
+                  className="file-folder-li"
+                  key={name + index.toString()}
+                >
                   <FileLI
                     key={`${type}-${name}`}
+                    locale={loc}
+                    bucket={id}
                     type={type}
                     name={name}
                     lastModified={lastModified}
                     size={size}
                     filePath={filePath}
-                    callback={handleFolderClick}
+                    folderClick={handleFolderClick}
                   />
                 </li>
               ))}
@@ -170,7 +200,7 @@ export default function FileDisplay() {
 
       <div
         className="add-bucket-bar"
-        onClick={handleToggleModal}
+        onClick={handleToggleAddFolder}
       >
         <span className="bucket-button-elements">
           <div className="bucket-cta-wrapper">
@@ -181,7 +211,7 @@ export default function FileDisplay() {
       </div>
       {addFolderModal
       && (
-      <ModalComponentWrapper close={handleToggleModal}>
+      <ModalComponentWrapper close={handleToggleAddFolder}>
         <AddFolderModal />
       </ModalComponentWrapper>
       )}
