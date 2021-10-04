@@ -3,6 +3,12 @@ import { motion, AnimateSharedLayout } from 'framer-motion';
 import PropTypes from 'prop-types';
 import BucketLI from './BucketLI';
 
+function EmptyS3() {
+  return (
+    <><motion.p className="empty-s3">Looks like there's nothing here</motion.p></>
+  );
+}
+
 export default function BucketUL({ buckets, loading }) {
   const parentVariant = {
     open: {
@@ -25,20 +31,22 @@ export default function BucketUL({ buckets, loading }) {
 
   return (
     <AnimateSharedLayout>
-      <motion.ul
-        key="bucketULInner"
-        layout
-        variants={parentVariant}
-        animate={loading ? 'open' : 'closed'}
-        initial="closed"
-      >
-        {buckets.map((bucket) => (
-          <BucketLI
-            key={bucket.Name}
-            bucket={bucket}
-          />
-        ))}
-      </motion.ul>
+      {buckets.length === 0 ? <EmptyS3 /> : (
+        <motion.ul
+          key="bucketULInner"
+          layout
+          variants={parentVariant}
+          animate={loading ? 'open' : 'closed'}
+          initial="closed"
+        >
+          {buckets && buckets.map((bucket) => (
+            <BucketLI
+              key={bucket.Name}
+              bucket={bucket}
+            />
+          ))}
+        </motion.ul>
+      )}
     </AnimateSharedLayout>
   );
 }
