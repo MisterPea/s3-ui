@@ -8,7 +8,7 @@ const {
   PutObjectCommand,
   DeleteBucketCommand,
 } = require('@aws-sdk/client-s3');
-const { tree } = require('./utilities');
+const { tree, isPathDeletable } = require('./utilities');
 
 const region = 'us-east-1';
 const endpoint = encodeURI('http://localhost:4566');
@@ -20,7 +20,7 @@ const endpoint = encodeURI('http://localhost:4566');
  */
 const newClient = (locale) => new S3Client({
   region: locale,
-  endpoint: endpoint,
+  endpoint,
   forcePathStyle: true,
 });
 // const newClient = (locale) => new S3Client({
@@ -195,38 +195,87 @@ function deleteBucketContents(bucketName, locale, keys) {
 function getBucketContents(locale, bucketName) {
   const s3 = newClient(locale);
   return s3.send(new ListObjectsV2Command({ Bucket: bucketName }))
-    .then(({ Contents }) => tree(Contents))
+    .then(({ Contents }) => (!Contents ? [] : tree(Contents)))
+    .catch((err) => { throw new TypeError(err); });
+}
+
+function getBucketContentsForDeletion(locale, bucketName) {
+  const s3 = newClient(locale);
+  return s3.send(new ListObjectsV2Command({ Bucket: bucketName }))
+    .then(({ Contents }) => console.log(Contents))
     .catch((err) => { throw new TypeError(err); });
 }
 
 /**
  * Method to create an empty folder
  * @param {string} locale The region the bucket is located
- * @param {string} folderName The name of the new folder
+ * @param {string} folderPath The path of the new folder e.g `one/two/three/`
+ * @param {string} folderName The name of the new folder e.g `four`
  * @param {string} bucketName The name of the bucket
  * @return {Promise}
  */
-function addFolder(locale = region, folderName, bucketName) {
+function addFolder(locale = region, folderPath = '', bucketName, folderName) {
+  const forwardSlash = (folderPath.length > 0 && folderPath !== '/') ? '/' : '';
+  const validFolderPath = `${folderPath !== '/' ? folderPath : ''}`;
+  const newFolderName = `${validFolderPath}${forwardSlash}${folderName}/`;
   const s3 = newClient(locale);
   const params = {
-    Bucket: bucketName,
-    Key: `${folderName}/`,
-    Body: '',
+    Bucket: `${bucketName}`,
+    Key: newFolderName,
+
   };
   return s3.send(new PutObjectCommand(params))
     .then((data) => data)
-    .catch((err) => {
-      logError('Adding folder', err);
-      return err;
+    .catch((err) => { throw new TypeError(err); });
+}
+
+/**
+ * Method to delete a folder and it's contents
+ * @param {string} locale The region the bucket is located.
+ * @param {string} bucket The name of the bucket.
+ * @param {string} pathToDelete The uppermost level that deletion occurs.
+ * @param {string} folderName The name of the folder to be deleted.
+ */
+function deleteFolder(locale, bucket, pathToDelete, folderName) {
+  const s3 = newClient(locale);
+  const regExp = isPathDeletable(pathToDelete, folderName);
+
+  /**
+   * Closure to filter keys that need to be deleted from those that do not.
+   * @param {Object[]} contents Derived from ListObjectsV2Command.
+   * @return {Array{}} Return is an array of either objects with the key: Key,
+   * or null. The null elements are filtered out post-return
+   */
+  function filterKeys(contents) {
+    return contents.map(({ Key }) => {
+      if (regExp.test(Key)) {
+        return { Key };
+      }
+      return null;
     });
+  }
+
+  return s3.send(new ListObjectsV2Command({ Bucket: bucket }))
+    .then(({ Contents }) => {
+      const keysToDelete = filterKeys(Contents).filter(Boolean);
+      const params = {
+        Bucket: bucket,
+        Delete: { Objects: keysToDelete },
+      };
+      return s3.send(new DeleteObjectsCommand(params))
+        .then((data) => data)
+        .catch((err) => { throw new TypeError(`${err}-could not delete objects`); });
+    }).catch((err) => { throw new TypeError(err); });
 }
 
 module.exports = {
   getAllBuckets,
   createBucket,
   getBucketContents,
+  getBucketContentsForDeletion,
   emptyBucket,
   deleteBucketContents,
   addFolder,
   deleteBucket,
+  deleteFolder,
 };
