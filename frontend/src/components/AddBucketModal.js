@@ -97,7 +97,7 @@ export default function AddBucketModal({ setModalOpen }) {
           );
         })}
       </ul>
-      <ul className="bucket-modal-instructions">
+      <ul className="modal-instructions">
         <li>
           • Bucket name must be between 3 and 63
           characters long, and can consist only of
