@@ -4,6 +4,8 @@ import { createPortal } from 'react-dom';
 import { useRef, useState, useEffect } from 'react';
 import { IoIosClose } from 'react-icons/io';
 import { motion } from 'framer-motion';
+import '../style/main.scss';
+import createId from './helpers/createId';
 
 /**
  * Modal component frame that wraps a work-performing component.
@@ -18,17 +20,20 @@ import { motion } from 'framer-motion';
  */
 export default function ModalComponentWrapper({ children, close }) {
   const [modalOpen, setModalOpen] = useState(true);
+  const modalMountId = useRef(null);
   const [root, setRoot] = useState(null);
   const elementRoot = useRef(null);
   elementRoot.current = root;
+
+  if (modalMountId.current === null) modalMountId.current = `${createId()}`;
 
   useEffect(() => {
     const body = document.querySelector('body');
     const modal = document.createElement('DIV');
     const docRoot = document.getElementById('root');
-    modal.id = 'modal-mount';
+    modal.id = modalMountId.current;
     body.insertBefore(modal, docRoot);
-    setRoot(document.getElementById('modal-mount'));
+    setRoot(document.getElementById(modalMountId.current));
   }, []);
 
   useEffect(() => {
@@ -66,7 +71,8 @@ export default function ModalComponentWrapper({ children, close }) {
       transition: {
         type: 'tween',
         duration: 0.2,
-        delay: 0.2,
+        ease: [0.57, 0.24, 0.74, 0.86],
+        // delay: 0.1,
       },
     },
     closed: {
@@ -74,7 +80,9 @@ export default function ModalComponentWrapper({ children, close }) {
       y: -10,
       scale: 0.7,
       transition: {
-        duration: 0.3,
+        type: 'tween',
+        ease: [0.57, 0.24, 0.74, 0.86],
+        duration: 0.2,
       },
     },
     init: {
@@ -82,15 +90,17 @@ export default function ModalComponentWrapper({ children, close }) {
       y: 100,
       scale: 0.7,
       transition: {
-        duration: 0.3,
+        type: 'tween',
+        ease: [0.57, 0.24, 0.74, 0.86],
+        duration: 0.2,
       },
     },
   };
 
   function handleModalCloseSequence() {
-    const modalMount = document.getElementById('modal-mount');
+    const modalMount = document.getElementById(modalMountId.current);
     modalMount.remove();
-    close()
+    close();
   }
 
   const portalJSX = (
@@ -109,9 +119,9 @@ export default function ModalComponentWrapper({ children, close }) {
         animate={modalOpen ? 'open' : 'closed'}
       >
         <IoIosClose onClick={() => setModalOpen(false)} tabIndex={0} className="modal-close-button" />
-        <div className="modal-wrapper">
+        <>
           {React.cloneElement(children, { setModalOpen: () => setModalOpen() })}
-        </div>
+        </>
       </motion.div>
     </motion.div>
   );
