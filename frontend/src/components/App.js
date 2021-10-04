@@ -3,7 +3,7 @@ import { Route, Switch, useLocation } from 'react-router';
 import { AnimatePresence } from 'framer-motion';
 import NavBar from './NavBar';
 import FileDisplay from './FileDisplay';
-import './style/styles.scss';
+import '../style/main.scss';
 import BucketDisplay from './BucketDisplay';
 
 /**
@@ -21,7 +21,7 @@ export default function App() {
           <AnimatePresence exitBeforeEnter>
             <Switch key={`${location.pathname}`}>
               <Route exact path="/" component={BucketDisplay} />
-              <Route exact path="/S3" component={FileDisplay} />
+              <Route exact path="/S3/" component={FileDisplay} />
               <Route path="*" component={() => <h1>404</h1>} />
             </Switch>
           </AnimatePresence>
