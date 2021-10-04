@@ -56,4 +56,15 @@ function tree(fileList) {
   return root;
 }
 
-module.exports = { tree };
+/**
+ * Method returns a regular expression object used to test
+ * whether a path is to be deleted.
+ * @param {string} pathToDelete Path to derive the regular expression
+ * @return The return is new RegExp object
+ */
+function isPathDeletable(pathToDelete) {
+  const pathArray = pathToDelete.split('/').filter(Boolean);
+  return new RegExp(`^${pathArray.join('\\/')}\\/.*`);
+}
+
+module.exports = { tree, isPathDeletable };
