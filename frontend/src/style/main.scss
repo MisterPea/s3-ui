@@ -1,5 +1,6 @@
 @import "./mixins.scss";
 @import "./loading-bar.scss";
+@import "./modal-delete-upload.scss";
 
 html {
   box-sizing: border-box;
@@ -45,6 +46,13 @@ a {
 .logo-lg {
   flex-shrink: 0;
   width: 40%;
+}
+
+.empty-s3,
+.empty-bucket {
+  color: $white;
+  @include type-reg;
+  text-align: center;
 }
 
 .bucket-id-loc {
@@ -108,6 +116,8 @@ a {
   margin-top: 20px;
   margin-bottom: 20px;
   margin-left: 10px;
+  mask-image: linear-gradient(270deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 10%);
+  -webkit-mask-image: linear-gradient(270deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 10%);
 
   display: flex;
   flex-wrap: nowrap;
@@ -122,6 +132,7 @@ a {
 
 .breadcrumb-li {
   padding: 10px 0;
+  white-space: nowrap;
   &:last-child {
     padding-right: 10px;
     .breadcrumb-link {
@@ -232,27 +243,48 @@ ul {
   height: 35px;
   padding: 4px 0;
 }
-
+.file-folder-li {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 .file-row {
   background-color: #fff;
   display: flex;
   width: 100%;
-  margin-top: 2px;
   cursor: pointer;
-  align-items: center;
+  justify-content: space-between;
   height: 40px;
-  padding: 1px 0;
-  p {
-    @include type-reg;
-    color: #35537b;
-    margin: 0;
-    justify-content: center;
-    text-decoration: none;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 16px;
-    letter-spacing: -0.015em;
+  position: relative;
+  margin: 1px 0;
+
+  .file-row-left {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    height: 100%;
+
+    p {
+      @include type-reg;
+      color: $blue-text;
+      margin: 0;
+      justify-content: center;
+      text-decoration: none;
+      @include text-overflow-ellipsis;
+      font-size: 16px;
+      letter-spacing: -0.015em;
+      padding: 0;
+    }
+  }
+  .file-row-right {
+    color: $blue-text;
+    height: 100%;
+    padding: 0 10px;
+    width: 50px;
   }
 }
 
@@ -263,20 +295,15 @@ ul {
   justify-content: space-around;
 }
 .folder-icon {
-  // display: none;
   height: 28px;
   width: 28px;
   flex-shrink: 0;
 }
 
 .file-icon {
-  // display: none;
   height: 28px;
   width: 20px;
-
   flex-shrink: 0;
-
-  // background-color: rgb(104, 104, 173);
 }
 
 .bucket-logo {
@@ -395,16 +422,18 @@ ul {
   top: 0;
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0,0.55);
+  background-color: rgba(0, 0, 0, 0.55);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 100;
 }
 
 .modal-center {
   width: 80%;
   border-radius: 4px;
   background-color: $white;
+  @include type-reg;
   font-size: 13px;
 
   h1 {
@@ -412,9 +441,9 @@ ul {
     font-size: 16px;
     text-align: center;
     color: $blue-text;
-    margin: 18px 0;
+    margin-top: 18px;
   }
-  input {
+  .basic-input {
     @include type-reg;
     font-size: 100%;
     padding: 6px 6px;
@@ -424,22 +453,29 @@ ul {
     border: 1px rgb(99, 99, 99) solid;
     text-align: center;
   }
-  .bucket-modal-instructions,
-  .folder-modal-instructions {
+
+  .modal-instructions {
     @include type-reg;
     color: $blue-text;
-    font-size: 10px;
+    font-size: 11px;
     margin: 15px 0;
     padding: 10px;
     background-color: #93bf9841;
     border-radius: 4px;
     letter-spacing: 00.03rem;
   }
+
   li {
     margin-bottom: 8px;
+    @include type-reg;
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
-  .bucket-submit {
+  .bucket-submit,
+  .folder-submit,
+  .delete-submit {
     @include type-bold;
     font-size: 15px;
     color: $white;
@@ -459,16 +495,18 @@ ul {
 
 .modal-wrapper {
   padding: 0 15px 20px;
+  // position: relative;
 }
 
 .modal-close-button {
   float: right;
   height: 24px;
   width: 24px;
-  color:rgba(0, 0, 0, 0.7);
+  margin-left: -24px;
+  color: rgba(0, 0, 0, 0.7);
   transition: color 0.3s ease-in-out;
   &:hover {
-    color: rgba(0, 0, 0, 0.5)
+    color: rgba(0, 0, 0, 0.5);
   }
 }
 
@@ -503,5 +541,124 @@ ul {
   label {
     @include text-overflow-ellipsis;
     width: 90%;
+  }
+}
+
+#bucket-text-input,
+#folder-text-input {
+  @include type-reg;
+  font-size: 100%;
+  padding: 6px 6px;
+  width: 100%;
+  background-color: #ececec;
+  border-radius: 3px;
+  border: 1px rgb(99, 99, 99) solid;
+  text-align: center;
+}
+
+/* ***************************************** */
+/* ************* Folder Modal ************** */
+/* ***************************************** */
+
+.modal-button-group {
+  display: flex;
+  flex-direction: column;
+  // width: fit-content;
+  // margin: 0 auto;
+  .option-button {
+    @include type-reg;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: fit-content;
+    margin: 2px 0;
+    flex-direction: row;
+    height: 40px;
+    .option-content {
+      display: flex;
+      flex-direction: row;
+      .option-title {
+        align-self: center;
+        font-size: 18px;
+        white-space: nowrap;
+        margin: 0;
+        flex: 1;
+        color: $blue-text;
+      }
+      .folder-option-icon {
+        margin: 10px;
+        width: 25px;
+        height: 25px;
+        flex: 1;
+        color: $blue-text;
+      }
+      // .delete {
+      //   color: rgb(175, 61, 61);
+      // }
+      // .upload {
+      //   color: $green;
+      // }
+    }
+  }
+}
+
+.folder-tooltip-menu {
+  position: absolute;
+  right: 40px;
+  top: -20px;
+  .tooltip-button-group {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    width: fit-content;
+    background-color: $white;
+    border-radius: 4px;
+    z-index: 10000;
+    filter: drop-shadow(0 0 0.35rem rgba(38, 57, 77, 0.7));
+    -webkit-filter: drop-shadow(0 0 0.35rem rgba(38, 57, 77, 0.7));
+    &::before {
+      content: "";
+      position: absolute;
+      left: 100%;
+      top: 40%;
+      width: 0;
+      border-left: 8px solid white;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      z-index: 10000;
+    }
+    .option-button {
+      @include type-reg;
+      border: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: fit-content;
+      background: none;
+      margin: 4px;
+      flex-direction: row;
+      height: 30px;
+      .option-content {
+        display: flex;
+        flex-direction: row;
+        .option-title {
+          align-self: center;
+          font-size: 17px;
+          white-space: nowrap;
+          margin: 0;
+          margin-left: 5px;
+          // flex: 1;
+          color: $blue-text;
+        }
+        .folder-option-icon {
+          margin: 5px;
+          width: 20px;
+          height: 20px;
+          flex: 1;
+          color: $blue-text;
+        }
+      }
+    }
   }
 }
