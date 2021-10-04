@@ -1,31 +1,57 @@
 import axios from 'axios';
-import { errorCreatingFolder } from './error';
+import { errorCreatingFolder, errorDeletingFolder } from './error';
 
 export const ADD_FOLDER = 'ADD_FOLDER';
 export const DELETE_FOLDER = 'DELETE_FOLDER';
 
 const { hostname } = window.location;
 
-function addFolder(locale, folderPath, bucket) {
+function addFolder(locale, folderPath, bucket, folderName) {
   return {
     type: ADD_FOLDER,
-    folder: {
-      locale,
-      folderPath,
-      bucket,
-    },
+    locale,
+    folderPath,
+    bucket,
+    folderName,
   };
 }
 
-export function addFolderToBucket(locale, folderPath, bucket) {
+function deleteFolder(bucket, pathToDelete) {
+  return {
+    type: DELETE_FOLDER,
+    bucket,
+    pathToDelete,
+  };
+}
+
+export function addFolderToBucket(locale, folderPath, bucket, folderName) {
   return (dispatch) => {
     axios({
       method: 'POST',
-      url: `http://${hosrtname}:3200/addFolder`,
-      data: JSON.stringify({ locale, folderPath, bucket }),
+      url: `http://${hostname}:3200/createFolder`,
+      data: JSON.stringify({
+        locale, folderPath, bucket, folderName,
+      }),
       headers: {
         'content-type': 'application/json',
       },
-    }).then(() => dispatch(addFolder(locale, folderPath, bucket))).dispatch(errorCreatingFolder());
+    }).then(() => dispatch(addFolder(locale, folderPath, bucket, folderName)))
+      .catch(() => dispatch(errorCreatingFolder()));
+  };
+}
+
+export function deleteFolderFromBucket(locale, bucket, pathToDelete, folderName) {
+  return (dispatch) => {
+    axios({
+      method: 'POST',
+      url: `http://${hostname}:3200/deleteFolder`,
+      data: JSON.stringify({
+        locale, bucket, pathToDelete, folderName,
+      }),
+      headers: {
+        'content-type': 'application/json',
+      },
+    }).then(() => dispatch(deleteFolder(bucket, pathToDelete)))
+      .catch(() => dispatch(errorDeletingFolder()));
   };
 }
