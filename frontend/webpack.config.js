@@ -9,7 +9,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'index.bundle.js',
-    // publicPath: "/",
+    publicPath: "/",
   },
   module: {
     rules: [
@@ -40,16 +40,16 @@ module.exports = {
   // This particular devServer setup works with Docker hot-reload
   // devServer: {
   //   port:8081,
-  //   host: '0.0.0.0',
+  // host: '0.0.0.0',
   //   disableHostCheck: true,
   // },
   // This particular devServer setup is for standalone
   devServer: {
     historyApiFallback: true,
     inline: true,
-    port: 8080,
-    // host: 'localhost'
+    // port: 8080, // removed port for localhost use.
+    host: 'localhost'
     // host: '192.168.1.152',
-    host: '192.168.1.145',
+    // host: '192.168.1.145',
   },
 };
