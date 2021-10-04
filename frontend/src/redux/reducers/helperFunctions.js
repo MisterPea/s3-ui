@@ -1,0 +1,109 @@
+/**
+ * Method to return a new state array with the new folder
+ * @param {string} targetPath Path when new folder will reside
+ * @param {string} folderName Name of new folder
+ * @param {string} bucketName Name of bucket where new folder is to reside
+ * @param {Object[]} state Array of arrays of objects
+ * @return New array with the new folder in place
+ */
+export function addFolder(targetPath, folderName, bucketName, state) {
+  function addToChildren(item, targetArray, currentPath) {
+    if (currentPath === item.name || currentPath === '/') {
+      if (targetArray.length === 0) {
+        return {
+          ...item,
+          children: [
+            ...item.children,
+            {
+              type: 'folder',
+              name: folderName,
+              path: `${item.path}/${folderName}`,
+              children: [],
+            },
+          ],
+        };
+      }
+      // if match, but not at terminus
+      return { ...item, children: [parseParent(item.children, targetArray)] };
+    }
+    // if no match
+    return item;
+  }
+
+  function rootLevelFolder() {
+    return {
+      type: 'folder',
+      name: folderName,
+      path: `/${folderName}`,
+      children: [],
+    };
+  }
+
+  function parseParent(currentBuckets, targetArray) {
+    const currentPath = targetArray.shift();
+    return currentBuckets.map((item) => addToChildren(item, targetArray, currentPath));
+  }
+
+  function addFolderMain() {
+    return state.map((_bucket) => {
+      return _bucket.Name === bucketName ? rootCheck(_bucket) : _bucket;
+
+      function rootCheck(bucket) {
+        if (targetPath === '/') {
+          return { ...bucket, contents: [...bucket.contents, rootLevelFolder()] };
+        }
+        return { ...bucket, contents: parseParent(bucket.contents, targetPath.split('/').filter(Boolean)) };
+      }
+    });
+  }
+  return addFolderMain();
+}
+
+/**
+ * Method to return a new state array with the proper folder removed
+ * @param {string} bucketName Name of bucket folder resides
+ * @param {string} pathToDelete Absolute path of folder to be deleted
+ * @param {Object[]} state Array of arrays of objects
+ * @return New array with the proper folder deleted
+ */
+export function deleteFolder(bucketName, pathToDelete, state) {
+  return state.map((bucket) => (bucket.Name === bucketName
+    ? {
+      ...bucket,
+      contents: isRootLevel(
+        bucket.contents,
+        pathToDelete.split('/').filter(Boolean),
+      ),
+    }
+    : bucket));
+
+  function isRootLevel(contents, path) {
+    if (path.length === 1) {
+      const currentPath = path.shift();
+      const filteredContent = contents.filter(
+        ({ type, name }) => name !== currentPath || type !== 'folder',
+      );
+      return filteredContent;
+    }
+    return crawlChildren(contents, path);
+
+    function crawlChildren(passedContents, passedPath) {
+      const currentPath = passedPath.shift();
+      return passedContents.map((item) => {
+        if (item.type === 'folder' && item.name === currentPath) {
+          if (passedPath.length === 1) {
+            const children = item.children.filter(
+              ({ type, name }) => name !== passedPath[0] || type !== 'folder',
+            );
+            return { ...item, children: crawlChildren(children, passedPath) };
+          }
+          return {
+            ...item,
+            children: crawlChildren(item.children, passedPath),
+          };
+        }
+        return item;
+      });
+    }
+  }
+}
