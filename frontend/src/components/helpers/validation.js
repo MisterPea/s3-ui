@@ -13,7 +13,7 @@ export function validateBucketName(name) {
 }
 
 export function validateFolderName(name) {
-  const folderNameTest = "^[\\w\\d\\-()_.!']{1,1023}[\\w\\d\\-()_!']$";
+  const folderNameTest = "^[A-Za-z0-9-()!_']{1,1023}$";
   const foldernameValid = new RegExp(folderNameTest);
   return foldernameValid.test(name);
 }
