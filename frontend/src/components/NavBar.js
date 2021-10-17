@@ -1,6 +1,7 @@
 import * as React from 'react';
 import propTypes from 'prop-types';
 import { useHistory } from 'react-router';
+import { useSelector } from 'react-redux';
 import useParseQuery from './helpers/useParseQuery';
 import MainLogo from './graphic_elements/MainLogo';
 import createId from './helpers/createId';
@@ -9,6 +10,7 @@ import removeQuery from './helpers/removeQuery';
 export default function NavBar() {
   const parsedQuery = useParseQuery();
   const history = useHistory();
+  const { buckets } = useSelector((state) => state);
   const { id, loc, path = null } = parsedQuery;
 
   function handleBreadcrumbNav(query, modifier = null) {
@@ -93,9 +95,16 @@ export default function NavBar() {
   Breadcrumbs.propTypes = {
     bcPath: propTypes.string,
   };
+  function DisplayBucketCount() {
+    return (
+      <div className="bucket-number-wrapper">
+        <div className="buckets-number">{`Buckets (${buckets ? buckets.length : '0'})`}</div>
+      </div>
+    );
+  }
 
   return (
-    <>
+    <div className={`nav-component${id ? '' : '-bucket'}`}>
       <div className="nav-bar">
         <div className="logo-lg"><MainLogo /></div>
         <div className="bucket-id-loc">
@@ -106,7 +115,9 @@ export default function NavBar() {
         </div>
         <p className="contact-btn">Contact</p>
       </div>
-      {id && <Breadcrumbs bcPath={path} />}
-    </>
+      {id
+        ? <Breadcrumbs bcPath={path} />
+        : <DisplayBucketCount />}
+    </div>
   );
 }
