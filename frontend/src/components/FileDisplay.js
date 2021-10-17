@@ -12,6 +12,7 @@ import sortFiles from './helpers/sortFiles';
 import LoadingBar from './graphic_elements/LoadingBar';
 import ModalComponentWrapper from './ModalComponentWrapper';
 import AddFolderModal from './AddFolderModal';
+import useScrollIntersect from './helpers/useScrollIntersect';
 
 function EmptyBucket() {
   return (
@@ -39,6 +40,8 @@ export default function FileDisplay() {
   useEffect(() => {
     setFilePath();
   }, [buckets, path]);
+
+  const [topScrollShadow, bottomScrollShadow, handleScroll] = useScrollIntersect(files, '.ul-wrapper');
 
   /**
    * Method to check store if bucket requested is in the store.
@@ -152,54 +155,64 @@ export default function FileDisplay() {
   };
 
   return (
-    <div>
-      <div className="add-file-wrapper">
-        <div className="add-file">
-          <p>Add file(s)</p>
-          <IoAddCircleSharp className="add-file-plus" />
+    <div className="file-display-wrapper">
+      <div className="file-header-wrapper">
+        <div className="add-file-wrapper">
+          <div className="add-file">
+            <p>Add file(s)</p>
+            <IoAddCircleSharp className="add-file-plus" />
+          </div>
+        </div>
+        <div className={`file-display ${topScrollShadow ? 'overflow' : ''}`}>
+          <h3 className="name-header">Name</h3>
+          <h3 className="last-modified-header">Last Modified</h3>
+          <h3 className="size-header">Size</h3>
+          <h3 className="options-header">Options</h3>
         </div>
       </div>
-      <div className="table-head file-display">
-        <h3 className="name-header">Name</h3>
-        <h3 className="last-modified-header">Last Modified</h3>
-        <h3 className="size-header">Size</h3>
-        <h3 className="options-header">Options</h3>
-      </div>
+
       <AnimatePresence exitBeforeEnter>
         {loading ? <motion.div variants={loaderVariant} exit="exit"><LoadingBar /></motion.div>
           : (
-            <motion.ul
+            <motion.div
+              onScroll={(e) => handleScroll(e)}
               variants={fileVariants}
               initial="closed"
               animate="open"
               exit="closed"
+              className="ul-wrapper"
             >
-              {isEmptyFile(files) ? <EmptyBucket /> : files.filter((file) => file.name !== '').map(({
-                type, name, lastModified = null, size, path: filePath,
-              }, index) => (
-                <li
-                  className="file-folder-li"
-                  key={name + index.toString()}
-                >
-                  <FileLI
-                    key={`${type}-${name}`}
-                    locale={loc}
-                    bucket={id}
-                    type={type}
-                    name={name}
-                    lastModified={lastModified}
-                    size={size}
-                    filePath={filePath}
-                    folderClick={handleFolderClick}
-                  />
-                </li>
-              ))}
-            </motion.ul>
+              <ul
+                className="file-ul"
+              >
+                {isEmptyFile(files) ? <EmptyBucket /> : files.filter((file) => file.name !== '').map(({
+                  type, name, lastModified = null, size, path: filePath,
+                }, index) => (
+                  <li
+                    className="file-folder-li"
+                    key={name + index.toString()}
+                  >
+                    <FileLI
+                      key={`${type}-${name}`}
+                      locale={loc}
+                      bucket={id}
+                      type={type}
+                      name={name}
+                      lastModified={lastModified}
+                      size={size}
+                      filePath={filePath}
+                      folderClick={handleFolderClick}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+
           )}
       </AnimatePresence>
 
       <div
-        className="add-bucket-bar"
+        className={`add-bucket-bar ${bottomScrollShadow ? 'overflow' : ''}`}
         onClick={handleToggleAddFolder}
       >
         <span className="bucket-button-elements">
@@ -216,6 +229,5 @@ export default function FileDisplay() {
       </ModalComponentWrapper>
       )}
     </div>
-
   );
 }
