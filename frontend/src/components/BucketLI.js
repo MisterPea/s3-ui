@@ -2,6 +2,7 @@ import * as React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { IoTrashSharp } from 'react-icons/io5';
 import BucketLogo from './graphic_elements/BucketLogo';
 
 export default function BucketLI({ bucket }) {
@@ -12,6 +13,7 @@ export default function BucketLI({ bucket }) {
       y: 0,
       transition: {
         ease: 'easeOut',
+        duration: 0.3,
       },
     },
     closed: {
@@ -21,16 +23,25 @@ export default function BucketLI({ bucket }) {
   };
 
   return (
-    <Link to={`/S3/?id=${Name}&loc=${Region}`}>
-      <motion.li layout variants={addedVariant} className="bucket-row">
-        <div className="bucket-table-data name">
-          <div className="bucket-logo"><BucketLogo /></div>
-          <p className="bucket-name">{Name}</p>
+    <motion.li layout variants={addedVariant} className="bucket-li">
+      <div className="bucket-row">
+        <div className="bucket-row-left">
+          <Link to={`/S3/?id=${Name}&loc=${Region}`}>
+            <div className="bucket-row-wrapper">
+              <div className="bucket-icon-wrapper">
+                <div className="bucket-icon">
+                  <BucketLogo />
+                </div>
+              </div>
+              <p className="bucket-name">{Name}</p>
+              <p className="bucket-table-data date">{CreationDate}</p>
+              <p className="bucket-table-data region">{Region}</p>
+            </div>
+          </Link>
         </div>
-        <p className="bucket-table-data date">{CreationDate}</p>
-        <p className="bucket-table-data region">{Region}</p>
-      </motion.li>
-    </Link>
+        <IoTrashSharp className="bucket-row-right" />
+      </div>
+    </motion.li>
   );
 }
 
