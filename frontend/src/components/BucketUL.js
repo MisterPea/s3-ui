@@ -9,7 +9,18 @@ function EmptyS3() {
   );
 }
 
-export default function BucketUL({ buckets, loading }) {
+/**
+ * Wrapper component that renders list item the component(s).
+ * @prop {Object[]} buckets Array of S3 object/buckets
+ * @prop {Bool} loading Whether the loading of buckets is active (true) or not (false)
+ * @prop {func} onFinish Callback function that is called on the completion of the list animation
+ * @return {JSX} Return a JSX component
+ */
+export default function BucketUL({ buckets, loading, onFinish }) {
+  function handleComplete() {
+    onFinish(document.getElementsByClassName('ul-wrapper'));
+  }
+
   const parentVariant = {
     open: {
       height: '100%',
@@ -29,23 +40,30 @@ export default function BucketUL({ buckets, loading }) {
     },
   };
 
+  // having rendering being dictated by `loading` might not be the best solution for render blocking
+
   return (
     <AnimateSharedLayout>
-      {buckets.length === 0 ? <EmptyS3 /> : (
-        <motion.ul
-          key="bucketULInner"
-          layout
-          variants={parentVariant}
-          animate={loading ? 'open' : 'closed'}
-          initial="closed"
-        >
-          {buckets && buckets.map((bucket) => (
-            <BucketLI
-              key={bucket.Name}
-              bucket={bucket}
-            />
-          ))}
-        </motion.ul>
+      {loading && (
+        buckets.length === 0 ? <EmptyS3 /> : (
+          <motion.ul
+            className="bucket-ul-inner"
+            key="bucketULInner"
+            layout
+            variants={parentVariant}
+            animate={loading ? 'open' : 'closed'}
+            initial="closed"
+          // eslint-disable-next-line no-unused-vars
+            onAnimationComplete={(height) => handleComplete()}
+          >
+            {buckets && buckets.map((bucket) => (
+              <BucketLI
+                key={bucket.Name}
+                bucket={bucket}
+              />
+            ))}
+          </motion.ul>
+        )
       )}
     </AnimateSharedLayout>
   );
@@ -59,4 +77,5 @@ BucketUL.defaultProps = {
 BucketUL.propTypes = {
   buckets: PropTypes.arrayOf(PropTypes.object),
   loading: PropTypes.bool,
+  onFinish: PropTypes.func.isRequired,
 };
