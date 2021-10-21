@@ -1,5 +1,10 @@
 import axios from 'axios';
-import { errorGettingBucketContents, errorGettingBuckets, errorCreatingBucket } from './error';
+import {
+  errorGettingBucketContents,
+  errorGettingBuckets,
+  errorCreatingBucket,
+  errorDeletingBucket,
+} from './error';
 import { showLoader, hideLoader } from './loading';
 
 export const GET_BUCKETS = 'GET_BUCKETS';
@@ -41,6 +46,14 @@ function addBucket(newBucket) {
       Region,
       CreationDate,
     },
+  };
+}
+
+function deleteBucket(locale, bucket) {
+  return {
+    type: DELETE_BUCKET,
+    bucket,
+    locale,
   };
 }
 
@@ -106,5 +119,19 @@ export function addNewBucketToList(newBucket) {
         'content-type': 'application/json',
       },
     }).then(() => dispatch(addBucket(newBucket))).catch(() => dispatch(errorCreatingBucket()));
+  };
+}
+
+export function deleteBucketFromList(region, bucket) {
+  return (dispatch) => {
+    axios({
+      method: 'POST',
+      url: `http://${hostname}:3200/deleteBucket`,
+      data: JSON.stringify({ locale: region, bucket }),
+      headers: {
+        'content-type': 'application/json',
+      },
+    }).then(() => dispatch(deleteBucket(region, bucket)))
+      .catch(() => dispatch(errorDeletingBucket()));
   };
 }
