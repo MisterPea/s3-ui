@@ -60,7 +60,7 @@ export default function FileDisplay() {
    * is called without args, it means an implicit change of path was made. So we derive
    * the desired path from `useParseQuery`.
    * @param {string} [updatedPath=null] The new path
-   * @return {func} Returns a state-setting function
+   * @return {function} Returns a state-setting function
    */
   function setFilePath(updatedPath = null) {
     if (buckets[0] !== undefined) {
@@ -115,6 +115,11 @@ export default function FileDisplay() {
 
   function handleToggleAddFolder() {
     setAddFolderModal((s) => !s);
+  }
+
+  function handleKeyboardAddFolder(e) {
+    e.preventDefault();
+    handleToggleAddFolder();
   }
 
   /**
@@ -207,13 +212,15 @@ export default function FileDisplay() {
                 ))}
               </ul>
             </motion.div>
-
           )}
       </AnimatePresence>
 
       <div
-        className={`add-bucket-bar ${bottomScrollShadow ? 'overflow' : ''}`}
+        className={`add-bucket-bar${bottomScrollShadow ? ' overflow' : ''}`}
         onClick={handleToggleAddFolder}
+        onKeyDown={(e) => handleKeyboardAddFolder(e)}
+        tabIndex={0}
+        role="button"
       >
         <span className="bucket-button-elements">
           <div className="bucket-cta-wrapper">
