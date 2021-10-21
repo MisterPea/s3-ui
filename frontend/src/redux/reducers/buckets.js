@@ -15,7 +15,7 @@ import {
 /**
  * Pure function to handle bucket actions
  * @param {Object} state Redux state
- * @param {func} action Action to be executed
+ * @param {function} action Action to be executed
  * @return {Object} state
  */
 export default function buckets(state = [], action) {
@@ -33,7 +33,8 @@ export default function buckets(state = [], action) {
     case CREATE_BUCKET:
       return state.concat([action.bucket]).sort((a, b) => a.Name.localeCompare(b.Name));
     case DELETE_BUCKET:
-      return {};
+      return state.filter((bucket) => (
+        (bucket.Name !== action.bucket && bucket.Region !== action.locale)));
     case ADD_FOLDER:
       return addFolder(action.folderPath, action.folderName, action.bucket, state);
     case DELETE_FOLDER:
