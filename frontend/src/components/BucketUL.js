@@ -13,7 +13,7 @@ function EmptyS3() {
  * Wrapper component that renders list item the component(s).
  * @prop {Object[]} buckets Array of S3 object/buckets
  * @prop {Bool} loading Whether the loading of buckets is active (true) or not (false)
- * @prop {func} onFinish Callback function that is called on the completion of the list animation
+ * @prop {function} onFinish Callback function called on the completion of the list animation
  * @return {JSX} Return a JSX component
  */
 export default function BucketUL({ buckets, loading, onFinish }) {
