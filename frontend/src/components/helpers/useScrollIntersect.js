@@ -12,10 +12,17 @@ export default function useScrollIntersect(dependency, target) {
   const [topScrollShadow, setTopScrollShadow] = useState(false);
   const [bottomScrollShadow, setBottomScrollShadow] = useState(false);
   const [bottomScrollDifference, setBottomScrollDifference] = useState(0);
+  let acquiredTarget;
 
   useLayoutEffect(() => {
-    if (target) {
-      const scrollDiff = target.scrollHeight - target.clientHeight;
+    if (typeof target === 'string') {
+      acquiredTarget = document.querySelector(target);
+    } else {
+      acquiredTarget = target;
+    }
+
+    if (acquiredTarget) {
+      const scrollDiff = acquiredTarget.scrollHeight - acquiredTarget.clientHeight;
       setBottomScrollDifference(scrollDiff);
       if (scrollDiff > 0) {
         setBottomScrollShadow(true);
@@ -28,7 +35,7 @@ export default function useScrollIntersect(dependency, target) {
   function handleScroll(e) {
     const scrollOffset = e.target.scrollTop;
     function topBar() {
-      if (scrollOffset > 6) {
+      if (scrollOffset > 0) {
         return !topScrollShadow && setTopScrollShadow(true);
       }
       return topScrollShadow && setTopScrollShadow(false);
