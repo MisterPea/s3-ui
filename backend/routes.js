@@ -8,6 +8,7 @@ const {
   emptyBucket,
   getBucketContents,
   getBucketContentsForDeletion,
+  getLengthOfBucketObjects,
   addFolder,
   deleteBucketContents,
   deleteBucket,
@@ -39,6 +40,15 @@ router.post('/getBucketContentsForDeletion', jsonParser, (req, res, next) => {
       res.send(data);
     })
     .catch((err) => next(`ERROR in getting contents for deletion: ${err}`));
+});
+
+router.post('/getBucketObjectsLength', jsonParser, (req, res, next) => {
+  const { locale, bucket } = req.body;
+  getLengthOfBucketObjects(locale, bucket)
+    .then((data) => {
+      res.send({ objectLength: data });
+    })
+    .catch((err) => next(`ERROR in getting length of bucket objects: ${err}`));
 });
 
 router.post('/getBucketsAndContents', jsonParser, (req, res, next) => {
@@ -83,6 +93,14 @@ router.post('/deleteFolder', jsonParser, (req, res, next) => {
     locale, bucket, pathToDelete, folderName,
   } = req.body;
   deleteFolder(locale, bucket, pathToDelete, folderName)
+    .then((data) => {
+      res.status(200).send(data);
+    }).catch((err) => next(err));
+});
+
+router.post('/deleteBucket', jsonParser, (req, res, next) => {
+  const { locale, bucket } = req.body;
+  deleteBucket(locale, bucket)
     .then((data) => {
       res.status(200).send(data);
     }).catch((err) => next(err));
