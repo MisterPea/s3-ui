@@ -1,4 +1,4 @@
-# This script clones all your s3 buckets to a local directory (in this case /Users/mothership/Google Drive/JS/S3 FTP/shell scripts/aws-s3-buckets) 
+# This script clones all your s3 buckets to a local directory (in this case: /Users/Shared/aws-s3-buckets) 
 # and then populates the localstack s3 mock with the same files. This allows you to rebuild your localstack mock when needed.
 TEMP_DIR="/Users/Shared/aws-s3-buckets"
 mkdir "$TEMP_DIR"
