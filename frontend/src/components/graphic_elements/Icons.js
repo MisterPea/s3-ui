@@ -1,25 +1,20 @@
 /* eslint-disable no-tabs */
 import * as React from 'react';
+import { IoFolderOutline } from 'react-icons/io5';
+import {
+  FaFileCode,
+  FaFont,
+  FaFilePdf,
+  FaFileVideo,
+  FaFileImage,
+  FaFile,
+  FaFileArchive,
+} from 'react-icons/fa';
 
 export function Zip() {
   return (
     <div className="file-icon">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        x="0"
-        y="0"
-        baseProfile="tiny"
-        overflow="visible"
-        version="1.1"
-        viewBox="0 0 25 35"
-        xmlSpace="preserve"
-      >
-        <g fill="#35537B">
-          <path d="M16.9 1L16 1 16 10 24 10 24 9z" />
-          <path d="M10.1 23.5c0 .1-.1.3-.1.4-.2 0-.3.1-.4.1H6.2c-.1 0-.3-.1-.4-.2s-.1-.2-.1-.4l.2-6c0-.3.2-.5.5-.5H8v-2H6v-2h2v-2H6V9h2V7H6V5h2V3H6V1H1.7c-.4 0-.7.3-.7.7v31.7c0 .3.3.6.7.6h21.7c.4 0 .7-.3.7-.7V12h-9c-.6 0-1-.4-1-1V1H8v2h2v2H8v2h2v2H8v2h2v2H8v2h2v2" />
-          <path d="M6.7 23L9 23 9 18 6.8 18z" />
-        </g>
-      </svg>
+      <FaFileArchive style={{ height: '100%', width: '100%' }} />
     </div>
   );
 }
@@ -27,38 +22,7 @@ export function Zip() {
 export function Image() {
   return (
     <div className="file-icon">
-      <svg
-        version="1.1"
-        baseProfile="tiny"
-        id="Image"
-        xmlns="http://www.w3.org/2000/svg"
-        x="0px"
-        y="0px"
-        viewBox="0 0 25 35"
-        overflow="visible"
-        xmlSpace="preserve"
-      >
-        <g>
-          <path
-            fill="none"
-            d="M9.9,19.3c-0.2-0.3-0.5-0.5-0.9-0.5c-0.4,0-0.7,0.2-0.9,0.5l-5.1,9.7c-0.1,0.3-0.1,0.6,0.1,0.8
-		s0.5,0.4,0.8,0.4l11,0c0,0,0,0,0,0c0,0,0,0,0,0l6,0h0c0.4,0,0.7-0.2,0.9-0.4c0.2-0.3,0.2-0.6,0-0.9L17,21.1
-		c-0.2-0.3-0.5-0.5-0.9-0.5c-0.4,0-0.7,0.2-0.9,0.5l-1.9,3.7L9.9,19.3z M16.2,23.5l3.1,5.1l-3.7,0l-1.1-1.8L16.2,23.5z M11.4,28.6
-		l-5.8,0L9,21.5l4.3,7.1L11.4,28.6z"
-          />
-          <polygon fill="#35537B" points="17,1 16,1 16,8.9 24,8.9 24,8 	" />
-          <path
-            fill="#35537B"
-            d="M14.1,9.7V1H1.7C1.3,1,1,1.3,1,1.6v31.8C1,33.7,1.3,34,1.7,34h21.7c0.4,0,0.7-0.3,0.7-0.6V10.6h-8.9
-		C14.5,10.6,14.1,10.2,14.1,9.7z M19,14c1.1,0,2,1,2,2c0,1-0.9,2-2,2s-2-1-2-2C17,15,17.9,14,19,14z M16.1,20.7
-		c0.4,0,0.7,0.2,0.9,0.5l4.9,7.9c0.2,0.3,0.2,0.6,0,0.9c-0.2,0.3-0.5,0.4-0.9,0.4h0l-6,0c0,0,0,0,0,0c0,0,0,0,0,0l-11,0
-		c-0.3,0-0.7-0.2-0.8-0.4s-0.2-0.6-0.1-0.8l5.1-9.7c0.2-0.3,0.5-0.5,0.9-0.5c0.4,0,0.7,0.2,0.9,0.5l3.4,5.5l1.9-3.7
-		C15.4,20.9,15.7,20.7,16.1,20.7z"
-          />
-          <polygon fill="#35537B" points="19.3,28.6 16.2,23.5 14.5,26.8 15.6,28.6 	" />
-          <polygon fill="#35537B" points="5.6,28.6 11.4,28.6 13.3,28.6 9,21.5 	" />
-        </g>
-      </svg>
+      <FaFileImage style={{ height: '100%', width: '100%' }} />
     </div>
   );
 }
@@ -66,29 +30,7 @@ export function Image() {
 export function Code() {
   return (
     <div className="file-icon">
-      <svg
-        version="1.1"
-        baseProfile="tiny"
-        id="Code"
-        xmlns="http://www.w3.org/2000/svg"
-        x="0px"
-        y="0px"
-        viewBox="0 0 25 35"
-        overflow="visible"
-        xmlSpace="preserve"
-      >
-        <g>
-          <polygon fill="#35537B" points="17,1 16.1,1 16.1,9.9 24,9.9 24,8.9 	" />
-          <path
-            fill="#35537B"
-            d="M14.1,10.9V1H1.7C1.3,1,1,1.3,1,1.7v31.7C1,33.7,1.3,34,1.7,34h21.7c0.4,0,0.7-0.3,0.7-0.7V11.9h-8.9
-  		C14.5,11.9,14.1,11.4,14.1,10.9z M8.2,25.6c0.4,0.4,0.4,1,0,1.4c-0.2,0.2-0.5,0.3-0.7,0.3S7,27.2,6.8,27l-3.6-3.6
-  		c-0.4-0.4-0.4-1,0-1.4L7,18.2c0.4-0.4,1-0.4,1.4,0s0.4,1,0,1.4l-3.1,3.1L8.2,25.6z M16.3,19.6c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0
-  		l3.6,3.6c0.4,0.4,0.4,1,0,1.4L17.6,27c-0.2,0.2-0.5,0.3-0.7,0.3s-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l3.1-3.1L16.3,19.6z
-  		 M11.3,29.9l-1.9-0.5l3.8-14.1l1.9,0.5L11.3,29.9z"
-          />
-        </g>
-      </svg>
+      <FaFileCode style={{ height: '100%', width: '100%' }} />
 
     </div>
   );
@@ -97,33 +39,7 @@ export function Code() {
 export function PDF() {
   return (
     <div className="file-icon">
-      <svg
-        version="1.1"
-        baseProfile="tiny"
-        id="Acrobat"
-        xmlns="http://www.w3.org/2000/svg"
-        x="0px"
-        y="0px"
-        viewBox="0 0 25 35"
-        overflow="visible"
-        xmlSpace="preserve"
-      >
-        <g>
-          <polygon fill="#35537B" points="17,1 16.1,1 16.1,9.9 24,9.9 24,8.9 	" />
-          <path fill="#35537B" d="M11,24.7c0,0,1.6-0.4,2.9-0.7c-0.4-0.4-1.6-2.2-1.6-2.2L11,24.7z" />
-          <path fill="#35537B" d="M4.1,30.1c0,0,0.3,0.6,1.4-0.2c0.8-0.5,2.3-2.3,2.3-3C5.5,27.9,3.5,29.1,4.1,30.1z" />
-          <path fill="#35537B" d="M12.1,14.9c0-1.1-1.1-1.4-1.2,0.1c-0.2,1.2,0.5,3.3,0.5,3.3C11.9,17.4,12.1,15.8,12.1,14.9z" />
-          <path
-            fill="#35537B"
-            d="M14.1,10.9V1H1.7C1.3,1,1,1.3,1,1.7v31.7C1,33.7,1.3,34,1.7,34h21.7c0.4,0,0.7-0.3,0.7-0.7V11.9h-8.9
-		C14.5,11.9,14.1,11.4,14.1,10.9z M19.8,23.6c1.2,0.3,2.1,0.9,2.1,1.9c0,1-0.6,1.7-2.4,1.6s-4-1.4-4.6-2.1c-0.9,0.2-4.5,1-4.8,1.3
-		c-0.3,0.5-2.4,4-4,4.8c-2.9,1.4-4.3-1.4-2-3.1c1.1-1.1,4.2-2.2,4.2-2.2s2.5-5.5,2.5-6.2c-0.2-0.5-1.5-3-0.9-5.2
-		c0.4-0.9,0.8-1.3,1.5-1.3c2.4,0.1,2.7,3,1.2,7.4c0.6,1,1.8,2.8,2.6,3.4C16.1,23.6,18.6,23.3,19.8,23.6z"
-          />
-          <path fill="#35537B" d="M19.1,26.1c0.9,0.1,1.4-0.2,1.4-0.4s0.1-1-0.9-1.1c-0.8-0.1-3.6,0-3.6,0S17.2,25.8,19.1,26.1z" />
-        </g>
-      </svg>
-
+      <FaFilePdf style={{ height: '100%', width: '100%' }} />
     </div>
   );
 }
@@ -131,27 +47,7 @@ export function PDF() {
 export function Default() {
   return (
     <div className="file-icon">
-      <svg
-        version="1.1"
-        baseProfile="tiny"
-        id="Main"
-        xmlns="http://www.w3.org/2000/svg"
-        x="0px"
-        y="0px"
-        viewBox="0 0 25 35"
-        overflow="visible"
-        xmlSpace="preserve"
-      >
-        <g>
-          <polygon fill="#35537B" points="16.1,9.9 24,9.9 24,8.9 17,1 16.1,1 	" />
-          <path
-            fill="#35537B"
-            d="M15.1,11.9c-0.6,0-1-0.4-1-1V1H1.7C1.3,1,1,1.3,1,1.7v31.7C1,33.7,1.3,34,1.7,34h21.7
-		c0.4,0,0.7-0.3,0.7-0.7V11.9H15.1z"
-          />
-        </g>
-      </svg>
-
+      <FaFile style={{ height: '100%', width: '100%' }} />
     </div>
   );
 }
@@ -159,25 +55,7 @@ export function Default() {
 export function Folder() {
   return (
     <div className="folder-icon">
-      <svg
-        version="1.1"
-        baseProfile="tiny"
-        id="Layer_5"
-        xmlns="http://www.w3.org/2000/svg"
-        x="0px"
-        y="0px"
-        viewBox="0 0 35 35"
-        overflow="visible"
-        xmlSpace="preserve"
-      >
-        <path
-          fill="#35537B"
-          d="M31.9,8.3H17.2l-2.7-2.1C14.3,6.1,14.1,6,13.9,6H3C2.4,6,2,6.6,2,7.2C2,9.6,2,25,2,27.7
-	C2,28.4,2.5,29,3.1,29h28.7c0.6,0,1.1-0.6,1.1-1.3V9.7C33,8.9,32.5,8.3,31.9,8.3z M31.1,10.6v16.3H3.9v-14H14c0.8,0,2-1.8,2.5-2.3
-	H31.1z M14,8.6l1.8,1.3l-1.5,1.8c0,0-0.2,0.1-0.4,0.1H4V8.6C4,8.6,14,8.6,14,8.6z"
-        />
-      </svg>
-
+      <IoFolderOutline style={{ height: '100%', width: '100%' }} />
     </div>
   );
 }
@@ -185,30 +63,7 @@ export function Folder() {
 export function Media() {
   return (
     <div className="file-icon">
-      <svg
-        version="1.1"
-        baseProfile="tiny"
-        xmlns="http://www.w3.org/2000/svg"
-        x="0px"
-        y="0px"
-        viewBox="0 0 25 35"
-        overflow="visible"
-        xmlSpace="preserve"
-      >
-        <g id="Main" />
-        <g id="Layer_2">
-          <g>
-            <polygon fill="#35537B" points="17,1 16.1,1 16.1,9.9 24,9.9 24,8.9 		" />
-            <polygon fill="#35537B" points="10,18.8 10,25.2 15.4,22 		" />
-            <path
-              fill="#35537B"
-              d="M14.1,10.9V1H1.7C1.3,1,1,1.3,1,1.7v31.7C1,33.7,1.3,34,1.7,34h21.7c0.4,0,0.7-0.3,0.7-0.7V11.9h-8.9
-			C14.5,11.9,14.1,11.4,14.1,10.9z M18.3,22c0,0.4-0.2,0.7-0.5,0.9l-8.3,5C9.4,28,9.2,28,9,28c-0.2,0-0.3,0-0.5-0.1
-			C8.2,27.7,8,27.4,8,27V17c0-0.4,0.2-0.7,0.5-0.9c0.3-0.2,0.7-0.2,1,0l8.3,5C18.1,21.3,18.3,21.6,18.3,22z"
-            />
-          </g>
-        </g>
-      </svg>
+      <FaFileVideo style={{ height: '100%', width: '100%' }} />
     </div>
   );
 }
@@ -216,30 +71,7 @@ export function Media() {
 export function Font() {
   return (
     <div className="file-icon">
-      <svg
-        version="1.1"
-        baseProfile="tiny"
-        id="Layer_2"
-        xmlns="http://www.w3.org/2000/svg"
-        x="0px"
-        y="0px"
-        viewBox="0 0 25 35"
-        overflow="visible"
-        xmlSpace="preserve"
-      >
-        <g>
-          <polygon fill="#35537B" points="17,1 16.1,1 16.1,9.9 24,9.9 24,8.9 	" />
-          <path
-            fill="#35537B"
-            d="M14.1,10.9V1H1.6C1.3,1,1,1.3,1,1.7v31.7C1,33.7,1.3,34,1.6,34h21.7c0.4,0,0.7-0.3,0.7-0.7V11.9h-8.9
-		C14.5,11.9,14.1,11.4,14.1,10.9z M18.2,17.4c0,0.7-0.6,1-0.9,1c-0.2,0-0.3-0.2-0.4-0.4c-0.2-0.9-0.5-1.2-0.7-1.2s-0.5,0.3-0.8,1
-		c-0.4,0.9-0.7,1.8-0.9,2.8H16c0.1,0.2,0,0.6-0.2,0.7h-1.6c-0.5,1.7-1,3.4-1.5,5c-0.3,0.9-0.6,1.8-1,2.4c-0.4,0.6-1.3,1.2-2.3,1.2
-		C8.7,30,8,29.6,8,28.9C8,28.4,8.5,28,8.9,28c0.2,0,0.3,0.1,0.4,0.2c0.4,0.6,0.7,1,0.8,1c0.2,0,0.3-0.2,0.5-1.1l1.8-6.8h-1.3
-		c-0.1-0.3,0-0.7,0.2-0.7h1.3c0.3-0.8,0.5-1.6,1-2.4c0.6-1.1,1.6-2,3-2C17.7,16.2,18.2,16.7,18.2,17.4z"
-          />
-        </g>
-      </svg>
-
+      <FaFont style={{ height: '100%', width: '100%' }} />
     </div>
   );
 }
