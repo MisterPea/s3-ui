@@ -18,7 +18,7 @@ The basic setup for multipart-uploading is:
 ### To do:
 * [x] Get List of Buckets - Name - Date Created - AWS Region
 * [x] Create New Bucket
-* [ ] Delete Buckets
+* [x] Delete Buckets
 * [ ] Error catching - Bucket Creation
 * [x] Get Files/Folders
 * [x] Framer Motion integration
