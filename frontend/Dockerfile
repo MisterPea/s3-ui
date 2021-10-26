@@ -1,21 +1,23 @@
 # react build production
-FROM node:16-alpine
+FROM node:14-alpine as frontend_build
 
-# WORKDIR /frontend/
+WORKDIR /frontend
 
-# COPY . ./
 COPY package*.json ./
 COPY webpack.config.js ./
-COPY src/index.html ./src/
-COPY src/index.js ./src/
-COPY src/components/ ./src/components/
-COPY src/style/ ./src/style/
-COPY src/redux/ ./src/redux/
 
+RUN npm install npm@latest
 RUN npm install
-# RUN npm ci --loglevel warn
 
-EXPOSE 8080
+COPY . ./
 
-# RUN npm start
-CMD ["npm", "start"]
+RUN npm run build
+
+# server environment
+FROM nginx:alpine
+COPY /nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=frontend_build /frontend/dist /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
