@@ -7,7 +7,10 @@ const {
   ListObjectsV2Command,
   PutObjectCommand,
   DeleteBucketCommand,
+  GetObjectCommand,
 } = require('@aws-sdk/client-s3');
+const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
+
 const { tree, isPathDeletable } = require('./utilities');
 
 const region = 'us-east-1';
@@ -59,6 +62,19 @@ function getBuckets(client) {
       logError('Getting buckets', err);
       return err;
     });
+}
+
+/**
+ * Method to get the length of bucket objects
+ * @param {string} locale Region the bucket resides
+ * @param {*} bucketName Name of the bucket
+ * @return {Number} Returns the number of objects
+ */
+function getLengthOfBucketObjects(locale, bucketName) {
+  const s3 = newClient(locale);
+  return s3.send(new ListObjectsV2Command({ Bucket: bucketName }))
+    .then(({ KeyCount }) => KeyCount)
+    .catch((err) => { throw new TypeError(`Error retireving object length: ${err}`); });
 }
 
 /**
@@ -142,25 +158,22 @@ function deleteBucket(locale, bucketName) {
 
   return s3.send(new DeleteBucketCommand({ Bucket: bucketName }))
     .then(() => ({ status: 200 }))
-    .catch((err) => {
-      logError('Deleting bucket', err);
-      return { status: err };
-    });
+    .catch((err) => { throw new TypeError(err); });
 }
 
-/**
- * Method to empty/delete files from a bucket
- * @param {string} locale The region the bucket is located
- * @param {string} bucketName Name of the bucket to be emptied
- */
-function emptyBucket(locale, bucketName) {
-  getBucketContents(locale, bucketName)
-    .then((data) => {
-      const contents = data.map(({ Key }) => ({ Key }));
-      deleteBucketContents(bucketName, locale, contents);
-    })
-    .catch((err) => console.log(err));
-}
+// /**
+//  * Method to empty/delete files from a bucket
+//  * @param {string} locale The region the bucket is located
+//  * @param {string} bucketName Name of the bucket to be emptied
+//  */
+// function emptyBucket(locale, bucketName) {
+//   getBucketContents(locale, bucketName)
+//     .then((data) => {
+//       const contents = data.map(({ Key }) => ({ Key }));
+//       deleteBucketContents(bucketName, locale, contents);
+//     })
+//     .catch((err) => console.log(err));
+// }
 
 /**
  * Method to empty/delete files/folders from a bucket.
@@ -179,10 +192,7 @@ function deleteBucketContents(bucketName, locale, keys) {
   };
   return s3.send(new DeleteObjectsCommand(params))
     .then((data) => data)
-    .catch((err) => {
-      logError('Deleting bucket contents', err);
-      return err;
-    });
+    .catch((err) => { throw new TypeError(err); });
 }
 
 /**
@@ -268,14 +278,28 @@ function deleteFolder(locale, bucket, pathToDelete, folderName) {
     }).catch((err) => { throw new TypeError(err); });
 }
 
+function downloadFile(locale, bucket, key) {
+  const s3 = newClient(locale);
+  const params = {
+    Bucket: bucket,
+    Key: key,
+  };
+  const command = new GetObjectCommand(params);
+  return getSignedUrl(s3, command)
+    .then((url) => url)
+    .catch((err) => { throw new TypeError(err); });
+}
+
 module.exports = {
   getAllBuckets,
   createBucket,
   getBucketContents,
   getBucketContentsForDeletion,
-  emptyBucket,
+  getLengthOfBucketObjects,
+  // emptyBucket,
   deleteBucketContents,
   addFolder,
   deleteBucket,
   deleteFolder,
+  downloadFile,
 };
