@@ -31,3 +31,7 @@ frontend/src/components/style-delete/styles.scss
 frontend/dist/index.bundle.js
 frontend/dist/index.bundle.js.LICENSE.txt
 frontend/dist/index.html
+data/.localstack
+data/server.test.pem
+data/server.test.pem.crt
+data/server.test.pem.key
