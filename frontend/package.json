@@ -43,12 +43,12 @@
     "scss": "^0.2.4",
     "style-loader": "^2.0.0",
     "webpack": "^5.38.1",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.3.1"
   },
   "scripts": {
     "start-docker": "webpack-dev-server --host: 0.0.0.0",
-    "start": "webpack-dev-server", 
+    "start": "webpack-dev-server",
     "build": "NODE_ENV='production' webpack",
     "test": "jest --env=jsdom --watchAll"
   },
