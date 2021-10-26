@@ -164,12 +164,12 @@ export default function FileDisplay() {
       <div className="file-header-wrapper">
         <div className="add-file-wrapper">
           <div className="add-file">
-            <p>Add file(s)</p>
+            <h3>ADD FILE(S)</h3>
             <IoAddCircleSharp className="add-file-plus" />
           </div>
         </div>
         <div className={`file-display ${topScrollShadow ? 'overflow' : ''}`}>
-          <h3 className="name-header">Name</h3>
+          <h3 className="name-header">NAME</h3>
           <h3 className="last-modified-header">Last Modified</h3>
           <h3 className="size-header">Size</h3>
           <h3 className="options-header">Options</h3>
@@ -224,7 +224,7 @@ export default function FileDisplay() {
       >
         <span className="bucket-button-elements">
           <div className="bucket-cta-wrapper">
-            <h3>Add Folder</h3>
+            <h3>ADD FOLDER</h3>
             <IoAddCircleSharp className="add-bucket-plus" />
           </div>
         </span>
