@@ -3,26 +3,41 @@ version: "3.9"
 services: 
   frontend:
     build: ./frontend
-    # image: "s3-frontend"
-    ports: 
-      - "8080:8080"
+    image: "frontend:1.0.0"
+    networks: 
+      - local_S3
     
   backend:
     build: ./backend
-    # image: "s3-backend"
-    ports: 
-      - "3200:3200"
+    image: "backend:1.0.0"
+    networks:
+      - local_S3
    
-  mock-s3:
+  localstack:
     image: localstack/localstack:latest
+    hostname: localstack
+    networks:
+      - local_S3
     ports:
-      - "4566-4583:4566-4583"
+      # - "4566:4566"
     environment:
       - AWS_DEFAULT_REGION=us-east-1
-      - EDGE_PORT=4566
       - SERVICES=s3
       - DEBUG=1
-      - DATA_DIR=/tmp/localstack/data
+      - HOST_TMP_FOLDER=${TMPDIR}
+      - HOSTNAME_EXTERNAL=localstack
     volumes:
-      - "./.tmp/localstack}:/tmp/localstack"
+      - ./data:/tmp/localstack
       - "/var/run/docker.sock:/var/run/docker.sock"
+
+  revproxy:
+    build: ./nginx
+    image: "revproxy:1.0.0"
+    networks:
+      - local_S3
+    ports:
+      - "80:80"
+    
+networks:
+  local_S3:
+    
