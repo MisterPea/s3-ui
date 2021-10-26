@@ -12,22 +12,61 @@ html {
 }
 
 body {
-  margin: 0;
   padding: 0;
-  background-color: #343541;
+  // background-color: #003d59;
+  background-color: #232f3e;
+  // background-color: #004362;
 }
 
 html,
-body {
-  overflow-x: hidden;
+body,
+#root {
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
 }
 
-.main-body-wrapper {
-  padding: 0 5px;
-  max-width: 1200px;
-  margin: 0 auto;
-  @include phone {
-    padding: 0 50px;
+.main-wrapper {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-component {
+  flex: 1 1 112px;
+  height: 112px;
+  display: flex;
+  flex-direction: column;
+  & + .main-body-wrapper {
+    height: 100%;
+    height: calc(100% - 112px);
+    padding: 0 5px;
+    max-width: 1200px;
+    margin: 0;
+    flex: 1 1 100%;
+    @include phone {
+      padding: 0 50px;
+    }
+  }
+}
+
+.nav-component-bucket {
+  flex: 1 1 150px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  & + .main-body-wrapper {
+    height: 100%;
+    height: calc(100% - 150px);
+    padding: 0 5px;
+    max-width: 1200px;
+    margin: 0;
+    flex: 1 1 100%;
+    @include phone {
+      padding: 0 50px;
+    }
   }
 }
 
@@ -35,73 +74,61 @@ a {
   text-decoration-line: none;
 }
 
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+}
+
 /* ***************************************** */
 /* **************** Nav Bar **************** */
 /* ***************************************** */
-
 .nav-bar {
+  flex: 1;
+  position: relative;
   display: flex;
+
+  .logo-lg {
+    width: 180px;
+    height: 35px;
+  }
+
+  .bucket-id-loc {
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    padding-left: 15px;
+    width: 60%;
+
+    .bucket-name {
+      @include type-bold;
+      color: #fff;
+      font-size: 18px;
+      letter-spacing: 0.05rem;
+      margin: 0;
+      @include text-overflow-ellipsis;
+    }
+    .bucket-region {
+      @include type-reg;
+      font-size: 12px;
+      color: #fff;
+      margin: 0;
+    }
+  }
 }
 
-.logo-lg {
-  flex-shrink: 0;
-  width: 40%;
-}
-
-.empty-s3,
-.empty-bucket {
-  color: $white;
-  @include type-reg;
-  text-align: center;
-}
-
-.bucket-id-loc {
+.breadcrumb-wrapper {
+  flex: 2;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  padding-left: 20px;
-  width: 60%;
-}
-.buckets-number {
-  @include type-bold;
-  color: $white;
-  font-size: 20px;
-  margin: 30px auto;
-  text-align: center;
+  justify-content: center;
 }
 
 .contact-btn {
   display: none;
-  @include phone {
-    @include type-reg;
-    color: $white;
-    margin: 0;
-    padding: 10px;
-    cursor: pointer;
-    opacity: 0.7;
-    transition: opacity 350ms;
-    &:hover {
-      opacity: 1;
-    }
-  }
-  font-size: 15px;
-  align-self: flex-start;
-}
-
-.bucket-name {
-  @include type-bold;
-  color: #fff;
-  font-size: 17px;
-  letter-spacing: 0.08rem;
-  margin: 0;
-  @include text-overflow-ellipsis;
-}
-
-.bucket-region {
-  @include type-reg;
-  font-size: 10px;
-  color: #fff;
-  margin: 0;
 }
 
 /* ***************************************** */
@@ -111,18 +138,14 @@ a {
 .breadcrumb-ul {
   width: calc(100% - 10px);
   @include type-reg;
-  color: #fff;
+  color: #c6d0db;
   font-size: 15px;
-  margin-top: 20px;
-  margin-bottom: 20px;
   margin-left: 10px;
   mask-image: linear-gradient(270deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 10%);
   -webkit-mask-image: linear-gradient(270deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 10%);
-
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
-
   -ms-overflow-style: -ms-autohiding-scrollbar;
   &::-webkit-scrollbar {
     display: none;
@@ -137,18 +160,59 @@ a {
     padding-right: 10px;
     .breadcrumb-link {
       text-decoration: underline;
+      color: #e1ecf7;
       @include type-bold;
     }
   }
 }
 
 /* ***************************************** */
-/* ***************** Table ***************** */
+/* ************** Table - Rows ************* */
 /* ***************************************** */
+.empty-s3,
+.empty-bucket {
+  color: $white;
+  @include type-reg;
+  text-align: center;
+}
+
+.bucket-number-wrapper {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.buckets-number {
+  @include type-bold;
+  color: $white;
+  font-size: 20px;
+  margin: -5px auto 0;
+  text-align: center;
+}
+
+.file-display-wrapper,
+.bucket-display-wrapper {
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.file-header-wrapper,
+.bucket-header-wrapper {
+  position: relative;
+  margin-bottom: 4px;
+}
+
+.ul-wrapper {
+  position: relative;
+  overflow: auto;
+  z-index: 5;
+}
 
 .add-file-wrapper {
   cursor: pointer;
-  background-color: $green;
+  background-color: $aws-blue;
   border-top-right-radius: 12px;
   border-top-left-radius: 4px;
   display: inline-block;
@@ -156,15 +220,17 @@ a {
   align-items: center;
   flex-direction: column;
   .add-file {
+    position: relative;
     margin: 6px 10px;
     display: flex;
     align-items: center;
-    @include type-reg;
+    @include type-bold;
     color: $white;
   }
-  p {
+  h3 {
     margin: 0;
-    font-size: 15px;
+    font-size: 13px;
+    letter-spacing: 0.05rem;
   }
   .add-file-plus {
     margin: 0 5px;
@@ -172,179 +238,42 @@ a {
   }
 }
 
+.file-display,
 .bucket-display {
-  margin-top: 0px;
   width: 100%;
-  background-color: #52535d;
-  display: flex;
-  border-radius: 10px 10px 0 0;
-  @include phone {
-    height: 35px;
-  }
-}
-
-.file-display {
-  margin-top: 0;
-  width: 100%;
-  background-color: #52535d;
+  background-color: $blue-text;
   display: flex;
   border-radius: 0 10px 0 0;
-  @include phone {
-    height: 35px;
+  height: 35px;
+  position: relative;
+  z-index: 10;
+  box-shadow: 0;
+  transition: box-shadow 0.2s ease-in-out;
+  &.overflow {
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 10px 20px, rgba(0, 0, 0, 0.3) 0px 6px 6px;
   }
-}
-
-.table-head {
   h3 {
     @include type-bold;
     text-align: center;
+    align-self: center;
     margin: 0;
-    letter-spacing: 0.16rem;
-    color: rgb(200, 200, 200);
-    padding: 6px 0;
-    font-size: 18px;
-    @include phone {
-      font-size: 18px;
-      padding: 5px 0;
-    }
+    color: $white;
+    padding: 0;
+    font-size: 16px;
   }
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.bucket-row {
-  background-color: #fff;
-  display: flex;
-  width: 100%;
-  margin-top: 5px;
-  cursor: pointer;
-
-  p {
-    @include type-reg;
-    color: #35537b;
-    margin: 0;
-    justify-content: center;
-    text-decoration: none;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 17px;
-    letter-spacing: -0.015em;
-  }
-}
-
-.bucket-table-data {
-  display: flex;
-  align-items: center;
-  height: 35px;
-  padding: 4px 0;
-}
-.file-folder-li {
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-.file-row {
-  background-color: #fff;
-  display: flex;
-  width: 100%;
-  cursor: pointer;
-  justify-content: space-between;
-  height: 40px;
-  position: relative;
-  margin: 1px 0;
-
-  .file-row-left {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    height: 100%;
-
-    p {
-      @include type-reg;
-      color: $blue-text;
-      margin: 0;
-      justify-content: center;
-      text-decoration: none;
-      @include text-overflow-ellipsis;
-      font-size: 16px;
-      letter-spacing: -0.015em;
-      padding: 0;
-    }
-  }
-  .file-row-right {
-    color: $blue-text;
-    height: 100%;
-    padding: 0 10px;
-    width: 50px;
-  }
-}
-
-.icon-wrapper {
-  width: 50px;
-  flex-shrink: 0;
-  display: flex;
-  justify-content: space-around;
-}
-.folder-icon {
-  height: 28px;
-  width: 28px;
-  flex-shrink: 0;
-}
-
-.file-icon {
-  height: 28px;
-  width: 20px;
-  flex-shrink: 0;
-}
-
-.bucket-logo {
-  height: 24px;
-  width: 24px;
-  margin: 0 10px;
-  flex-shrink: 0;
-}
-
-.name-header,
-.name {
-  width: 95%;
-  @include phone {
-    width: 50%;
-  }
-}
-
-.date-header,
-.date {
-  display: none;
-  @include phone {
-    width: 30%;
-  }
-}
-
-.region-header,
-.region {
-  display: none;
-  @include phone {
-    width: 20%;
-  }
-}
-
-/* ***************************************** */
-/* ********** File-specific table ********** */
-/* ***************************************** */
-.file-display {
-  .name-header {
+  .name-header,
+  .bucket-name-header {
     justify-content: start;
     text-align: left;
-    padding-left: 45px;
+    padding-left: 50px;
+  }
+}
+
+.bucket-display {
+  border-radius: 10px 10px 0 0;
+  justify-content: space-around;
+  .bucket-name-header {
+    padding-left: 0;
   }
 }
 
@@ -353,6 +282,11 @@ ul {
   @include phone {
     display: block;
   }
+}
+
+.bucket-date-header,
+.bucket-region-header {
+  display: none;
 }
 
 .size-header {
@@ -369,7 +303,69 @@ ul {
   }
 }
 
-.file-row {
+.file-folder-li,
+.bucket-li {
+  margin-bottom: 1px;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.file-row-wrapper {
+  position: relative;
+}
+
+.file-row,
+.bucket-row {
+  background-color: #fff;
+  display: flex;
+  cursor: pointer;
+  justify-content: space-between;
+  height: 40px;
+  position: relative;
+
+  .file-row-left,
+  .bucket-row-left {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    height: 100%;
+    min-width: 0;
+
+    a {
+      width: 100%;
+    }
+    .bucket-row-wrapper {
+      display: flex;
+      align-items: center;
+    }
+    p {
+      @include type-reg;
+      color: $blue-text;
+      margin: 0;
+      justify-content: center;
+      text-decoration: none;
+      @include text-overflow-ellipsis;
+      font-size: 16px;
+      // letter-spacing: -0.015em;
+      padding: 0;
+    }
+  }
+
+  .file-row-right,
+  .bucket-row-right {
+    color: $blue-text;
+    height: 100%;
+    padding: 0 10px;
+    width: 50px;
+    right: 0;
+  }
   .last-modified,
   .size {
     display: none;
@@ -379,20 +375,143 @@ ul {
   }
 }
 
-/* ***************************************** */
-/* **************** Lower Bar ****************/
-/* ***************************************** */
+.file-row {
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 10px 20px, rgba(0, 0, 0, 0.35) 0px 6px 6px;
+  z-index: 11;
+}
+
+.bucket-table-data {
+  display: none;
+}
+
+.icon-wrapper,
+.bucket-icon-wrapper {
+  width: 50px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.folder-icon,
+.bucket-icon {
+  height: 25px;
+  width: 25px;
+  flex-shrink: 0;
+  color: $blue-text;
+}
+
+.file-icon {
+  height: 25px;
+  width: 25px;
+  flex-shrink: 0;
+  color: $blue-text;
+}
+
+.descend-menu {
+  position: relative;
+  display: flex;
+  max-height: 0px;
+  overflow: hidden;
+  background-color: $blue-text;
+  padding-bottom: 0;
+  padding-top: 0;
+  transition: all 280ms ease-in-out;
+  &.visible-folder {
+    padding-top: 1px;
+    padding-bottom: 5px;
+    max-height: 51px;
+  }
+  .left-buttons {
+    display: flex;
+    width: 100%;
+    margin-right: 20px;
+    margin-left: 10px;
+    height: 45px;
+    .descend-menu-button {
+      max-width: 140px;
+      height: 100%;
+      border: none;
+      flex: 1 0;
+      background-color: rgb(250, 250, 250);
+      &:first-child {
+        margin-left: 5px;
+        margin-right: 1px;
+        border-bottom-left-radius: 5px;
+      }
+      &:last-child {
+        margin-left: 1px;
+        margin-right: 5px;
+        border-bottom-right-radius: 5px;
+      }
+      .content-wrapper {
+        margin: 5px auto 0;
+        display: inline-block;
+        .descend-menu-content {
+          display: flex;
+          flex-wrap: nowrap;
+          align-items: center;
+          width: min-content;
+          // justify-content: space-around ;
+          svg {
+            color: $aws-blue;
+            height: 25px;
+            width: 25px;
+            margin-right: 5px;
+          }
+          p {
+            margin: 0;
+            margin-left: 5px;
+            color: $blue-text;
+            font-size: 0.8rem;
+            @include type-bold;
+          }
+        }
+      }
+    }
+  }
+  .descend-menu-button-delete {
+    margin-right: 5px;
+    margin-top: 5px;
+    align-self: center;
+    border-radius: 100%;
+    border: 1px solid rgb(78, 22, 22);
+    height: 40px;
+    width: 40px;
+    flex-shrink: 0;
+    background-color: rgb(211, 25, 25);
+    padding: 0;
+    .descend-menu-content {
+      height: 25px;
+      width: 25px;
+      margin: 0 auto;
+      padding: 0;
+      svg {
+        color: rgb(255, 255, 255);
+        height: 25px;
+        width: 25px;
+      }
+    }
+  }
+}
 
 .add-bucket-bar {
-  height: 35px;
-  margin: 5px 0 0;
-  background-color: #93bf98;
+  flex: 1 0 35px;
+  height: 100px;
+  margin-top: 2px;
+  background-color: $aws-blue;
   border-radius: 2px 2px 20px 20px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  position: relative;
+  z-index: 10;
+  box-shadow: 0;
+  transition: box-shadow 0.2s ease-in-out;
+  &.overflow {
+    box-shadow: rgba(0, 0, 0, 0.25) 0px -10px 20px, rgba(0, 0, 0, 0.3) 0px -6px 10px;
+  }
 
   .bucket-cta-wrapper {
     display: flex;
@@ -443,6 +562,7 @@ ul {
     color: $blue-text;
     margin-top: 18px;
   }
+
   .basic-input {
     @include type-reg;
     font-size: 100%;
@@ -462,7 +582,7 @@ ul {
     padding: 10px;
     background-color: #93bf9841;
     border-radius: 4px;
-    letter-spacing: 00.03rem;
+    // letter-spacing: 00.03rem;
   }
 
   li {
@@ -484,10 +604,10 @@ ul {
     display: block;
     margin: 0 auto;
     border: none;
-    background-color: $green;
+    background-color: $aws-blue;
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
     &:disabled {
-      background-color: $green-disabled;
+      background-color: $aws-blue-disabled;
       transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
     }
   }
@@ -495,7 +615,6 @@ ul {
 
 .modal-wrapper {
   padding: 0 15px 20px;
-  // position: relative;
 }
 
 .modal-close-button {
@@ -512,7 +631,6 @@ ul {
 
 .region-select-header {
   @include type-bold;
-
   font-size: 14px;
   color: $blue-text;
   margin-top: 20px;
@@ -523,7 +641,7 @@ ul {
 .region-radio-ul {
   padding: 0;
   @include type-reg;
-  letter-spacing: -0.015em;
+  // letter-spacing: -0.015em;
 }
 
 .region-radio-li {
@@ -559,105 +677,88 @@ ul {
 /* ***************************************** */
 /* ************* Folder Modal ************** */
 /* ***************************************** */
-
 .modal-button-group {
   display: flex;
   flex-direction: column;
-  // width: fit-content;
-  // margin: 0 auto;
-  .option-button {
-    @include type-reg;
-    border: none;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: fit-content;
-    margin: 2px 0;
-    flex-direction: row;
+}
+
+/* ***************************************** */
+/* ************** File Modal *************** */
+/* ***************************************** */
+.modal-header {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+  svg {
     height: 40px;
-    .option-content {
-      display: flex;
-      flex-direction: row;
-      .option-title {
-        align-self: center;
-        font-size: 18px;
-        white-space: nowrap;
-        margin: 0;
-        flex: 1;
-        color: $blue-text;
-      }
-      .folder-option-icon {
-        margin: 10px;
-        width: 25px;
-        height: 25px;
-        flex: 1;
-        color: $blue-text;
-      }
-      // .delete {
-      //   color: rgb(175, 61, 61);
-      // }
-      // .upload {
-      //   color: $green;
-      // }
-    }
+    width: 40px;
+    color: $aws-blue;
+  }
+  h3 {
+    color: $blue-text;
+    margin: 0;
+    margin-left: 10px;
   }
 }
 
-.folder-tooltip-menu {
-  position: absolute;
-  right: 40px;
-  top: -20px;
-  .tooltip-button-group {
+.file-info-body {
+  margin-left: 40px;
+  margin-bottom: 20px;
+  .file-info {
     display: flex;
-    position: relative;
-    flex-direction: column;
-    width: fit-content;
-    background-color: $white;
-    border-radius: 4px;
-    z-index: 10000;
-    filter: drop-shadow(0 0 0.35rem rgba(38, 57, 77, 0.7));
-    -webkit-filter: drop-shadow(0 0 0.35rem rgba(38, 57, 77, 0.7));
-    &::before {
-      content: "";
-      position: absolute;
-      left: 100%;
-      top: 40%;
-      width: 0;
-      border-left: 8px solid white;
-      border-top: 8px solid transparent;
-      border-bottom: 8px solid transparent;
-      z-index: 10000;
+    align-items: center;
+    margin-bottom: 5px;
+    &:last-child {
+      margin-bottom: 0;
     }
-    .option-button {
-      @include type-reg;
-      border: none;
+    h4 {
+      color: $blue-text;
+      margin: 0;
+      white-space: nowrap;
+      font-size: 0.7rem;
+      align-self: end;
+    }
+    p {
+      margin: 0;
+      @include text-overflow-ellipsis;
+    }
+  }
+}
+.file-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  button {
+    border: none;
+    width: 100%;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background-color: rgb(232,232,232);
+    border-radius: 5px;
+    &:first-child{
+      margin-bottom: 10px;
+    }
+    .button-content-wrapper {
+      height: 50px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      width: fit-content;
-      background: none;
-      margin: 4px;
-      flex-direction: row;
-      height: 30px;
-      .option-content {
-        display: flex;
-        flex-direction: row;
-        .option-title {
-          align-self: center;
-          font-size: 17px;
-          white-space: nowrap;
-          margin: 0;
-          margin-left: 5px;
-          // flex: 1;
-          color: $blue-text;
+      margin: 0 auto;
+      .file-icon {
+        margin-right: 5px;
+        
+        svg {
+          height: 100%;
+          width: 100%;
+          color: $aws-blue;
+          
         }
-        .folder-option-icon {
-          margin: 5px;
-          width: 20px;
-          height: 20px;
-          flex: 1;
-          color: $blue-text;
-        }
+    
+      }
+      h2 {
+        @include type-bold;
+        color: $blue-text;
+        font-size: 0.8rem;
+        margin-left: 5px;
       }
     }
   }
