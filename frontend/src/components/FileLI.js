@@ -1,13 +1,14 @@
 import * as React from 'react';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import propTypes from 'prop-types';
-import { IoEllipsisVerticalCircle } from 'react-icons/io5';
+import { IoEllipsisVerticalCircle, IoInformationCircleSharp } from 'react-icons/io5';
 import { Folder } from './graphic_elements/Icons';
 import FileIcon from './helpers/FileIcon';
 import FolderDropdown from './FolderDropdown';
 import FolderDeleteModal from './FolderDeleteModal';
 import FolderUploadModal from './FolderUploadModal';
 import ModalComponentWrapper from './ModalComponentWrapper';
+import FileModal from './FileModal';
 
 /**
  * Component to render a folder or a file
@@ -23,16 +24,21 @@ import ModalComponentWrapper from './ModalComponentWrapper';
 export default function FileLI({
   bucket, type, name, lastModified = null, size = null, filePath = null, folderClick, locale,
 }) {
+  // For Both
   const [toggleTooltip, setToggleTooltip] = useState(false);
-  const [toggleDeleteModal, setToggleDeleteModal] = useState(false);
+  // For Folders
+  const [toggleDeleteFolderModal, setToggleDeleteFolderModal] = useState(false);
   const [toggleUploadModal, setToggleUploadModal] = useState(false);
-  const isOpenRef = useRef(false);
+
+  // For Files
+  const [toggleFileModal, setToggleFileModal] = useState(false);
 
   function onKeyDownFolder(e) {
     e.preventDefault();
     if (e.key === 'Enter') folderClick(filePath);
   }
 
+  // *********** Folder *********** //
   function handleToggleTooltip() {
     setToggleTooltip((s) => !s);
   }
@@ -42,7 +48,7 @@ export default function FileLI({
   }
 
   function handleDeleteModal() {
-    setToggleDeleteModal((s) => !s);
+    setToggleDeleteFolderModal((s) => !s);
   }
 
   function handleUploadModal() {
@@ -70,13 +76,12 @@ export default function FileLI({
         </div>
         <FolderDropdown
           isOpen={toggleTooltip}
-          isOpenRef={isOpenRef}
-          toggleDeleteModal={handleDeleteModal}
+          toggleDeleteFolderModal={handleDeleteModal}
           toggleUploadModal={handleUploadModal}
           closeDropdown={handleToggleTooltip}
           buttonClick={handleCloseTooltip}
         />
-        { toggleDeleteModal
+        { toggleDeleteFolderModal
     && (
     <ModalComponentWrapper close={handleDeleteModal}>
       <FolderDeleteModal
@@ -96,6 +101,13 @@ export default function FileLI({
       </div>
     );
   }
+
+  // ************ File ************ //
+  function handleToggleFileModal() {
+    setToggleFileModal((s) => !s);
+  }
+  const downloadInfo = { locale, bucket, filePath };
+  const fileInfo = { name, lastModified, size };
   return (
     <div className="file-row-wrapper">
       <div
@@ -111,10 +123,20 @@ export default function FileLI({
           <p className="file-table-data last-modified">{lastModified}</p>
           <p className="file-table-data size">{size}</p>
         </div>
-        <IoEllipsisVerticalCircle
+        <IoInformationCircleSharp
           className="file-row-right"
+          onClick={handleToggleFileModal}
         />
       </div>
+      {toggleFileModal
+        && (
+        <ModalComponentWrapper close={handleToggleFileModal}>
+          <FileModal
+            fileInfo={fileInfo}
+            downloadInfo={downloadInfo}
+          />
+        </ModalComponentWrapper>
+        )}
     </div>
   );
 }
