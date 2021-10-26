@@ -13,6 +13,7 @@ const {
   deleteBucketContents,
   deleteBucket,
   deleteFolder,
+  downloadFile,
 } = require('./S3_topLevelMethods');
 
 router.get('/getBucketList', (req, res) => {
@@ -104,6 +105,15 @@ router.post('/deleteBucket', jsonParser, (req, res, next) => {
     .then((data) => {
       res.status(200).send(data);
     }).catch((err) => next(err));
+});
+
+router.post('/downloadFile', jsonParser, (req, res, next) => {
+  const { locale, bucket, key } = req.body;
+  downloadFile(locale, bucket, key)
+    .then((url) => {
+      res.send(url);
+    })
+    .catch((err) => next(err));
 });
 
 module.exports = router;
