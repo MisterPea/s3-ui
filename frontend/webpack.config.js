@@ -2,13 +2,19 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  resolve: {
+    fallback: {
+      stream: require.resolve('stream-browserify'),
+      buffer: require.resolve('buffer'),
+    },
+  },
   entry: {
-    main: path.resolve(__dirname) + '/src/index.js',
+    main: `${path.resolve(__dirname)}/src/index.js`,
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'index.bundle.js',
-    // publicPath: "/",
+    publicPath: '/',
   },
   module: {
     rules: [
@@ -35,10 +41,10 @@ module.exports = {
     ],
   },
   plugins: [new HtmlWebpackPlugin({ template: './src/index.html' })],
-  mode: process.env.NODE_ENV == 'production' ? 'production' : 'development',
+  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   devServer: {
     historyApiFallback: true,
-    inline: true,
+    // inline: true,
     host: '192.168.1.152',
   },
 };
