@@ -4,8 +4,7 @@
 
   letter-spacing: 0.04rem;
   // margin-top: 0;
- 
-  
+
   .center-warning {
     text-align: center;
     margin: 0 auto;
@@ -17,7 +16,7 @@
       margin-top: 0;
       padding: 10px 14px;
       text-align: center;
-      // background-color: rgba(255, 0, 0, 0.1); 
+      // background-color: rgba(255, 0, 0, 0.1);
       line-height: 1.35rem;
       border-radius: 4px;
     }
@@ -47,12 +46,97 @@
   font-size: 100%;
   padding: 6px 6px;
   width: 100%;
-  background-color: rgba(192, 169, 169, 0.1); 
-  color:rgb(143, 47, 47);
+  background-color: rgba(192, 169, 169, 0.1);
+  color: rgb(143, 47, 47);
   border-radius: 3px;
   border: 1px rgb(99, 99, 99) solid;
   text-align: center;
   &:placeholder-shown {
     font-style: italic;
   }
-} 
+}
+
+// *** Delete File - Modal - Overlay *** //
+.delete-confirmation {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 40px 0;
+  position: absolute;
+  width:100%;
+  height:100%;
+  background-color: rgb(255, 255, 255);
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+  &.visible {
+    opacity: 1;
+    display: flex;
+  }
+  header {
+    svg {
+      height: 50px;
+      width: 50px;
+      color: $warning-red;
+    }
+    text-align: center;
+    h3 {
+      @include type-bold;
+        color: $blue-text;
+        font-size: 1.125rem;
+    }
+    p {
+      @include type-reg;
+      color: $blue-text;
+      span {
+        font-style: italic;  
+      }
+    }
+
+    & * {
+      margin: 0;
+    }
+  }
+  .delete-modal-lower {
+    flex:1;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+// delete confirmation buttons
+.delete-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  button {
+    border: none;
+    width: 100%;
+    height:40px;
+    // flex: 1 1;
+    display: flex;
+    align-items: center;
+    background-color: rgb(232,232,232);
+    border-radius: 5px;
+    &:first-child{
+      margin-bottom: 20px;
+      background-color: $warning-red;
+    }
+    .button-content-wrapper {
+      height: 50px;
+      display: flex;
+      align-items: center;
+      margin: 0 auto;
+      .delete {
+        color: $white;
+      }
+      h2 {
+        @include type-bold;
+        color: $blue-text;
+        font-size: 0.85rem;
+        margin-left: 5px;
+      }
+    }
+  }
+}
+
+

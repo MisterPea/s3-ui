@@ -11,9 +11,10 @@ $orange: rgb(224, 135, 33);
 $green-disabled: #cee0d1;
 $white: #fff;
 $white-disabled: rgb(243, 243, 243);
+$warning-red: #ff0f0f;
 
 // @import url("https://use.typekit.net/wgv2kbv.css");
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");
 
 // @mixin type-reg {
 //   font-family: pt-mono, monospace;
@@ -22,14 +23,14 @@ $white-disabled: rgb(243, 243, 243);
 // }
 
 @mixin type-reg {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 400;
   letter-spacing: 0.05rem;
   font-style: normal;
 }
 
 @mixin type-bold {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 700;
   letter-spacing: 0.05rem;
   font-style: normal;

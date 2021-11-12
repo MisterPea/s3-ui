@@ -27,6 +27,10 @@ body,
   border: 0px;
 }
 
+button {
+  cursor: pointer;
+}
+
 .main-wrapper {
   height: 100%;
   margin: 0;
@@ -554,6 +558,7 @@ li {
   background-color: $white;
   @include type-reg;
   font-size: 13px;
+  position: relative;
 
   h1 {
     @include type-bold;
@@ -615,9 +620,13 @@ li {
 
 .modal-wrapper {
   padding: 0 15px 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .modal-close-button {
+  position: relative;
+  z-index: 100;
   float: right;
   height: 24px;
   width: 24px;
@@ -752,7 +761,6 @@ li {
           color: $aws-blue;
           
         }
-    
       }
       h2 {
         @include type-bold;
