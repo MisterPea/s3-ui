@@ -61,12 +61,13 @@ export function addFolder(targetPath, folderName, bucketName, state) {
 
 /**
  * Method to return a new state array with the proper folder removed
+ * @param {string} objectType Type of object to delete (either `folder` or `file`)
  * @param {string} bucketName Name of bucket folder resides
  * @param {string} pathToDelete Absolute path of folder to be deleted
  * @param {Object[]} state Array of arrays of objects
  * @return New array with the proper folder deleted
  */
-export function deleteFolder(bucketName, pathToDelete, state) {
+export function deleteObject(objectType, bucketName, pathToDelete, state) {
   return state.map((bucket) => (bucket.Name === bucketName
     ? {
       ...bucket,
@@ -81,7 +82,7 @@ export function deleteFolder(bucketName, pathToDelete, state) {
     if (path.length === 1) {
       const currentPath = path.shift();
       const filteredContent = contents.filter(
-        ({ type, name }) => name !== currentPath || type !== 'folder',
+        ({ type, name }) => name !== currentPath || type !== objectType,
       );
       return filteredContent;
     }
@@ -93,7 +94,7 @@ export function deleteFolder(bucketName, pathToDelete, state) {
         if (item.type === 'folder' && item.name === currentPath) {
           if (passedPath.length === 1) {
             const children = item.children.filter(
-              ({ type, name }) => name !== passedPath[0] || type !== 'folder',
+              ({ type, name }) => name !== passedPath[0] || type !== objectType,
             );
             return { ...item, children: crawlChildren(children, passedPath) };
           }
