@@ -4,6 +4,8 @@ export const ERR_CREATING_BUCKET = 'ERR_CREATING_BUCKET';
 export const ERR_CREATING_FOLDER = 'ERR_CREATING_FOLDER';
 export const ERR_DELETING_FOLDER = 'ERR_DELETING_FOLDER';
 export const ERR_DELETING_BUCKET = 'ERR_DELETING_BUCKET';
+export const ERR_DELETING_FILE = 'ERR_DELETING_FILE';
+export const ERR_DOWNLOADING_FILE = 'ERR_DOWNLOADING_FILE';
 
 export function errorGettingBucketContents() {
   return {
@@ -44,5 +46,19 @@ export function errorDeletingBucket() {
   return {
     type: ERR_DELETING_BUCKET,
     message: 'Could not delete folder',
+  };
+}
+
+export function errorDeletingFile() {
+  return {
+    type: ERR_DELETING_FILE,
+    message: 'Could not delete file',
+  };
+}
+
+export function errorDownloadingFile() {
+  return {
+    type: ERR_DOWNLOADING_FILE,
+    message: 'Error downloading file',
   };
 }
