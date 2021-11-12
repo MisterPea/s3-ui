@@ -1,16 +1,21 @@
 const express = require('express');
 
 const app = express();
-const PORT = 3200;
+const PORT = 80;
 const cors = require('cors');
 const routes = require('./routes');
+
+const corsOptions = {
+  methods: 'GET, POST, DELETE',
+  exposedHeaders: 'Content-Disposition',
+};
 
 function errorHandler(err, req, res, next) {
   return res.status(404).json(err);
 }
 
-app.use(cors());
-app.use('/', routes);
+app.use(cors(corsOptions));
+app.use('/api', routes);
 app.use(errorHandler);
 
 app.listen(PORT, () => console.log(`Connection running on Port: ${PORT}`));
