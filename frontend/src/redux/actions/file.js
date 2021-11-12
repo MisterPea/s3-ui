@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { errorDeletingFile } from './error';
 
 export const ADD_FILE = 'ADD_FILE';
 export const DELETE_FILE = 'DELETE_FILE';
@@ -24,6 +25,6 @@ export function deleteFileFromList(region, bucket, key) {
         'content-type': 'application/json',
       },
     }).then(() => dispatch(deleteFile(region, bucket, key)))
-      .catch((err) => console.log('IN BUCKET ACTION', err));
+      .catch(() => dispatch(errorDeletingFile()));
   };
 }
