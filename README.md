@@ -27,13 +27,18 @@ The basic setup for multipart-uploading is:
 * [ ] Error catching - Folder Creation
 * [ ] Add File(s)
 * [ ] Error catching - File Upload
-* [ ] Delete Files
+* [x] Delete Files
 * [ ] Error catching - File Deletion
 * [ ] Get/Subscribe to Loading Percentage
-* [ ] Send Email
 * [x] Mobile Layout
 * [ ] Tablet Layout
 * [ ] Desktop Layout
+<hr />
+
+Longer-term development
+* [ ] Send Email
+* [ ] Generate a download url
+
 <hr />
 
 #### To run:
