@@ -1,35 +1,49 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { IoCloudDownloadOutline, IoTrashOutline, IoInformationCircleSharp } from 'react-icons/io5';
+import { FaExclamationTriangle } from 'react-icons/fa';
 import propTypes from 'prop-types';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import fileSizeTruncate from './helpers/fileSizeTruncate';
+import { deleteFileFromList } from '../redux/actions/file';
+import { errorDownloadingFile } from '../redux/actions/error';
 
 export default function FileModal({ fileInfo, setModalOpen, downloadInfo }) {
   const { name, lastModified, size } = fileInfo;
   const { hostname } = window.location;
+  const { locale, bucket, filePath } = downloadInfo;
+  const key = `${(filePath && filePath.slice(1)) || ''}/${name}`;
+  const dispatch = useDispatch();
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   function handleDownloadClick() {
-    const { locale, bucket, filePath } = downloadInfo;
-    const key = `${(filePath && filePath.slice(1)) || ''}/${name}`;
+    setModalOpen();
     axios({
-      method: 'POST',
-      url: `http://${hostname}:3200/downloadFile`,
-      data: { locale, bucket, key },
+      method: 'GET',
+      url: `http://${hostname}/api/downloadFile`,
+      params: { locale, bucket, key },
       headers: {
         'content-type': 'application/json',
       },
-    }).then((url) => {
-      const link = document.createElement('A');
+      responseType: 'blob',
+    }).then((response) => {
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
       link.setAttribute('download', name);
-      link.href = url.data;
       document.body.appendChild(link);
       link.click();
-      link.remove();
-    });
-    setModalOpen();
+    })
+      .catch(() => dispatch(errorDownloadingFile()));
   }
 
-  function handleDeleteClick() {
+  function toggleDeleteConfirmClick() {
+    setShowDeleteConfirm((s) => !s);
+  }
+
+  function handleDeleteConfirm() {
+    dispatch(deleteFileFromList(locale, bucket, key));
     setModalOpen();
   }
 
@@ -39,6 +53,39 @@ export default function FileModal({ fileInfo, setModalOpen, downloadInfo }) {
 
   return (
     <>
+      <div className={`delete-confirmation${showDeleteConfirm ? ' visible' : ''}`}>
+        <header className="confirm-delete-header">
+          <FaExclamationTriangle />
+          <h3>Are you sure?</h3>
+          <p>
+            Deleting
+            {' '}
+            <span>{name}</span>
+            {' '}
+            cannot be undone.
+          </p>
+        </header>
+        <div className="delete-modal-lower">
+          <div className="delete-button-wrapper">
+            <button
+              type="button"
+              onClick={handleDeleteConfirm}
+            >
+              <div className="button-content-wrapper ">
+                <h2 className="delete">DELETE FILE</h2>
+              </div>
+            </button>
+            <button
+              type="button"
+              onClick={toggleDeleteConfirmClick}
+            >
+              <div className="button-content-wrapper">
+                <h2 className="cancel">CANCEL</h2>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
       <div className="modal-wrapper">
         <div className="modal-button-group">
           <header className="modal-header">
@@ -61,7 +108,6 @@ export default function FileModal({ fileInfo, setModalOpen, downloadInfo }) {
           </div>
         </div>
         <div className="file-button-wrapper">
-
           <button
             type="button"
             onClick={handleDownloadClick}
@@ -73,7 +119,7 @@ export default function FileModal({ fileInfo, setModalOpen, downloadInfo }) {
           </button>
           <button
             type="button"
-            onClick={handleDeleteClick}
+            onClick={toggleDeleteConfirmClick}
           >
             <div className="button-content-wrapper">
               <div className="file-icon delete"><IoTrashOutline /></div>
@@ -82,6 +128,7 @@ export default function FileModal({ fileInfo, setModalOpen, downloadInfo }) {
           </button>
         </div>
       </div>
+
     </>
   );
 }
