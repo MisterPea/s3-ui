@@ -1,3 +1,4 @@
+// const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
 const {
   S3Client,
   ListBucketsCommand,
@@ -8,8 +9,8 @@ const {
   PutObjectCommand,
   DeleteBucketCommand,
   GetObjectCommand,
+  DeleteObjectCommand,
 } = require('@aws-sdk/client-s3');
-const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
 
 const { tree, isPathDeletable } = require('./utilities');
 
@@ -278,15 +279,49 @@ function deleteFolder(locale, bucket, pathToDelete, folderName) {
     }).catch((err) => { throw new TypeError(err); });
 }
 
+/**
+ * Method to initiate a file/object download. This method simply returns the Body of the
+ * object, which must be handled by middleware and the frontend
+ * @param {string} locale Region of the bucket
+ * @param {string} bucket Name of the bucket
+ * @param {string} key Slash `/` deliniated string representing the object location
+ * @return {Promise} Returns a Promise that resolves to the Body of the object
+ */
 function downloadFile(locale, bucket, key) {
+  const filenameArray = key.split('/').filter(Boolean);
+  const filename = filenameArray[filenameArray.length - 1];
+  const keySplit = filenameArray.length === 1 ? filename : key;
   const s3 = newClient(locale);
   const params = {
     Bucket: bucket,
-    Key: key,
+    Key: keySplit,
+    ResponseContentDisposition: `attatchment; filename=${filename}`,
   };
-  const command = new GetObjectCommand(params);
-  return getSignedUrl(s3, command)
-    .then((url) => url)
+
+  return s3.send(new GetObjectCommand(params))
+    .then(({ Body }) => Body)
+    .catch((err) => { throw new TypeError(err); });
+}
+
+/**
+ * Method to delete one object from a bucket.
+ * @param {string} locale Region of the bucket
+ * @param {string} bucket Name of the bucket
+ * @param {string} key Slash `/` deliniated string representing the location of the object to delete
+ * @return {Promise} Returns a Promise, showing success or failure
+ */
+function deleteFile(locale, bucket, key) {
+  const filenameArray = key.split('/').filter(Boolean);
+  const filename = filenameArray[filenameArray.length - 1];
+  const keySplit = filenameArray.length === 1 ? filename : key;
+  const s3 = newClient(locale);
+  
+  const params = {
+    Bucket: bucket,
+    Key: keySplit,
+  };
+  return s3.send(new DeleteObjectCommand(params))
+    .then((result) => result)
     .catch((err) => { throw new TypeError(err); });
 }
 
@@ -300,6 +335,7 @@ module.exports = {
   deleteBucketContents,
   addFolder,
   deleteBucket,
+  deleteFile,
   deleteFolder,
   downloadFile,
 };
