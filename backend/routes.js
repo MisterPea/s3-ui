@@ -1,3 +1,4 @@
+const { default: axios } = require('axios');
 const express = require('express');
 
 const jsonParser = express.json();
@@ -12,6 +13,7 @@ const {
   addFolder,
   deleteBucketContents,
   deleteBucket,
+  deleteFile,
   deleteFolder,
   downloadFile,
 } = require('./S3_topLevelMethods');
@@ -102,17 +104,27 @@ router.post('/deleteFolder', jsonParser, (req, res, next) => {
 router.post('/deleteBucket', jsonParser, (req, res, next) => {
   const { locale, bucket } = req.body;
   deleteBucket(locale, bucket)
-    .then((data) => {
-      res.status(200).send(data);
-    }).catch((err) => next(err));
+    .then((data) => res.status(200).send(data))
+    .catch((err) => next(err));
 });
 
-router.post('/downloadFile', jsonParser, (req, res, next) => {
-  const { locale, bucket, key } = req.body;
+router.get('/downloadFile', jsonParser, (req, res, next) => {
+  const { locale, bucket, key } = req.query;
+  const filenameArray = key.split('/').filter(Boolean);
+  const filename = filenameArray[filenameArray.length - 1];
+
+  res.attachment(filename);
   downloadFile(locale, bucket, key)
-    .then((url) => {
-      res.send(url);
+    .then((result) => {
+      result.pipe(res);
     })
+    .catch((err) => next(err));
+});
+
+router.delete('/file', jsonParser, (req, res, next) => {
+  const { locale, bucket, key } = req.body;
+  deleteFile(locale, bucket, key)
+    .then((data) => res.status(200).send(data))
     .catch((err) => next(err));
 });
 
