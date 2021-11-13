@@ -25,6 +25,7 @@ The basic setup for multipart-uploading is:
 * [x] Add Folder
 * [x] Delete Folder
 * [ ] Error catching - Folder Creation
+* [x] Drag and drop
 * [ ] Add File(s)
 * [ ] Error catching - File Upload
 * [x] Delete Files
@@ -38,6 +39,7 @@ The basic setup for multipart-uploading is:
 Longer-term development
 * [ ] Send Email
 * [ ] Generate a download url
+* [ ] Upload folders with nested content
 
 <hr />
 
