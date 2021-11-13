@@ -72,6 +72,7 @@ AWS S3api CLI Reference: https://awscli.amazonaws.com/v2/documentation/api/lates
 
 ##### Stack:
 * React
+* SCSS
 * Redux
 * Axios
 * Expressjs
