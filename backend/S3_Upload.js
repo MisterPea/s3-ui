@@ -2,7 +2,8 @@ const {
   S3Client,
   CreateMultipartUploadCommand,
   UploadPartCommand,
-  CompleteMultipartUploadCommand } = require('@aws-sdk/client-s3');
+  CompleteMultipartUploadCommand,
+} = require('@aws-sdk/client-s3');
 
 /**
  * A class containing methods to complete a multipart upload to a S3 bucket.
@@ -20,7 +21,12 @@ module.exports = class S3Upload {
   // eslint-disable-next-line require-jsdoc
   constructor(region) {
     this.region = region;
-    this.s3 = new S3Client({ region: this.region });
+    this.endpoint = encodeURI('http://localhost:4566');
+    this.s3 = new S3Client({
+      egion: this.region,
+      endpoint: this.endpoint,
+      forcePathStyle: true,
+    });
     this.numberOfChunks = 0;
     this.chunksProcessed = 1;
     this.completeParams = {
@@ -43,13 +49,9 @@ module.exports = class S3Upload {
       CacheControl: 'max-age=1500', // in seconds
     };
     return this.s3.send(new CreateMultipartUploadCommand(params))
-        .then((data) => {
-          return data;
-        })
-        .catch((err) => {
-          return err;
-        });
-  };
+      .then((data) => data)
+      .catch((err) => err);
+  }
 
   /**
  * Helper function to convert the Body dataURL to a base64 buffer
@@ -58,7 +60,9 @@ module.exports = class S3Upload {
  * @param {number} numberOfChunks Number of chunks that will be sent
  */
   uploads(params, finalChunk, numberOfChunks, callbackPassedIn) {
-    const { Body, Bucket, PartNumber, Key, UploadId } = params;
+    const {
+      Body, Bucket, PartNumber, Key, UploadId,
+    } = params;
     const fileReaderData = Body.split(',');
     const buffer = Buffer.from(fileReaderData[1], 'base64');
     this.numberOfChunks = Number(numberOfChunks);
@@ -73,7 +77,8 @@ module.exports = class S3Upload {
       PartNumber,
       Key,
       UploadId,
-      Body: buffer},
+      Body: buffer,
+    },
     finalChunk);
   }
 
@@ -89,7 +94,7 @@ module.exports = class S3Upload {
     if (this.chunksProcessed === this.numberOfChunks) {
       this.finishUpload(this.completeParams);
     }
-  };
+  }
 
   /**
  * Main upload method
@@ -98,21 +103,20 @@ module.exports = class S3Upload {
  * @param {?Number} retries Optional number, passed in on retries
  */
   uploadChunk(params, finalChunk, retries = 0) {
-    const {PartNumber} = params;
+    const { PartNumber } = params;
     const maxRetries = 5;
     this.s3.send(new UploadPartCommand(params))
-        .then(({ETag}) => {
-          this.partsFunc({ETag, PartNumber: Number(PartNumber)}, finalChunk);
-          ++this.chunksProcessed;
-        })
-        .catch(() => {
-          if (retries <= maxRetries) {
-            this.uploadChunk(params, finalChunk, ++retries);
-          } else {
-            console.log(`Failure uploading part: ${PartNumber}`);
-            return;
-          }
-        });
+      .then(({ ETag }) => {
+        this.partsFunc({ ETag, PartNumber: Number(PartNumber) }, finalChunk);
+        this.chunksProcessed += 1;
+      })
+      .catch(() => {
+        if (retries <= maxRetries) {
+          this.uploadChunk(params, finalChunk, retries + 1);
+        } else {
+          console.log(`Failure uploading part: ${PartNumber}`);
+        }
+      });
   }
 
   /**
@@ -121,14 +125,12 @@ module.exports = class S3Upload {
  * UploadId and Key
  */
   finishUpload(params) {
-    const callback = params.callback;
+    const { callback } = params;
     delete params.callback;
     this.s3.send(new CompleteMultipartUploadCommand(params))
-        .then((ret) => {
-          callback(ret);
-          
-        })
-        .catch((err) => console.error(`Error finishing the upload:${err}`));
-  };
+      .then((ret) => {
+        callback(ret);
+      })
+      .catch((err) => console.error(`Error finishing the upload:${err}`));
+  }
 };
-
