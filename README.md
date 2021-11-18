@@ -26,7 +26,7 @@ The basic setup for multipart-uploading is:
 * [x] Delete Folder
 * [ ] Error catching - Folder Creation
 * [x] Drag and drop
-* [ ] Add File(s)
+* [x] Add File(s)
 * [ ] Error catching - File Upload
 * [x] Delete Files
 * [ ] Error catching - File Deletion
