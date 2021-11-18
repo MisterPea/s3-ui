@@ -70,6 +70,7 @@ export default function FileModal({ fileInfo, setModalOpen, downloadInfo }) {
             <button
               type="button"
               onClick={handleDeleteConfirm}
+              disabled={!showDeleteConfirm}
             >
               <div className="button-content-wrapper ">
                 <h2 className="delete">DELETE FILE</h2>
@@ -78,6 +79,7 @@ export default function FileModal({ fileInfo, setModalOpen, downloadInfo }) {
             <button
               type="button"
               onClick={toggleDeleteConfirmClick}
+              disabled={!showDeleteConfirm}
             >
               <div className="button-content-wrapper">
                 <h2 className="cancel">CANCEL</h2>
@@ -110,6 +112,7 @@ export default function FileModal({ fileInfo, setModalOpen, downloadInfo }) {
         <div className="file-button-wrapper">
           <button
             type="button"
+            disabled={showDeleteConfirm}
             onClick={handleDownloadClick}
           >
             <div className="button-content-wrapper">
@@ -119,6 +122,7 @@ export default function FileModal({ fileInfo, setModalOpen, downloadInfo }) {
           </button>
           <button
             type="button"
+            disabled={showDeleteConfirm}
             onClick={toggleDeleteConfirmClick}
           >
             <div className="button-content-wrapper">
