@@ -13,6 +13,9 @@ import LoadingBar from './graphic_elements/LoadingBar';
 import ModalComponentWrapper from './ModalComponentWrapper';
 import AddFolderModal from './AddFolderModal';
 import useScrollIntersect from './helpers/useScrollIntersect';
+import DragDrop from './DragDrop';
+import { uploadFiles } from '../redux/actions/file';
+import createId from './helpers/createId';
 
 function EmptyBucket() {
   return (
@@ -122,6 +125,16 @@ export default function FileDisplay() {
     handleToggleAddFolder();
   }
 
+  function handleAddFileButtonClick() {
+    document.getElementById('add-files').click();
+  }
+
+  function handleFileSubmit() {
+    const fileInput = document.querySelector('#add-files');
+    const file = fileInput.files;
+    dispatch(uploadFiles(loc, id, path || '', file));
+  }
+
   /**
    * Test to determine if file list has been loaded and whether
    * it's just an artefact from folder creation
@@ -153,6 +166,9 @@ export default function FileDisplay() {
   const fileVariants = {
     open: {
       opacity: 1,
+      transition: {
+        duration: 2,
+      },
     },
     closed: {
       opacity: 0,
@@ -163,10 +179,20 @@ export default function FileDisplay() {
     <div className="file-display-wrapper">
       <div className="file-header-wrapper">
         <div className="add-file-wrapper">
-          <div className="add-file">
+          <button
+            type="button"
+            onClick={handleAddFileButtonClick}
+            className="add-file"
+          >
+            <input
+              type="file"
+              name="file"
+              id="add-files"
+              onChange={(e) => handleFileSubmit(e)}
+            />
             <h3>ADD FILE(S)</h3>
             <IoAddCircleSharp className="add-file-plus" />
-          </div>
+          </button>
         </div>
         <div className={`file-display ${topScrollShadow ? 'overflow' : ''}`}>
           <h3 className="name-header">NAME</h3>
@@ -183,22 +209,19 @@ export default function FileDisplay() {
               onScroll={(e) => handleScroll(e)}
               variants={fileVariants}
               initial="closed"
-              animate="open"
+              animate={loading ? 'closed' : 'open'}
               exit="closed"
               className="ul-wrapper"
             >
-              <ul
-                className="file-ul"
-              >
-                {isEmptyFile(files) ? <EmptyBucket /> : files.filter((file) => file.name !== '').map(({
-                  type, name, lastModified = null, size, path: filePath,
-                }, index) => (
-                  <li
-                    className="file-folder-li"
-                    key={name + index.toString()}
-                  >
+              <DragDrop bucket={id} locale={loc}>
+                <motion.ul
+                  className="file-ul"
+                >
+                  {isEmptyFile(files) ? <EmptyBucket /> : files.filter((file) => file.name !== '').map(({
+                    type, name, lastModified = null, size, path: filePath,
+                  }) => (
                     <FileLI
-                      key={`${type}-${name}`}
+                      key={createId()}
                       locale={loc}
                       bucket={id}
                       type={type}
@@ -208,9 +231,9 @@ export default function FileDisplay() {
                       filePath={filePath}
                       folderClick={handleFolderClick}
                     />
-                  </li>
-                ))}
-              </ul>
+                  ))}
+                </motion.ul>
+              </DragDrop>
             </motion.div>
           )}
       </AnimatePresence>
