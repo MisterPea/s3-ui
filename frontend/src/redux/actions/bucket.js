@@ -49,11 +49,10 @@ function addBucket(newBucket) {
   };
 }
 
-function deleteBucket(locale, bucket) {
+function deleteBucket(bucket) {
   return {
     type: DELETE_BUCKET,
     bucket,
-    locale,
   };
 }
 
@@ -131,7 +130,7 @@ export function deleteBucketFromList(region, bucket) {
       headers: {
         'content-type': 'application/json',
       },
-    }).then(() => dispatch(deleteBucket(region, bucket)))
+    }).then(() => dispatch(deleteBucket(bucket)))
       .catch(() => dispatch(errorDeletingBucket()));
   };
 }
