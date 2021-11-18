@@ -35,8 +35,7 @@ export default function buckets(state = [], action) {
     case CREATE_BUCKET:
       return state.concat([action.bucket]).sort((a, b) => a.Name.localeCompare(b.Name));
     case DELETE_BUCKET:
-      return state.filter((bucket) => (
-        (bucket.Name !== action.bucket && bucket.Region !== action.locale)));
+      return state.filter((bucket) => bucket.Name !== action.bucket);
     case ADD_FOLDER:
       return addFolder(action.folderPath, action.folderName, action.bucket, state);
     case DELETE_FOLDER:
