@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { errorDeletingFile } from './error';
+import MultipartUpload from '../../components/MultipartUpload';
 
 export const ADD_FILE = 'ADD_FILE';
 export const DELETE_FILE = 'DELETE_FILE';
@@ -15,6 +16,17 @@ function deleteFile(locale, bucket, key) {
   };
 }
 
+function addFile(bucket, filePath, fileName, size, lastModified) {
+  return {
+    type: ADD_FILE,
+    bucket,
+    filePath,
+    fileName,
+    size,
+    lastModified,
+  };
+}
+
 export function deleteFileFromList(region, bucket, key) {
   return (dispatch) => {
     axios({
@@ -26,5 +38,50 @@ export function deleteFileFromList(region, bucket, key) {
       },
     }).then(() => dispatch(deleteFile(region, bucket, key)))
       .catch(() => dispatch(errorDeletingFile()));
+  };
+}
+
+export function uploadFiles(region, bucket, path = '', files) {
+  const fileList = files;
+  // const [activeUpload, setActiveUpload] = useState([]);
+  // const activeUploadRef = useRef();
+  // activeUploadRef.current = activeUpload;
+
+  return (dispatch) => {
+    const uploadProgressCallback = (data) => console.log(data);
+    // const uploadCallback = (data) => {
+    //   setActiveUpload(activeUploadRef.current.map((upload) => (
+    //     upload.title === data.title ? { ...upload, p: data.p } : upload)));
+    // };
+
+    // This data is sent from MultipartUpload.js
+    const uploadCompleteCallback = ({
+      data, size, lastModified, filePath, fileName,
+    }) => {
+      if (data) {
+        const { Bucket } = data;
+        dispatch(addFile(Bucket, filePath, fileName, size, lastModified));
+      }
+    };
+
+    const classObject = {};
+    for (let i = 0; i < fileList.length; i += 1) {
+      fileList[i].path = path;
+      classObject[`_${i}`] = new MultipartUpload(fileList[i], bucket, region);
+      classObject[`_${i}`].getUploadId()
+        .then(({ data }) => {
+          // setActiveUpload((cur) => [...cur, {
+          //   title: fileList[i].name, p: 0,
+          // }]);
+          classObject[`_${i}`].uploadFile(
+            data,
+            uploadProgressCallback,
+            uploadCompleteCallback,
+          );
+        })
+        .catch((err) => {
+          console.error(`Upload failure: Can't retrieve UploadId: ${err}`);
+        });
+    }
   };
 }
