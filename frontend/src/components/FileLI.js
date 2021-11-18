@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useState } from 'react';
 import propTypes from 'prop-types';
 import { IoEllipsisVerticalCircle, IoInformationCircleSharp } from 'react-icons/io5';
-import { motion } from 'framer-motion';
 import { Folder } from './graphic_elements/Icons';
 import FileIcon from './helpers/FileIcon';
 import FolderDropdown from './FolderDropdown';
@@ -24,8 +23,7 @@ import createId from './helpers/createId';
  * @return {JSX}
  */
 export default function FileLI({
-  bucket,
-  type, name, lastModified = null, size = null, filePath = null, folderClick, locale, added = null,
+  bucket, type, name, lastModified = null, size = null, filePath = null, folderClick, locale,
 }) {
   // For Both
   const [toggleTooltip, setToggleTooltip] = useState(false);
