@@ -1,4 +1,4 @@
-import { addFolder, deleteObject } from './helperFunctions';
+import { addFile, addFolder, deleteObject } from './helperFunctions';
 import {
   GET_BUCKETS,
   CREATE_BUCKET,
@@ -7,7 +7,7 @@ import {
   GET_BUCKETS_AND_CONTENTS,
 } from '../actions/bucket';
 
-import { DELETE_FILE } from '../actions/file';
+import { ADD_FILE, DELETE_FILE } from '../actions/file';
 
 import {
   ADD_FOLDER,
@@ -41,6 +41,9 @@ export default function buckets(state = [], action) {
       return addFolder(action.folderPath, action.folderName, action.bucket, state);
     case DELETE_FOLDER:
       return deleteObject('folder', action.bucket, action.pathToDelete, state);
+    case ADD_FILE:
+      return addFile(action.bucket,
+        action.filePath, action.fileName, action.size, action.lastModified, state);
     case DELETE_FILE:
       return deleteObject('file', action.bucket, action.key, state);
     default:
