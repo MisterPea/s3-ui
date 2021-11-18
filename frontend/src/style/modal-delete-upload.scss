@@ -67,7 +67,9 @@
   background-color: rgb(255, 255, 255);
   opacity: 0;
   transition: opacity 300ms ease-in-out;
+  z-index: -1;
   &.visible {
+    z-index: 1000;
     opacity: 1;
     display: flex;
   }

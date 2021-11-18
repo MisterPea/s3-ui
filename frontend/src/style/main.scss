@@ -230,6 +230,11 @@ li {
     align-items: center;
     @include type-bold;
     color: $white;
+    background: none;
+    border: none;
+    input {
+      display: none;
+    }
   }
   h3 {
     margin: 0;
@@ -332,6 +337,17 @@ li {
   justify-content: space-between;
   height: 40px;
   position: relative;
+  transition: background-color 300ms ease-in-out;
+  &.drag-active {
+    background-color: $aws-blue;
+    div > p,
+    svg {
+      color: $white;
+    }
+    .icon-wrapper > div {
+      color: $white;
+    }
+  }
 
   .file-row-left,
   .bucket-row-left {
@@ -359,6 +375,7 @@ li {
       font-size: 16px;
       // letter-spacing: -0.015em;
       padding: 0;
+      transition: color 300ms ease-in-out;
     }
   }
 
@@ -369,6 +386,7 @@ li {
     padding: 0 10px;
     width: 50px;
     right: 0;
+    transition: color 300ms ease-in-out;
   }
   .last-modified,
   .size {
@@ -402,6 +420,7 @@ li {
   width: 25px;
   flex-shrink: 0;
   color: $blue-text;
+  transition: color 300ms ease-in-out;
 }
 
 .file-icon {
@@ -409,6 +428,7 @@ li {
   width: 25px;
   flex-shrink: 0;
   color: $blue-text;
+  transition: color 300ms ease-in-out;
 }
 
 .descend-menu {
@@ -742,9 +762,9 @@ li {
     flex: 1;
     display: flex;
     align-items: center;
-    background-color: rgb(232,232,232);
+    background-color: rgb(232, 232, 232);
     border-radius: 5px;
-    &:first-child{
+    &:first-child {
       margin-bottom: 10px;
     }
     .button-content-wrapper {
@@ -754,12 +774,11 @@ li {
       margin: 0 auto;
       .file-icon {
         margin-right: 5px;
-        
+
         svg {
           height: 100%;
           width: 100%;
           color: $aws-blue;
-          
         }
       }
       h2 {
