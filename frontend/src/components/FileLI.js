@@ -119,7 +119,7 @@ export default function FileLI({
   const fileInfo = { name, lastModified, size };
   return (
     <li
-      className={`file-folder-li${added ? ' added' : ''}`}
+      className="file-folder-li"
       key={createId()}
     >
       <div className="file-row-wrapper">
