@@ -1,4 +1,69 @@
 /**
+ * Method that returns a new state object with the appropriate file added.
+ * @param {string[]} targetPath slash `/` separated path string.
+ * @param {object} fileName Object of strings denoting the `type: 'file'`, `name`,
+ * `lastModified`, and `size`
+ * @param {number} size Size in bytes of the file
+ * @param {string} bucketName Name of the bucket where the file is to reside
+ * @param {string} lastModified ISO string of the date the file was last modified
+ * @param {object[]} state Array of arrays of objects
+ * @return New array with the new file in place
+ * filePath, fileName, size, lastModified
+ */
+export function addFile(bucketName, targetPath, fileName, size, lastModified, state) {
+  function addToChildren(item, targetArray, currentPath) {
+    if (currentPath === item.name) {
+      if (targetArray.length === 0) {
+        return {
+          ...item,
+          children: [
+            ...item.children,
+            {
+              type: 'file',
+              name: fileName,
+              lastModified,
+              size,
+            },
+          ],
+        };
+      }
+      // if match, but not at terminus
+      return { ...item, children: [parseParent(item.children, targetArray)] };
+    }
+    // if no match
+    return item;
+  }
+
+  function rootLevelFolder() {
+    return {
+      type: 'file',
+      name: fileName,
+      lastModified,
+      size,
+    };
+  }
+
+  function parseParent(currentBuckets, targetArray) {
+    const currentPath = targetArray.shift();
+    return currentBuckets.map((item) => addToChildren(item, targetArray, currentPath));
+  }
+
+  function addFileMain() {
+    return state.map((_bucket) => {
+      return _bucket.Name === bucketName ? rootCheck(_bucket) : _bucket;
+
+      function rootCheck(bucket) {
+        if (targetPath.length === 0) {
+          return { ...bucket, contents: [...bucket.contents, rootLevelFolder()] };
+        }
+        return { ...bucket, contents: parseParent(bucket.contents, targetPath.split('/').filter(Boolean)) };
+      }
+    });
+  }
+  return addFileMain();
+}
+
+/**
  * Method to return a new state array with the new folder
  * @param {string} targetPath Path when new folder will reside
  * @param {string} folderName Name of new folder
