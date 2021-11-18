@@ -19,7 +19,10 @@ export default function BucketDisplay() {
     dispatch(getBucketList());
   }, []);
 
-  const [topScrollShadow, bottomScrollShadow, handleScroll] = useScrollIntersect(buckets, scrollTarget);
+  const [
+    topScrollShadow,
+    bottomScrollShadow,
+    handleScroll] = useScrollIntersect(buckets, scrollTarget);
 
   function handleToggleModal() {
     setAddBucketModal((s) => !s);
