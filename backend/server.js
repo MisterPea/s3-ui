@@ -4,6 +4,7 @@ const app = express();
 const PORT = 80;
 const cors = require('cors');
 const routes = require('./routes');
+const uploadRoutes = require('./routes/uploadRoutes')
 
 const corsOptions = {
   methods: 'GET, POST, DELETE',
@@ -16,6 +17,7 @@ function errorHandler(err, req, res, next) {
 
 app.use(cors(corsOptions));
 app.use('/api', routes);
+app.use('/upload', uploadRoutes);
 app.use(errorHandler);
 
 app.listen(PORT, () => console.log(`Connection running on Port: ${PORT}`));
