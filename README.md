@@ -23,6 +23,7 @@ The basic setup for multipart-uploading is:
 * [x] Get Files/Folders
 * [x] Framer Motion integration
 * [x] Add Folder
+* [ ] Generate new incremented filename for same name
 * [x] Delete Folder
 * [ ] Error catching - Folder Creation
 * [x] Drag and drop
