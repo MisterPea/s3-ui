@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { IoAddCircleSharp } from 'react-icons/io5';
 import { useHistory } from 'react-router';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, AnimateSharedLayout } from 'framer-motion';
 import useParseQuery from './helpers/useParseQuery';
 import { getBucketContentsList, getBucketsAndContentsList } from '../redux/actions/bucket';
 import FileLI from './FileLI';
@@ -213,27 +213,31 @@ export default function FileDisplay() {
               exit="closed"
               className="ul-wrapper"
             >
-              <DragDrop bucket={id} locale={loc}>
-                <motion.ul
-                  className="file-ul"
-                >
-                  {isEmptyFile(files) ? <EmptyBucket /> : files.filter((file) => file.name !== '').map(({
-                    type, name, lastModified = null, size, path: filePath,
-                  }) => (
-                    <FileLI
-                      key={createId()}
-                      locale={loc}
-                      bucket={id}
-                      type={type}
-                      name={name}
-                      lastModified={lastModified}
-                      size={size}
-                      filePath={filePath}
-                      folderClick={handleFolderClick}
-                    />
-                  ))}
-                </motion.ul>
-              </DragDrop>
+              <AnimateSharedLayout>
+                <DragDrop bucket={id} locale={loc}>
+                  <motion.ul
+                    layout
+                    key="motion-file-ul"
+                    className="file-ul"
+                  >
+                    {isEmptyFile(files) ? <EmptyBucket /> : files.filter((file) => file.name !== '').map(({
+                      type, name, lastModified = null, size, path: filePath,
+                    }) => (
+                      <FileLI
+                        key={createId()}
+                        locale={loc}
+                        bucket={id}
+                        type={type}
+                        name={name}
+                        lastModified={lastModified}
+                        size={size}
+                        filePath={filePath}
+                        folderClick={handleFolderClick}
+                      />
+                    ))}
+                  </motion.ul>
+                </DragDrop>
+              </AnimateSharedLayout>
             </motion.div>
           )}
       </AnimatePresence>

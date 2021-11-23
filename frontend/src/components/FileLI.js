@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import propTypes from 'prop-types';
 import { IoEllipsisVerticalCircle, IoInformationCircleSharp } from 'react-icons/io5';
+import { motion } from 'framer-motion';
 import { Folder } from './graphic_elements/Icons';
 import FileIcon from './helpers/FileIcon';
 import FolderDropdown from './FolderDropdown';
@@ -58,7 +59,8 @@ export default function FileLI({
 
   if (type === 'folder') {
     return (
-      <li
+      <motion.li
+        layout
         className="file-folder-li"
         key={createId()}
       >
@@ -107,7 +109,7 @@ export default function FileLI({
     </ModalComponentWrapper>
     ) }
         </div>
-      </li>
+      </motion.li>
     );
   }
 
@@ -118,7 +120,8 @@ export default function FileLI({
   const downloadInfo = { locale, bucket, filePath };
   const fileInfo = { name, lastModified, size };
   return (
-    <li
+    <motion.li
+      layout
       className="file-folder-li"
       key={createId()}
     >
@@ -153,7 +156,7 @@ export default function FileLI({
         </ModalComponentWrapper>
         )}
       </div>
-    </li>
+    </motion.li>
   );
 }
 
