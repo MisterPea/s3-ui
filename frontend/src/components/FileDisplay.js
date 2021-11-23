@@ -6,7 +6,7 @@ import { IoAddCircleSharp } from 'react-icons/io5';
 import { useHistory } from 'react-router';
 import { motion, AnimatePresence } from 'framer-motion';
 import useParseQuery from './helpers/useParseQuery';
-import { getBucketContent } from '../redux/actions/bucket';
+import { getBucketContentsList, getBucketsAndContentsList } from '../redux/actions/bucket';
 import FileLI from './FileLI';
 import sortFiles from './helpers/sortFiles';
 import LoadingBar from './graphic_elements/LoadingBar';
@@ -30,19 +30,19 @@ function EmptyBucket() {
  */
 export default function FileDisplay() {
   const { id, loc, path = null } = useParseQuery();
-  const { loading } = useSelector((state) => state);
+  const { buckets, loading } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [files, setFiles] = useState(undefined);
   const history = useHistory();
   const [addFolderModal, setAddFolderModal] = useState(false);
 
   useEffect(() => {
-    dispatch(getBucketContent())
+    checkForBucket();
   }, []);
 
-  // useEffect(() => {
-  //   setFilePath();
-  // }, [buckets, path]);
+  useEffect(() => {
+    setFilePath();
+  }, [buckets, path]);
 
   const [topScrollShadow, bottomScrollShadow, handleScroll] = useScrollIntersect(files, '.ul-wrapper');
 
@@ -50,12 +50,12 @@ export default function FileDisplay() {
    * Method to check store if bucket requested is in the store.
    * The checking involves both bucket and region perchance a
    */
-  // function checkForBucket() {
-  //   if (buckets.length === 0) {
-  //     return dispatch(getBucketsAndContentsList(/* loc, id, path */));
-  //   }
-  //   return dispatch(getBucketContentsList(/* loc, id, path */));
-  // }
+  function checkForBucket() {
+    if (buckets.length === 0) {
+      return dispatch(getBucketsAndContentsList(loc, id));
+    }
+    return dispatch(getBucketContentsList(loc, id));
+  }
 
   /**
    * Method to populate local state, based upon path. If path is passed to
