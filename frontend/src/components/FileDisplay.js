@@ -167,7 +167,7 @@ export default function FileDisplay() {
     open: {
       opacity: 1,
       transition: {
-        duration: 2,
+        duration: 0.5,
       },
     },
     closed: {
@@ -206,6 +206,7 @@ export default function FileDisplay() {
         {loading ? <motion.div variants={loaderVariant} exit="exit"><LoadingBar /></motion.div>
           : (
             <motion.div
+              key="file-motion-div"
               onScroll={(e) => handleScroll(e)}
               variants={fileVariants}
               initial="closed"
@@ -224,7 +225,7 @@ export default function FileDisplay() {
                       type, name, lastModified = null, size, path: filePath,
                     }) => (
                       <FileLI
-                        key={createId()}
+                        key={name + type}
                         locale={loc}
                         bucket={id}
                         type={type}

@@ -62,7 +62,6 @@ export default function FileLI({
       <motion.li
         layout
         className="file-folder-li"
-        key={createId()}
       >
         <div className="file-row-wrapper">
           <div className="file-row">
@@ -123,7 +122,6 @@ export default function FileLI({
     <motion.li
       layout
       className="file-folder-li"
-      key={createId()}
     >
       <div className="file-row-wrapper">
         <div
