@@ -15,7 +15,6 @@ import AddFolderModal from './AddFolderModal';
 import useScrollIntersect from './helpers/useScrollIntersect';
 import DragDrop from './DragDrop';
 import { uploadFiles } from '../redux/actions/file';
-import createId from './helpers/createId';
 
 function EmptyBucket() {
   return (
@@ -246,7 +245,7 @@ export default function FileDisplay() {
           )}
       </AnimatePresence>
 
-      <div
+      <motion.div
         className={`add-bucket-bar${bottomScrollShadow ? ' overflow' : ''}`}
         onClick={handleToggleAddFolder}
         onKeyDown={(e) => handleKeyboardAddFolder(e)}
@@ -259,7 +258,7 @@ export default function FileDisplay() {
             <IoAddCircleSharp className="add-bucket-plus" />
           </div>
         </span>
-      </div>
+      </motion.div>
       {addFolderModal
       && (
       <ModalComponentWrapper close={handleToggleAddFolder}>
