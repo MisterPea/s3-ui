@@ -42,6 +42,7 @@ export default function FileDisplay() {
 
   useEffect(() => {
     setFilePath();
+    console.log(files) /// find empty list item being added to DOM
   }, [buckets, path]);
 
   const [topScrollShadow, bottomScrollShadow, handleScroll] = useScrollIntersect(files, '.ul-wrapper');
@@ -135,6 +136,8 @@ export default function FileDisplay() {
     dispatch(uploadFiles(loc, id, path || '', file));
   }
 
+  const createKey = (name, filePath, type) => `${name}${filePath}${type}`.replace(/[\\/./\s]/, '');
+
   /**
    * Test to determine if file list has been loaded and whether
    * it's just an artefact from folder creation
@@ -225,7 +228,7 @@ export default function FileDisplay() {
                       type, name, lastModified = null, size, path: filePath,
                     }) => (
                       <FileLI
-                        key={name + type}
+                        key={createKey(name, filePath, type)}
                         locale={loc}
                         bucket={id}
                         type={type}
