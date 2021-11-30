@@ -7,9 +7,9 @@
     {
       "type": "pwa-chrome",
       "request": "launch",
-      "name": "Launch Chrome against localhost",
-      "url": "http://localhost:8080",
-      "webRoot": "${workspaceFolder}"
+      "name": "Launch Chrome against 192.168.1.152:8080",
+      "url": "http://192.168.1.152:8081",
+      "webRoot": "${workspaceFolder}/fronend",
     }
   ]
 }
