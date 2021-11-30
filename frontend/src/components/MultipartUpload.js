@@ -10,12 +10,13 @@ export default class MultipartUpload {
    * @param {String} bucket S3 Bucket name
    * @param {String} region S3 Bucket region
    */
-  constructor(file, bucket, region) {
+  constructor(file, bucket, region, filename) {
     this.file = file;
+    this.filename = filename;
     this.size = file.size;
     this.lastModified = file.lastModified;
     this.path = file.path.substring(1);
-    this.key = this.path !== '' ? `${this.path}/${file.name}` : file.name;
+    this.key = this.path !== '' ? `${this.path}/${filename}` : filename;
     this.region = region;
     this.bucket = bucket;
     this.sentPromises = [];
@@ -104,7 +105,7 @@ export default class MultipartUpload {
             const percent = Math.round((
               this.totalBytesLoaded * 100) / this.base64Size);
             uploadCallback({
-              title: this.file.name,
+              title: this.filename,
               p: `${percent <= 100 ? percent : 100}%`,
             });
           },
@@ -123,7 +124,7 @@ export default class MultipartUpload {
                 size: this.size,
                 lastModified: isoDate,
                 filePath: this.file.path,
-                fileName: this.file.name,
+                fileName: this.filename,
               };
               serverCallback(newData);
             }
