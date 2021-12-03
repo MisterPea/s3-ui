@@ -35,3 +35,4 @@ data/.localstack
 data/server.test.pem
 data/server.test.pem.crt
 data/server.test.pem.key
+issue-tracker.md

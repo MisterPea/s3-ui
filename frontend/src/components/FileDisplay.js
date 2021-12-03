@@ -4,22 +4,21 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { IoAddCircleSharp } from 'react-icons/io5';
 import { useHistory } from 'react-router';
-import { motion, AnimatePresence, AnimateSharedLayout } from 'framer-motion';
+import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import useParseQuery from './helpers/useParseQuery';
 import { getBucketContentsList, getBucketsAndContentsList } from '../redux/actions/bucket';
 import FileLI from './FileLI';
-import sortFiles from './helpers/sortFiles';
 import LoadingBar from './graphic_elements/LoadingBar';
 import ModalComponentWrapper from './ModalComponentWrapper';
 import AddFolderModal from './AddFolderModal';
 import useScrollIntersect from './helpers/useScrollIntersect';
 import DragDrop from './DragDrop';
 import { uploadFiles } from '../redux/actions/file';
-import createId from './helpers/createId';
+import useSetFilePath from './helpers/useSetFilePath';
 
 function EmptyBucket() {
   return (
-    <><p className="empty-bucket">Looks like this is empty.</p></>
+    <><motion.p layout className="empty-bucket">Looks like this is empty.</motion.p></>
   );
 }
 
@@ -29,22 +28,23 @@ function EmptyBucket() {
  * @return {JSX}
  */
 export default function FileDisplay() {
-  const { id, loc, path = null } = useParseQuery();
+  const { id, loc, path: currentPath = null } = useParseQuery();
   const { buckets, loading } = useSelector((state) => state);
   const dispatch = useDispatch();
-  const [files, setFiles] = useState(undefined);
   const history = useHistory();
   const [addFolderModal, setAddFolderModal] = useState(false);
+  const [[scrollTarget], setScrollTarget] = useState([null]);
 
   useEffect(() => {
     checkForBucket();
   }, []);
 
-  useEffect(() => {
-    setFilePath();
-  }, [buckets, path]);
+  const files = useSetFilePath(buckets, id, currentPath);
 
-  const [topScrollShadow, bottomScrollShadow, handleScroll] = useScrollIntersect(files, '.ul-wrapper');
+  const [
+    topScrollShadow,
+    bottomScrollShadow,
+    handleScroll] = useScrollIntersect(files, scrollTarget);
 
   /**
    * Method to check store if bucket requested is in the store.
@@ -58,61 +58,18 @@ export default function FileDisplay() {
   }
 
   /**
-   * Method to populate local state, based upon path. If path is passed to
-   * `setFilePath` that means an explicit call from `ListItem` was made. If `setFilePath`
-   * is called without args, it means an implicit change of path was made. So we derive
-   * the desired path from `useParseQuery`.
-   * @param {string} [updatedPath=null] The new path
-   * @return {function} Returns a state-setting function
-   */
-  function setFilePath(updatedPath = null) {
-    if (buckets[0] !== undefined) {
-      buckets.filter((bucket) => (
-        bucket.Name === id ? testPath(bucket) : null
-      ));
-    }
-
-    // eslint-disable-next-line consistent-return
-    function testPath(bucket) {
-      let newPath;
-      if (updatedPath === null) {
-        newPath = path;
-      } else {
-        newPath = updatedPath;
-      }
-
-      if (newPath === null) {
-        return setFiles(sortFiles(bucket.contents));
-      }
-      const pathArray = newPath.split('/');
-      let currentChild = bucket.contents;
-      for (let i = 0; i < pathArray.length; i += 1) {
-        for (let j = 0; j < currentChild.length; j += 1) {
-          if (currentChild[j].name === pathArray[i]) {
-            if (pathArray.length - 1 === i) {
-              return setFiles(sortFiles(currentChild[j].children));
-            }
-            currentChild = currentChild[j].children;
-          }
-        }
-      }
-    }
-  }
-
-  /**
-   * Callback function for the ListItem component
+   * Callback function for the FileLI components
+   * Route change is done implicitly via query string
    * @param {String} newPath Folder path
    */
   function handleFolderClick(newPath) {
-    if (path === null) {
+    if (currentPath === null) {
       const firstPath = newPath.substring(1);
       history.push(`${history.location.search}&path=${firstPath}`);
-      setFilePath(firstPath);
     } else {
       const lastRoute = newPath.split('/');
 
       history.push(`${history.location.search}/${lastRoute[lastRoute.length - 1]}`);
-      setFilePath(newPath);
     }
   }
 
@@ -129,11 +86,20 @@ export default function FileDisplay() {
     document.getElementById('add-files').click();
   }
 
+  function clearFileInput() {
+    const currentInput = document.querySelector('#add-files');
+    currentInput.replaceWith(currentInput.ariaValueMax('').clone(true));
+  }
+
   function handleFileSubmit() {
     const fileInput = document.querySelector('#add-files');
     const file = fileInput.files;
-    dispatch(uploadFiles(loc, id, path || '', file));
+    const writePath = currentPath ? `/${currentPath}` : '';
+    dispatch(uploadFiles(loc, id, writePath, file));
+    clearFileInput();
   }
+
+  const createKey = (name, filePath, type) => `${name}${filePath}${type}`.replace(/[\\/./\s]/g, '');
 
   /**
    * Test to determine if file list has been loaded and whether
@@ -185,9 +151,11 @@ export default function FileDisplay() {
             className="add-file"
           >
             <input
+              key={currentPath}
               type="file"
               name="file"
               id="add-files"
+              multiple
               onChange={(e) => handleFileSubmit(e)}
             />
             <h3>ADD FILE(S)</h3>
@@ -214,18 +182,20 @@ export default function FileDisplay() {
               exit="closed"
               className="ul-wrapper"
             >
-              <AnimateSharedLayout>
+              <LayoutGroup>
                 <DragDrop bucket={id} locale={loc}>
                   <motion.ul
                     layout
                     key="motion-file-ul"
                     className="file-ul"
+                    // eslint-disable-next-line no-unused-vars
+                    onAnimationComplete={(height) => setScrollTarget(document.getElementsByClassName('ul-wrapper'))}
                   >
-                    {isEmptyFile(files) ? <EmptyBucket /> : files.filter((file) => file.name !== '').map(({
+                    {isEmptyFile(files) ? <EmptyBucket /> : files.map(({
                       type, name, lastModified = null, size, path: filePath,
                     }) => (
                       <FileLI
-                        key={name + type}
+                        key={createKey(name, filePath || '', type)}
                         locale={loc}
                         bucket={id}
                         type={type}
@@ -238,12 +208,12 @@ export default function FileDisplay() {
                     ))}
                   </motion.ul>
                 </DragDrop>
-              </AnimateSharedLayout>
+              </LayoutGroup>
             </motion.div>
           )}
       </AnimatePresence>
 
-      <div
+      <motion.div
         className={`add-bucket-bar${bottomScrollShadow ? ' overflow' : ''}`}
         onClick={handleToggleAddFolder}
         onKeyDown={(e) => handleKeyboardAddFolder(e)}
@@ -256,7 +226,7 @@ export default function FileDisplay() {
             <IoAddCircleSharp className="add-bucket-plus" />
           </div>
         </span>
-      </div>
+      </motion.div>
       {addFolderModal
       && (
       <ModalComponentWrapper close={handleToggleAddFolder}>

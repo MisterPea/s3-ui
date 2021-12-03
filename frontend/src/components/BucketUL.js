@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { motion, AnimateSharedLayout } from 'framer-motion';
+import { motion, LayoutGroup } from 'framer-motion';
 import PropTypes from 'prop-types';
 import BucketLI from './BucketLI';
 
@@ -43,7 +43,7 @@ export default function BucketUL({ buckets, loading, onFinish }) {
   // having rendering being dictated by `loading` might not be the best solution for render blocking
 
   return (
-    <AnimateSharedLayout>
+    <LayoutGroup>
       {loading && (
         buckets.length === 0 ? <EmptyS3 /> : (
           <motion.ul
@@ -65,7 +65,7 @@ export default function BucketUL({ buckets, loading, onFinish }) {
           </motion.ul>
         )
       )}
-    </AnimateSharedLayout>
+    </LayoutGroup>
   );
 }
 

@@ -17,3 +17,40 @@ export function validateFolderName(name) {
   const foldernameValid = new RegExp(folderNameTest);
   return foldernameValid.test(name);
 }
+
+/**
+ * Method to ensure a unique filename by appending a dash and an incremented number.
+ * If the filename is unique, then it's returned unchanged.
+ * @param {string} uploadedFilename Name of the file upload (Key)
+ * @param {array<string>} currentFiles Array of current, active, filenames.
+ * @param {array<string>} newFilenames Array of currently uploaded filenames; for batch uploads
+ * @return {string} Returns a unique filename
+ */
+export function ensureUniqueFilename(uploadedFilename, currentFiles, newFilenames) {
+  let increment = 1;
+
+  // removes dash number i.e.: -1, increment from filename
+  const checkForPreviousIncrement = (filename) => filename.split(/(-\d+)$/)[0];
+
+  // splits up the filename from the extension, if an extension is present
+  const filenameAndExtension = () => {
+    const hasExtension = uploadedFilename.indexOf('.');
+    if (hasExtension > 1) {
+      const splitName = uploadedFilename.split(/.(\w+)$/);
+      return { name: checkForPreviousIncrement(splitName[0]), ext: splitName[1] };
+    }
+    return { name: checkForPreviousIncrement(uploadedFilename), ext: '' };
+  };
+
+  const allActiveFilenames = currentFiles.concat(newFilenames);
+  const extension = filenameAndExtension().ext !== '' ? `.${filenameAndExtension().ext}` : '';
+  function testFilename(filename) {
+    if (allActiveFilenames.includes(filename)) {
+      const tempFilename = `${filenameAndExtension().name}-${increment}${extension}`;
+      increment += 1;
+      return testFilename(tempFilename);
+    }
+    return filename;
+  }
+  return testFilename(uploadedFilename);
+}

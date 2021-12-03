@@ -23,12 +23,13 @@ export function addFile(bucketName, targetPath, fileName, size, lastModified, st
               name: fileName,
               lastModified,
               size,
+              path: targetPath,
             },
           ],
         };
       }
       // if match, but not at terminus
-      return { ...item, children: [parseParent(item.children, targetArray)] };
+      return { ...item, children: parseParent(item.children, targetArray) };
     }
     // if no match
     return item;
@@ -40,6 +41,7 @@ export function addFile(bucketName, targetPath, fileName, size, lastModified, st
       name: fileName,
       lastModified,
       size,
+      path: targetPath,
     };
   }
 

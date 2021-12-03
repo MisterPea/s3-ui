@@ -32,14 +32,19 @@ function tree(fileList) {
       }
       // at end of parsed string, push file
       if (i === pathLength - 1) {
-        const file = {
-          type: 'file',
-          name: fileName,
-          lastModified: LastModified,
-          size: Size,
-          path: currentPath,
-        };
-        scope.push(file);
+        /* The empty string is looked for, because when an empty folder is created,
+        an empty ('') key must be provided. When the aws object structure is converted to
+        a normalized, folder/file hierachy, the empty quote needs to be excluded from the tree */
+        if (fileName !== '') {
+          const file = {
+            type: 'file',
+            name: fileName,
+            lastModified: LastModified,
+            size: Size,
+            path: currentPath,
+          };
+          scope.push(file);
+        }
       }
     }
     // if we're root-level
