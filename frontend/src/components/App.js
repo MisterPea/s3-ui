@@ -5,7 +5,7 @@ import NavBar from './NavBar';
 import FileDisplay from './FileDisplay';
 import '../style/main.scss';
 import BucketDisplay from './BucketDisplay';
-
+import ErrorBar from './ErrorBar';
 /**
  * Application entry point
  * @return {JSX}
@@ -25,6 +25,7 @@ export default function App() {
               <Route path="*" component={() => <h1>404</h1>} />
             </Switch>
           </AnimatePresence>
+          <ErrorBar message="Could not create new folder" close={() => {}} />
         </div>
       </div>
     </>
