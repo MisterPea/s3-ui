@@ -18,22 +18,22 @@ The basic setup for multipart-uploading is:
 ### To do:
 * [x] Get List of Buckets - Name - Date Created - AWS Region
 * [x] Create New Bucket
-* [ ] Prevent the addition of buckets of the same name
+* [x] Prevent the addition of buckets of the same name
 * [x] Delete Buckets
-* [ ] Error catching - Bucket Creation
+* [x] Error catching - Bucket Creation
 * [x] Get Files/Folders
 * [x] Framer Motion integration
 * [x] Add Folder
-* [ ] Prevent the addition of folders of the same name
-* [ ] Generate new incremented filename for same name
+* [x] Prevent the addition of folders of the same name
+* [x] Generate new incremented filename for same name
 * [x] Delete Folder
-* [ ] Error catching - Folder Creation
+* [x] Error catching - Folder Creation
 * [x] Drag and drop
 * [x] Add File(s)
-* [ ] Deal with duplicate file names
-* [ ] Error catching - File Upload
+* [x] Deal with duplicate file names
+* [x] Error catching - File Upload
 * [x] Delete Files
-* [ ] Error catching - File Deletion
+* [x] Error catching - File Deletion
 * [ ] Get/Subscribe to Loading Percentage
 * [x] Mobile Layout
 * [ ] Tablet Layout
