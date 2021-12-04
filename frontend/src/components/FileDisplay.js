@@ -45,7 +45,6 @@ export default function FileDisplay() {
     topScrollShadow,
     bottomScrollShadow,
     handleScroll] = useScrollIntersect(files, scrollTarget);
-
   /**
    * Method to check store if bucket requested is in the store.
    * The checking involves both bucket and region perchance a
@@ -118,6 +117,11 @@ export default function FileDisplay() {
     return true;
   }
 
+  // Called upon the completion of list animation.
+  function handleFinishScroll() {
+    setScrollTarget(document.getElementsByClassName('ul-wrapper'));
+  }
+
   const loaderVariant = {
     exit: {
       opacity: 0,
@@ -181,15 +185,14 @@ export default function FileDisplay() {
               animate={loading ? 'closed' : 'open'}
               exit="closed"
               className="ul-wrapper"
+              onAnimationComplete={(height) => handleFinishScroll()}
             >
               <LayoutGroup>
                 <DragDrop bucket={id} locale={loc}>
                   <motion.ul
-                    layout
+                    layoutScroll
                     key="motion-file-ul"
                     className="file-ul"
-                    // eslint-disable-next-line no-unused-vars
-                    onAnimationComplete={(height) => setScrollTarget(document.getElementsByClassName('ul-wrapper'))}
                   >
                     {isEmptyFile(files) ? <EmptyBucket /> : files.map(({
                       type, name, lastModified = null, size, path: filePath,
