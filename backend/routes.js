@@ -5,43 +5,21 @@ const router = new express.Router();
 const {
   getAllBuckets,
   createBucket,
-  emptyBucket,
   getBucketContents,
-  getBucketContentsForDeletion,
   getLengthOfBucketObjects,
   addFolder,
-  deleteBucketContents,
   deleteBucket,
   deleteFile,
   deleteFolder,
   downloadFile,
 } = require('./S3_topLevelMethods');
 
-router.get('/getBucketList', (req, res) => {
+router.get('/getBucketList', (req, res, next) => {
   getAllBuckets()
     .then((buckets) => {
       res.send(buckets);
     })
-    .catch((err) => console.log(`ERROR in server-retrieving buckets: ${err}`));
-});
-// Error: TimeoutError: connect ETIMEDOUT 172.19.1.1:443: Getting buckets
-
-router.post('/getBucketContents', jsonParser, (req, res, next) => {
-  const { locale, bucket } = req.body;
-  getBucketContents(locale, bucket)
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => next(`ERROR in server-retrieving bucket contents: ${err}`));
-});
-
-router.post('/getBucketContentsForDeletion', jsonParser, (req, res, next) => {
-  const { locale, bucket } = req.body;
-  getBucketContentsForDeletion(locale, bucket)
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => next(`ERROR in getting contents for deletion: ${err}`));
+    .catch((err) => next(`ERROR in server-retrieving buckets: ${err}`));
 });
 
 router.post('/getBucketObjectsLength', jsonParser, (req, res, next) => {
@@ -51,6 +29,15 @@ router.post('/getBucketObjectsLength', jsonParser, (req, res, next) => {
       res.send({ objectLength: data });
     })
     .catch((err) => next(`ERROR in getting length of bucket objects: ${err}`));
+});
+
+router.post('/getBucketContents', jsonParser, (req, res, next) => {
+  const { locale, bucket } = req.body;
+  getBucketContents(locale, bucket)
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => next(`ERROR in server-retrieving bucket contents: ${err}`));
 });
 
 router.post('/getBucketsAndContents', jsonParser, (req, res, next) => {
@@ -78,7 +65,13 @@ router.post('/createBucket', jsonParser, (req, res, next) => {
       res.status(200).send(data);
     }).catch((err) => next(err));
 });
-// ERROR in server-retrieving buckets in (BucketsAndContents): Error: TimeoutError: connect ETIMEDOUT 172.19.1.1:443: Getting buckets
+
+router.post('/deleteBucket', jsonParser, (req, res, next) => {
+  const { locale, bucket } = req.body;
+  deleteBucket(locale, bucket)
+    .then((data) => res.status(200).send(data))
+    .catch((err) => next(err));
+});
 
 router.post('/createFolder', jsonParser, (req, res, next) => {
   const {
@@ -98,13 +91,6 @@ router.post('/deleteFolder', jsonParser, (req, res, next) => {
     .then((data) => {
       res.status(200).send(data);
     }).catch((err) => next(err));
-});
-
-router.post('/deleteBucket', jsonParser, (req, res, next) => {
-  const { locale, bucket } = req.body;
-  deleteBucket(locale, bucket)
-    .then((data) => res.status(200).send(data))
-    .catch((err) => next(err));
 });
 
 router.get('/downloadFile', jsonParser, (req, res, next) => {
