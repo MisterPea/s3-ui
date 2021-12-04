@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { deleteBucketFromList } from '../redux/actions/bucket';
+import { errorGettingFolderInfo } from '../redux/actions/error';
 
 export default function BucketDeleteModal({ Name, Region, setModalOpen }) {
   const [isDeletable, setIsDeletable] = useState(undefined);
@@ -35,7 +36,7 @@ export default function BucketDeleteModal({ Name, Region, setModalOpen }) {
         return setIsDeletable(true);
       }
       return setIsDeletable(false);
-    });
+    }).catch(() => dispatch(errorGettingFolderInfo()));
   }
 
   /**
