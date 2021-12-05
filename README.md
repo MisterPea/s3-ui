@@ -44,6 +44,7 @@ Longer-term development
 * [ ] Send Email
 * [ ] Generate a download url
 * [ ] Upload folders with nested content
+* [ ] Ability to change filename
 
 <hr />
 
