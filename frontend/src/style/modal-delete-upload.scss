@@ -33,8 +33,7 @@
 }
 
 .confirm-message {
-  padding: 10px 10px 0;
-  margin-bottom: 5px;
+  margin: 15px 10px 20px;
   .confirm-folder {
     font-style: italic;
   }
@@ -42,10 +41,10 @@
 
 .confirm-input {
   @include type-reg;
-  margin-bottom: 20px;
+  margin: 0 auto 20px;
   font-size: 100%;
-  padding: 6px 6px;
-  width: 100%;
+  padding: 6px 50px;
+  width: fit-content;
   background-color: rgba(192, 169, 169, 0.1);
   color: rgb(143, 47, 47);
   border-radius: 3px;
@@ -60,20 +59,24 @@
 .delete-confirmation {
   display: flex;
   flex-direction: column;
-  padding: 20px 40px 0;
+  padding: 20px;
   position: absolute;
-  width:100%;
-  height:100%;
+  width: 100%;
   background-color: rgb(255, 255, 255);
+  border-radius: 10px;
   opacity: 0;
-  transition: opacity 300ms ease-in-out;
+  transition: opacity 300ms cubic-bezier(.06,.65,.4,.97);
   z-index: -1;
+  
   &.visible {
     z-index: 1000;
     opacity: 1;
-    display: flex;
+
   }
   header {
+    flex-shrink: 1;
+    justify-content: center;
+    align-items: center;
     svg {
       height: 50px;
       width: 50px;
@@ -82,27 +85,28 @@
     text-align: center;
     h3 {
       @include type-bold;
-        color: $blue-text;
-        font-size: 1.125rem;
+      margin-bottom: 10px;
+      color: $blue-text;
+      font-size: 1.125rem;
     }
     p {
+      margin-top: 10px;
       @include type-reg;
       color: $blue-text;
+      margin-bottom: 10px;
       span {
-        font-style: italic;  
+        font-style: italic;
       }
     }
-
     & * {
       margin: 0;
     }
   }
   .delete-modal-lower {
-    flex:1;
-    max-height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+     justify-content: center;
+  align-items: center;
   }
 }
 
@@ -112,33 +116,18 @@
   flex-direction: column;
   button {
     border: none;
-    width: 100%;
-    height:40px;
-    // flex: 1 1;
     display: flex;
     align-items: center;
-    background-color: rgb(232,232,232);
+    background-color: $blue-grey;
     border-radius: 5px;
-    &:first-child{
-      margin-bottom: 20px;
-      background-color: $warning-red;
-    }
-    .button-content-wrapper {
-      height: 50px;
-      display: flex;
-      align-items: center;
-      margin: 0 auto;
-      .delete {
-        color: $white;
-      }
-      h2 {
-        @include type-bold;
-        color: $blue-text;
-        font-size: 0.85rem;
-        margin-left: 5px;
-      }
+    &:first-child {
+      margin-bottom: 10px;
     }
   }
 }
-
-
+.modal-delete-rule {
+  width: 100%;
+  margin: 10px 0;
+  border: none;
+  border-top: 1px solid $aws-blue;
+}
