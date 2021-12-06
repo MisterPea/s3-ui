@@ -2,6 +2,9 @@
 @import "./loading-bar.scss";
 @import "./modal-delete-upload.scss";
 @import "./error-bar.scss";
+@import "./modal-style.scss";
+@import "./component-style/submit-button.scss";
+@import "./component-style/modal-header.scss";
 
 html {
   box-sizing: border-box;
@@ -449,25 +452,18 @@ li {
   .left-buttons {
     display: flex;
     width: 100%;
-    margin-right: 20px;
-    margin-left: 10px;
+    margin: 0;
     height: 45px;
+    justify-content: space-around;
     .descend-menu-button {
-      max-width: 140px;
+      max-width: 250px;
+      margin: 0;
       height: 100%;
       border: none;
       flex: 1 0;
       background-color: rgb(250, 250, 250);
-      &:first-child {
-        margin-left: 5px;
-        margin-right: 1px;
-        border-bottom-left-radius: 5px;
-      }
-      &:last-child {
-        margin-left: 1px;
-        margin-right: 5px;
-        border-bottom-right-radius: 5px;
-      }
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
       .content-wrapper {
         margin: 5px auto 0;
         display: inline-block;
@@ -476,7 +472,6 @@ li {
           flex-wrap: nowrap;
           align-items: center;
           width: min-content;
-          // justify-content: space-around ;
           svg {
             color: $aws-blue;
             height: 25px;
@@ -503,7 +498,7 @@ li {
     height: 40px;
     width: 40px;
     flex-shrink: 0;
-    background-color: rgb(211, 25, 25);
+    background-color: $warning-red;
     padding: 0;
     .descend-menu-content {
       height: 25px;
@@ -555,239 +550,5 @@ li {
     color: #fff;
     height: 22px;
     width: 22px;
-  }
-}
-
-/* ***************************************** */
-/* ***************** Modal ***************** */
-/* ***************************************** */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.55);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-}
-
-.modal-center {
-  width: 80%;
-  border-radius: 4px;
-  background-color: $white;
-  @include type-reg;
-  font-size: 13px;
-  position: relative;
-
-  h1 {
-    @include type-bold;
-    font-size: 16px;
-    text-align: center;
-    color: $blue-text;
-    margin-top: 18px;
-  }
-
-  .basic-input {
-    @include type-reg;
-    font-size: 100%;
-    padding: 6px 6px;
-    width: 100%;
-    background-color: #ececec;
-    border-radius: 3px;
-    border: 1px rgb(99, 99, 99) solid;
-    text-align: center;
-  }
-
-  .modal-instructions {
-    @include type-reg;
-    color: $blue-text;
-    font-size: 11px;
-    margin: 15px 0;
-    padding: 10px;
-    background-color: #93bf9841;
-    border-radius: 4px;
-    // letter-spacing: 00.03rem;
-  }
-
-  li {
-    margin-bottom: 8px;
-    @include type-reg;
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-
-  .bucket-submit,
-  .folder-submit,
-  .delete-submit {
-    @include type-bold;
-    font-size: 15px;
-    color: $white;
-    padding: 7px 20px;
-    border-radius: 20px;
-    display: block;
-    margin: 0 auto;
-    border: none;
-    background-color: $aws-blue;
-    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-    &:disabled {
-      background-color: $aws-blue-disabled;
-      transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-    }
-  }
-}
-
-.modal-wrapper {
-  padding: 0 15px 20px;
-  display: flex;
-  flex-direction: column;
-}
-
-.modal-close-button {
-  position: relative;
-  z-index: 100;
-  float: right;
-  height: 24px;
-  width: 24px;
-  margin-left: -24px;
-  color: rgba(0, 0, 0, 0.7);
-  transition: color 0.3s ease-in-out;
-  &:hover {
-    color: rgba(0, 0, 0, 0.5);
-  }
-}
-
-.region-select-header {
-  @include type-bold;
-  font-size: 14px;
-  color: $blue-text;
-  margin-top: 20px;
-  margin-bottom: 0;
-  text-align: center;
-}
-
-.region-radio-ul {
-  padding: 0;
-  @include type-reg;
-  // letter-spacing: -0.015em;
-}
-
-.region-radio-li {
-  display: flex;
-  margin: 0;
-  font-size: 12px;
-  color: $blue-text;
-  &:first-child {
-    margin-top: 0;
-  }
-  input {
-    margin: 0;
-    width: 10%;
-  }
-  label {
-    @include text-overflow-ellipsis;
-    width: 90%;
-  }
-}
-
-#bucket-text-input,
-#folder-text-input {
-  @include type-reg;
-  font-size: 100%;
-  padding: 6px 6px;
-  width: 100%;
-  background-color: #ececec;
-  border-radius: 3px;
-  border: 1px rgb(99, 99, 99) solid;
-  text-align: center;
-}
-
-/* ***************************************** */
-/* ************* Folder Modal ************** */
-/* ***************************************** */
-.modal-button-group {
-  display: flex;
-  flex-direction: column;
-}
-
-/* ***************************************** */
-/* ************** File Modal *************** */
-/* ***************************************** */
-.modal-header {
-  display: flex;
-  align-items: center;
-  margin-top: 15px;
-  svg {
-    height: 40px;
-    width: 40px;
-    color: $aws-blue;
-  }
-  h3 {
-    color: $blue-text;
-    margin: 0;
-    margin-left: 10px;
-  }
-}
-
-.file-info-body {
-  margin-left: 40px;
-  margin-bottom: 20px;
-  .file-info {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
-    &:last-child {
-      margin-bottom: 0;
-    }
-    h4 {
-      color: $blue-text;
-      margin: 0;
-      white-space: nowrap;
-      font-size: 0.7rem;
-      align-self: end;
-    }
-    p {
-      margin: 0;
-      @include text-overflow-ellipsis;
-    }
-  }
-}
-.file-button-wrapper {
-  display: flex;
-  flex-direction: column;
-  button {
-    border: none;
-    width: 100%;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    background-color: rgb(232, 232, 232);
-    border-radius: 5px;
-    &:first-child {
-      margin-bottom: 10px;
-    }
-    .button-content-wrapper {
-      height: 50px;
-      display: flex;
-      align-items: center;
-      margin: 0 auto;
-      .file-icon {
-        margin-right: 5px;
-
-        svg {
-          height: 100%;
-          width: 100%;
-          color: $aws-blue;
-        }
-      }
-      h2 {
-        @include type-bold;
-        color: $blue-text;
-        font-size: 0.8rem;
-        margin-left: 5px;
-      }
-    }
   }
 }
