@@ -1,0 +1,51 @@
+.modal-component-header {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.modal-component-header-text {
+  @include type-bold;
+  font-size: 20px;
+  text-align: center;
+  color: $blue-text;
+  padding: 0;
+  margin: 0 0 15px;
+}
+
+.modal-icon-unit {
+  position: relative;
+  margin: 0 auto;
+  z-index: 10;
+  &.red::before {
+    z-index: 1;
+    content: "";
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    border-radius: 50%;
+    background-color: $warning-red;
+  } 
+  &.blue::before {
+    z-index: 1;
+    content: "";
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    border-radius: 50%;
+    background-color: $blue-text;
+  } 
+}
+
+.modal-component-icon {
+  z-index: 3;
+  position: relative;
+  font-size: 50px;
+  padding: 10px;
+  color: $white;
+}
+
+.modal-rule {
+  width: 100%;
+  margin: 0;
+}
