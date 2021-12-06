@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { BsBucket } from 'react-icons/bs';
@@ -20,9 +20,19 @@ export default function AddBucketModal({ setModalOpen, currentBuckets }) {
   const [validEntry, setValidEntry] = useState(false);
   const dispatch = useDispatch();
 
+  const handleEnterClick = useCallback((e) => {
+    if (e.key === 'Enter' && validEntry) {
+      handleAddBucket();
+    }
+  }, [validEntry, inputValue]);
+
   useEffect(() => {
     document.getElementById('bucket-text-input').focus();
-  }, []);
+    document.addEventListener('keydown', handleEnterClick);
+    return () => {
+      document.removeEventListener('keydown', handleEnterClick);
+    };
+  }, [validEntry, inputValue]);
 
   useEffect(() => {
     if (validateBucketName(inputValue.name, currentBuckets)) {
@@ -126,5 +136,6 @@ AddBucketModal.defaultProps = {
 
 AddBucketModal.propTypes = {
   setModalOpen: PropTypes.func,
-  currentBuckets: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  currentBuckets: PropTypes.array.isRequired,
 };
