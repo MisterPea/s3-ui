@@ -1,6 +1,6 @@
 /* eslint-disable no-loop-func */
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { IoAddCircleSharp } from 'react-icons/io5';
 import { useHistory } from 'react-router';
@@ -34,6 +34,7 @@ export default function FileDisplay() {
   const history = useHistory();
   const [addFolderModal, setAddFolderModal] = useState(false);
   const [[scrollTarget], setScrollTarget] = useState([null]);
+  const location = useRef(null);
 
   useEffect(() => {
     checkForBucket();
@@ -67,7 +68,6 @@ export default function FileDisplay() {
       history.push(`${history.location.search}&path=${firstPath}`);
     } else {
       const lastRoute = newPath.split('/');
-
       history.push(`${history.location.search}/${lastRoute[lastRoute.length - 1]}`);
     }
   }
@@ -81,20 +81,23 @@ export default function FileDisplay() {
     handleToggleAddFolder();
   }
 
-  function handleAddFileButtonClick() {
+  function handleAddFileButtonClick(folderLocation = null) {
+    if (folderLocation) {
+      location.current = folderLocation;
+    }
     document.getElementById('add-files').click();
   }
 
   function clearFileInput() {
     const currentInput = document.querySelector('#add-files');
-    currentInput.replaceWith(currentInput.ariaValueMax('').clone(true));
+    currentInput.value = '';
   }
 
   function handleFileSubmit() {
     const fileInput = document.querySelector('#add-files');
     const file = fileInput.files;
     const writePath = currentPath ? `/${currentPath}` : '';
-    dispatch(uploadFiles(loc, id, writePath, file));
+    dispatch(uploadFiles(loc, id, location.current || writePath, file));
     clearFileInput();
   }
 
@@ -155,7 +158,7 @@ export default function FileDisplay() {
         <div className="add-file-wrapper">
           <button
             type="button"
-            onClick={handleAddFileButtonClick}
+            onClick={() => handleAddFileButtonClick(null)}
             className="add-file"
           >
             <input
@@ -211,6 +214,7 @@ export default function FileDisplay() {
                         size={size}
                         filePath={filePath}
                         folderClick={handleFolderClick}
+                        uploadClick={handleAddFileButtonClick}
                       />
                     ))}
                   </motion.ul>
