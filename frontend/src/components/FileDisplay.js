@@ -1,6 +1,6 @@
 /* eslint-disable no-loop-func */
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { IoAddCircleSharp } from 'react-icons/io5';
 import { useHistory } from 'react-router';
@@ -34,6 +34,7 @@ export default function FileDisplay() {
   const history = useHistory();
   const [addFolderModal, setAddFolderModal] = useState(false);
   const [[scrollTarget], setScrollTarget] = useState([null]);
+  const location = useRef(null);
 
   useEffect(() => {
     checkForBucket();
@@ -45,7 +46,6 @@ export default function FileDisplay() {
     topScrollShadow,
     bottomScrollShadow,
     handleScroll] = useScrollIntersect(files, scrollTarget);
-
   /**
    * Method to check store if bucket requested is in the store.
    * The checking involves both bucket and region perchance a
@@ -68,7 +68,6 @@ export default function FileDisplay() {
       history.push(`${history.location.search}&path=${firstPath}`);
     } else {
       const lastRoute = newPath.split('/');
-
       history.push(`${history.location.search}/${lastRoute[lastRoute.length - 1]}`);
     }
   }
@@ -82,21 +81,28 @@ export default function FileDisplay() {
     handleToggleAddFolder();
   }
 
-  function handleAddFileButtonClick() {
+  function handleAddFileButtonClick(folderLocation = null) {
+    if (folderLocation) {
+      location.current = folderLocation;
+    }
     document.getElementById('add-files').click();
   }
 
   function clearFileInput() {
     const currentInput = document.querySelector('#add-files');
-    currentInput.replaceWith(currentInput.ariaValueMax('').clone(true));
+    currentInput.value = '';
   }
 
   function handleFileSubmit() {
     const fileInput = document.querySelector('#add-files');
     const file = fileInput.files;
     const writePath = currentPath ? `/${currentPath}` : '';
-    dispatch(uploadFiles(loc, id, writePath, file));
+    dispatch(uploadFiles(loc, id, location.current || writePath, file));
     clearFileInput();
+  }
+
+  function currentFolders() {
+    return files.filter((file) => file.type === 'folder').map((folder) => folder.name);
   }
 
   const createKey = (name, filePath, type) => `${name}${filePath}${type}`.replace(/[\\/./\s]/g, '');
@@ -116,6 +122,11 @@ export default function FileDisplay() {
       return false;
     }
     return true;
+  }
+
+  // Called upon the completion of list animation.
+  function handleFinishScroll() {
+    setScrollTarget(document.getElementsByClassName('ul-wrapper'));
   }
 
   const loaderVariant = {
@@ -147,7 +158,7 @@ export default function FileDisplay() {
         <div className="add-file-wrapper">
           <button
             type="button"
-            onClick={handleAddFileButtonClick}
+            onClick={() => handleAddFileButtonClick(null)}
             className="add-file"
           >
             <input
@@ -181,15 +192,14 @@ export default function FileDisplay() {
               animate={loading ? 'closed' : 'open'}
               exit="closed"
               className="ul-wrapper"
+              onAnimationComplete={(height) => handleFinishScroll()}
             >
               <LayoutGroup>
                 <DragDrop bucket={id} locale={loc}>
                   <motion.ul
-                    layout
+                    layoutScroll
                     key="motion-file-ul"
                     className="file-ul"
-                    // eslint-disable-next-line no-unused-vars
-                    onAnimationComplete={(height) => setScrollTarget(document.getElementsByClassName('ul-wrapper'))}
                   >
                     {isEmptyFile(files) ? <EmptyBucket /> : files.map(({
                       type, name, lastModified = null, size, path: filePath,
@@ -204,6 +214,7 @@ export default function FileDisplay() {
                         size={size}
                         filePath={filePath}
                         folderClick={handleFolderClick}
+                        uploadClick={handleAddFileButtonClick}
                       />
                     ))}
                   </motion.ul>
@@ -230,7 +241,7 @@ export default function FileDisplay() {
       {addFolderModal
       && (
       <ModalComponentWrapper close={handleToggleAddFolder}>
-        <AddFolderModal />
+        <AddFolderModal folders={currentFolders} />
       </ModalComponentWrapper>
       )}
     </div>

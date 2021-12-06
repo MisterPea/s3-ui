@@ -1,0 +1,97 @@
+.submit-button {
+  @include type-bold;
+  height: 40px;
+  font-size: 15px;
+  color: $white;
+  padding: 5px 20px;
+  border-radius: 8px;
+  display: block;
+  margin: 0 auto;
+  border: none;
+  background-color: $aws-blue;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  h3 {
+    color: $white;
+    font-size: 14px;
+    width: 100%;
+    margin: 0;
+  }
+  &.longer {
+    padding: 0 50px;
+  }
+  &:disabled {
+    background-color: $blue-grey;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    h3 {
+      color: $white;
+    }
+  }
+  &.destructive {
+    background-color:$warning-red;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    h3 {
+      color: $white;
+    }
+  }
+  &.destructive:disabled {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid $warning-red-disabled;
+    color: $warning-red-disabled;
+  }
+}
+
+// *********** Submit with Icon *********** //
+.submit-button-icon {
+  @include type-bold;
+  height: 40px;
+  font-size: 15px;
+  border-radius: 8px;
+  display: block;
+  margin: 0 auto;
+  border: none;
+  background-color: $aws-blue;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  &.longer {
+    padding: 0 50px;
+  }
+  &:disabled {
+    background-color: $aws-blue-disabled;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  }
+  &.destructive {
+    background-color:$warning-red;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    & h2{
+      color: $white;
+    } 
+    & .file-icon svg {
+      color: $white;
+    }
+  }
+  &.destructive:disabled {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid $warning-red-disabled;
+    color: $warning-red-disabled;
+  }
+}
+.submit-content-wrapper {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  .file-icon {
+    margin-right: 5px;
+    
+    svg {
+      height: 100%;
+      width: 100%;
+      color: $blue-text;
+    }
+  }
+  h2 {
+    @include type-bold;
+    color: $blue-text;
+    font-size: 0.85rem;
+    margin-left: 5px;
+  }
+}

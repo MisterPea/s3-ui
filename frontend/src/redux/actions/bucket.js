@@ -83,6 +83,7 @@ export function getBucketContentsList(region, bucket) {
       dispatch(getBucketContents(bucket, data));
       dispatch(hideLoader());
     }).catch(() => {
+      dispatch(errorGettingBucketContents());
       dispatch(hideLoader());
     });
   };
@@ -117,7 +118,8 @@ export function addNewBucketToList(newBucket) {
       headers: {
         'content-type': 'application/json',
       },
-    }).then(() => dispatch(addBucket(newBucket))).catch(() => dispatch(errorCreatingBucket()));
+    }).then(() => dispatch(addBucket(newBucket)))
+      .catch(() => dispatch(errorCreatingBucket()));
   };
 }
 

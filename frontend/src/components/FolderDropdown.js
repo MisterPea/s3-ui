@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { IoCloudUploadOutline, IoTrashOutline, IoCloudDownloadOutline } from 'react-icons/io5';
+import { IoCloudUploadOutline, IoTrashOutline } from 'react-icons/io5';
 import PropTypes from 'prop-types';
 
 export default function FolderDropdown({
-  isOpen, buttonClick, closeDropdown, toggleDeleteFolderModal, toggleUploadModal,
+  isOpen, buttonClick, closeDropdown, toggleDeleteFolderModal, uploadClick, filePath,
 }) {
   if (isOpen) {
     document.addEventListener('click', handleClose);
@@ -23,11 +23,6 @@ export default function FolderDropdown({
     handleClose(true);
   }
 
-  function handleUploadButton() {
-    toggleUploadModal();
-    handleClose(true);
-  }
-
   return (
     <div className={`descend-menu ${isOpen ? 'visible-folder' : ''}`}>
       <div className="left-buttons">
@@ -35,23 +30,13 @@ export default function FolderDropdown({
           className="descend-menu-button"
           tabIndex={0}
           type="button"
-          onClick={handleUploadButton}
+          onClick={() => uploadClick(filePath)}
         >
           <div className="content-wrapper">
-            <div className="descend-menu-content">
-              <IoCloudDownloadOutline className="descend-menu-icon upload" />
-              <p className="descend-menu-title">DOWNLOAD</p>
-            </div>
-          </div>
-        </button>
-        <button
-          className="descend-menu-button"
-          tabIndex={0}
-          type="button"
-          onClick={handleUploadButton}
-        >
-          <div className="content-wrapper">
-            <div className="descend-menu-content">
+            <div
+              className="descend-menu-content"
+              type="button"
+            >
               <IoCloudUploadOutline className="descend-menu-icon upload" />
               <p className="descend-menu-title">UPLOAD</p>
             </div>
@@ -64,21 +49,22 @@ export default function FolderDropdown({
         type="button"
         onClick={handleDeleteButton}
       >
-        <div
-          className="descend-menu-content"
-        >
+        <div className="descend-menu-content">
           <IoTrashOutline className="descend-menu-icon-delete" />
         </div>
       </button>
-
     </div>
   );
 }
+FolderDropdown.defaultProps = {
+  filePath: '',
+};
 
 FolderDropdown.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   buttonClick: PropTypes.func.isRequired,
   closeDropdown: PropTypes.func.isRequired,
   toggleDeleteFolderModal: PropTypes.func.isRequired,
-  toggleUploadModal: PropTypes.func.isRequired,
+  uploadClick: PropTypes.func.isRequired,
+  filePath: PropTypes.string,
 };

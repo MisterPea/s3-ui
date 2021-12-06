@@ -103,15 +103,23 @@ export default function ModalComponentWrapper({ children, close }) {
     close();
   }
 
+  function handleClickOutside(e) {
+    if (e.target.className === 'modal-overlay') {
+      setModalOpen(false);
+    }
+  }
+
   const portalJSX = (
     <motion.div
       variants={modalBackOverlay}
       initial="closed"
       animate={modalOpen ? 'open' : 'closed'}
+      onClick={(e) => handleClickOutside(e)}
       className="modal-overlay"
       // eslint-disable-next-line no-unused-vars
       onAnimationComplete={(opacity) => !modalOpen && handleModalCloseSequence()}
     >
+
       <motion.div
         className="modal-center"
         variants={modalCenterVariant}

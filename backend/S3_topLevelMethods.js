@@ -1,4 +1,3 @@
-// const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
 const {
   S3Client,
   ListBucketsCommand,
@@ -47,7 +46,28 @@ const logError = (message, error) => {
  */
 function getAllBuckets() {
   const s3 = newClient(region);
-  return getBuckets(s3).then((data) => appendBucketRegion(s3, data.Buckets));
+  return getBuckets(s3)
+    .then((data) => appendBucketRegion(s3, data.Buckets))
+    .catch((err) => { throw new Error(`Error retreing buckets: ${err}`); });
+}
+
+/**
+ * Pseudo-private method to retrieve and append the region of S3 buckets
+ * to buckets object array
+ * @param {S3Client} client S3 Client
+ * @param {Object[]} buckets Array of objects containing Name and CreationDate
+ * @return {Promise[]} Returns an array of objects with the keys:
+ *`Name`,`Region` and `CreationDate`
+ */
+function appendBucketRegion(client, buckets) {
+  return Promise.all(
+    buckets.map(({ Name, CreationDate }) => getRegion(client, Name)
+      .then((Region) => ({
+        Name,
+        Region: Region.LocationConstraint || region,
+        CreationDate,
+      }))),
+  ).then((results) => results);
 }
 
 /**
@@ -75,26 +95,7 @@ function getLengthOfBucketObjects(locale, bucketName) {
   const s3 = newClient(locale);
   return s3.send(new ListObjectsV2Command({ Bucket: bucketName }))
     .then(({ KeyCount }) => KeyCount)
-    .catch((err) => { throw new TypeError(`Error retireving object length: ${err}`); });
-}
-
-/**
- * Pseudo-private method to retrieve and append the region of S3 buckets
- * to buckets object array
- * @param {S3Client} client S3 Client
- * @param {Object[]} buckets Array of objects containing Name and CreationDate
- * @return {Promise[]} Returns an array of objects with the keys:
- *`Name`,`Region` and `CreationDate`
- */
-function appendBucketRegion(client, buckets) {
-  return Promise.all(
-    buckets.map(({ Name, CreationDate }) => getRegion(client, Name)
-      .then((Region) => ({
-        Name,
-        Region: Region.LocationConstraint || region,
-        CreationDate,
-      }))),
-  ).then((results) => results);
+    .catch((err) => { throw new Error(`Error retireving object length: ${err}`); });
 }
 
 /**
@@ -105,11 +106,25 @@ function appendBucketRegion(client, buckets) {
  */
 function getRegion(client, Name) {
   return client.send(new GetBucketLocationCommand({ Bucket: Name }))
-    .then((region) => region)
+    .then((location) => location)
     .catch((err) => {
       logError(`Getting region for ${Name}`, err);
       return err;
     });
+}
+
+/**
+ * Method to retrieve the contents of the bucket
+ * @param {string} locale The region the bucket is located
+ * @param {string} bucketName Bucket name
+ * @return {Promise<array>} Returns an array of objects.
+ * - Keys: `Key`, `LastModified`,`ETag`,`Size`,`StorageClass` and `Owner`
+ */
+function getBucketContents(locale, bucketName) {
+  const s3 = newClient(locale);
+  return s3.send(new ListObjectsV2Command({ Bucket: bucketName }))
+    .then(({ Contents }) => (!Contents ? [] : tree(Contents)))
+    .catch((err) => { throw new Error(err); });
 }
 
 /**
@@ -142,10 +157,7 @@ function createBucket(bucketName, accessControlLevel = 'private', locale = regio
   };
   return s3.send(new CreateBucketCommand(params))
     .then((data) => data)
-    .catch((err) => {
-      logError('Creating bucker', err);
-      return err;
-    });
+    .catch((err) => { throw new Error(err); });
 }
 
 /**
@@ -159,62 +171,7 @@ function deleteBucket(locale, bucketName) {
 
   return s3.send(new DeleteBucketCommand({ Bucket: bucketName }))
     .then(() => ({ status: 200 }))
-    .catch((err) => { throw new TypeError(err); });
-}
-
-// /**
-//  * Method to empty/delete files from a bucket
-//  * @param {string} locale The region the bucket is located
-//  * @param {string} bucketName Name of the bucket to be emptied
-//  */
-// function emptyBucket(locale, bucketName) {
-//   getBucketContents(locale, bucketName)
-//     .then((data) => {
-//       const contents = data.map(({ Key }) => ({ Key }));
-//       deleteBucketContents(bucketName, locale, contents);
-//     })
-//     .catch((err) => console.log(err));
-// }
-
-/**
- * Method to empty/delete files/folders from a bucket.
- * @param {string} bucketName
- * @param {string} locale The region the bucket is located
- * @param {array<object>} keys Array of items to be deleted.
- * - Objects must have the key: Key. e.g. [{Key: 'myFolder/', Key: 'file.txt'}]
- * @return {Promise<object>}
- */
-function deleteBucketContents(bucketName, locale, keys) {
-  const s3 = newClient(locale);
-
-  const params = {
-    Bucket: bucketName,
-    Delete: { Objects: keys },
-  };
-  return s3.send(new DeleteObjectsCommand(params))
-    .then((data) => data)
-    .catch((err) => { throw new TypeError(err); });
-}
-
-/**
- * Method to retrieve the contents of the bucket
- * @param {string} locale The region the bucket is located
- * @param {string} bucketName Bucket name
- * @return {Promise<array>} Returns an array of objects.
- * - Keys: `Key`, `LastModified`,`ETag`,`Size`,`StorageClass` and `Owner`
- */
-function getBucketContents(locale, bucketName) {
-  const s3 = newClient(locale);
-  return s3.send(new ListObjectsV2Command({ Bucket: bucketName }))
-    .then(({ Contents }) => (!Contents ? [] : tree(Contents)))
-    .catch((err) => { throw new TypeError(err); });
-}
-
-function getBucketContentsForDeletion(locale, bucketName) {
-  const s3 = newClient(locale);
-  return s3.send(new ListObjectsV2Command({ Bucket: bucketName }))
-    .then(({ Contents }) => console.log(Contents))
-    .catch((err) => { throw new TypeError(err); });
+    .catch((err) => { throw new Error(err); });
 }
 
 /**
@@ -237,7 +194,7 @@ function addFolder(locale = region, folderPath = '', bucketName, folderName) {
   };
   return s3.send(new PutObjectCommand(params))
     .then((data) => data)
-    .catch((err) => { throw new TypeError(err); });
+    .catch((err) => { throw new Error(err); });
 }
 
 /**
@@ -276,7 +233,7 @@ function deleteFolder(locale, bucket, pathToDelete, folderName) {
       return s3.send(new DeleteObjectsCommand(params))
         .then((data) => data)
         .catch((err) => { throw new TypeError(`${err}-could not delete objects`); });
-    }).catch((err) => { throw new TypeError(err); });
+    }).catch((err) => { throw new Error(err); });
 }
 
 /**
@@ -300,7 +257,7 @@ function downloadFile(locale, bucket, key) {
 
   return s3.send(new GetObjectCommand(params))
     .then(({ Body }) => Body)
-    .catch((err) => { throw new TypeError(err); });
+    .catch((err) => { throw new Error(err); });
 }
 
 /**
@@ -315,24 +272,21 @@ function deleteFile(locale, bucket, key) {
   const filename = filenameArray[filenameArray.length - 1];
   const keySplit = filenameArray.length === 1 ? filename : key;
   const s3 = newClient(locale);
-  
+
   const params = {
     Bucket: bucket,
     Key: keySplit,
   };
   return s3.send(new DeleteObjectCommand(params))
     .then((result) => result)
-    .catch((err) => { throw new TypeError(err); });
+    .catch((err) => { throw new Error(err); });
 }
 
 module.exports = {
   getAllBuckets,
   createBucket,
   getBucketContents,
-  getBucketContentsForDeletion,
   getLengthOfBucketObjects,
-  // emptyBucket,
-  deleteBucketContents,
   addFolder,
   deleteBucket,
   deleteFile,

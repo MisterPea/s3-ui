@@ -10,7 +10,6 @@ import FolderDeleteModal from './FolderDeleteModal';
 import FolderUploadModal from './FolderUploadModal';
 import ModalComponentWrapper from './ModalComponentWrapper';
 import FileModal from './FileModal';
-import createId from './helpers/createId';
 
 /**
  * Component to render a folder or a file
@@ -21,10 +20,19 @@ import createId from './helpers/createId';
  * @prop {string} filePath File path leading to children (Only for folders)
  * @prop {func?} folderClick Callback for folders that are clicked
  * @prop {string} locale Region of the bucker - passed to modal.
+ * @prop {func?} uploadClick Click handler to be called on uploads emanating from folders
  * @return {JSX}
  */
 export default function FileLI({
-  bucket, type, name, lastModified = null, size = null, filePath = null, folderClick, locale,
+  bucket,
+  type,
+  name,
+  lastModified = null,
+  size = null,
+  filePath = null,
+  folderClick,
+  locale,
+  uploadClick = null,
 }) {
   // For Both
   const [toggleTooltip, setToggleTooltip] = useState(false);
@@ -88,6 +96,7 @@ export default function FileLI({
             toggleUploadModal={handleUploadModal}
             closeDropdown={handleToggleTooltip}
             buttonClick={handleCloseTooltip}
+            uploadClick={() => uploadClick(filePath)}
           />
           { toggleDeleteFolderModal
     && (
@@ -97,7 +106,6 @@ export default function FileLI({
         bucket={bucket}
         pathToDelete={filePath}
         folderName={name}
-
       />
     </ModalComponentWrapper>
     ) }
@@ -167,6 +175,7 @@ FileLI.defaultProps = {
   filePath: null,
   folderClick: null,
   locale: '',
+  uploadClick: () => null,
 };
 
 FileLI.propTypes = {
@@ -178,4 +187,5 @@ FileLI.propTypes = {
   filePath: propTypes.string,
   folderClick: propTypes.func,
   locale: propTypes.string,
+  uploadClick: propTypes.func,
 };

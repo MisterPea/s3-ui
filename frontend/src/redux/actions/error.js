@@ -6,6 +6,8 @@ export const ERR_DELETING_FOLDER = 'ERR_DELETING_FOLDER';
 export const ERR_DELETING_BUCKET = 'ERR_DELETING_BUCKET';
 export const ERR_DELETING_FILE = 'ERR_DELETING_FILE';
 export const ERR_DOWNLOADING_FILE = 'ERR_DOWNLOADING_FILE';
+export const ERR_GETTING_FOLDER_INFO = 'ERR_GETTING_FOLDER_INFO';
+export const RESET_ERROR = 'RESET_ERROR';
 
 export function errorGettingBucketContents() {
   return {
@@ -18,6 +20,13 @@ export function errorGettingBuckets() {
   return {
     type: ERR_GETTING_BUCKETS,
     message: 'Could not retrieve buckets',
+  };
+}
+
+export function errorGettingFolderInfo() {
+  return {
+    type: ERR_GETTING_FOLDER_INFO,
+    message: 'Could not get folder info',
   };
 }
 
@@ -60,5 +69,12 @@ export function errorDownloadingFile() {
   return {
     type: ERR_DOWNLOADING_FILE,
     message: 'Error downloading file',
+  };
+}
+
+export function resetError() {
+  return {
+    type: RESET_ERROR,
+    message: null,
   };
 }

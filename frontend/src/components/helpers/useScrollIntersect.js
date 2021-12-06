@@ -40,6 +40,7 @@ export default function useScrollIntersect(dependency, target) {
       }
       return topScrollShadow && setTopScrollShadow(false);
     }
+
     function bottomBar() {
       if (bottomScrollDifference > 0) {
         if (bottomScrollDifference - scrollOffset === 0) {
@@ -52,6 +53,5 @@ export default function useScrollIntersect(dependency, target) {
     topBar();
     bottomBar();
   }
-
   return [topScrollShadow, bottomScrollShadow, handleScroll];
 }
