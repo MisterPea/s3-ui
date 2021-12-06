@@ -55,7 +55,7 @@ SubmitBtnWithIcon.defaultProps = {
 SubmitBtnWithIcon.propTypes = {
   text: propTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
-  Icon: propTypes.object.isRequired,
+  Icon: propTypes.func.isRequired,
   clickHandle: propTypes.func.isRequired,
   fullWidth: propTypes.bool,
   isDisabled: propTypes.bool,
