@@ -464,6 +464,13 @@ li {
       background-color: rgb(250, 250, 250);
       border-bottom-left-radius: 5px;
       border-bottom-right-radius: 5px;
+      input {
+        display: none;
+      }
+      button {
+        border:none;
+        background: none;
+      }
       .content-wrapper {
         margin: 5px auto 0;
         display: inline-block;
