@@ -3,8 +3,11 @@ import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
+import { IoTrashSharp } from 'react-icons/io5';
 import { deleteBucketFromList } from '../redux/actions/bucket';
 import { errorGettingFolderInfo } from '../redux/actions/error';
+import ModalHeader from './ModalHeader';
+import SubmitButton from './SubmitButton';
 
 export default function BucketDeleteModal({ Name, Region, setModalOpen }) {
   const [isDeletable, setIsDeletable] = useState(undefined);
@@ -78,15 +81,12 @@ export default function BucketDeleteModal({ Name, Region, setModalOpen }) {
           onChange={(e) => handleInputChange(e)}
           value={confirmInput}
         />
-        <button
-          tabIndex={0}
-          className="delete-submit"
-          type="button"
-          disabled={!validInput}
-          onClick={handleDeletionCall}
-        >
-          Delete Bucket
-        </button>
+        <SubmitButton
+          text="Delete Bucket"
+          isDisabled={!validInput}
+          clickHandle={handleDeletionCall}
+          destructive
+        />
       </>
     );
   }
@@ -101,14 +101,7 @@ export default function BucketDeleteModal({ Name, Region, setModalOpen }) {
         <p className="confirm-message">
           Unable to delete bucket. Please erase its contents before deleting.
         </p>
-        <button
-          tabIndex={0}
-          className="submit-close"
-          type="button"
-          onClick={setModalOpen}
-        >
-          Close
-        </button>
+        <SubmitButton text="Close" clickHandle={setModalOpen} longer />
       </>
     );
   }
@@ -116,8 +109,7 @@ export default function BucketDeleteModal({ Name, Region, setModalOpen }) {
   return (
     <div className="modal-wrapper">
       <div className="modal-button-group">
-        <h1>Delete bucket</h1>
-        <hr className="modal-rule" />
+        <ModalHeader Icon={IoTrashSharp} iconColor="red" text="Delete Bucket" rule />
       </div>
       {isDeletable ? <DeletionAvailable /> : <DeletionUnavailable />}
     </div>

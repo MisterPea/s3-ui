@@ -8,6 +8,8 @@ import { useDispatch } from 'react-redux';
 import fileSizeTruncate from './helpers/fileSizeTruncate';
 import { deleteFileFromList } from '../redux/actions/file';
 import { errorDownloadingFile } from '../redux/actions/error';
+import SubmitBtnWithIcon from './SubmitBtnWithIcon';
+import SubmitButton from './SubmitButton';
 
 export default function FileModal({ fileInfo, setModalOpen, downloadInfo }) {
   const { name, lastModified, size } = fileInfo;
@@ -57,6 +59,7 @@ export default function FileModal({ fileInfo, setModalOpen, downloadInfo }) {
         <header className="confirm-delete-header">
           <FaExclamationTriangle />
           <h3>Are you sure?</h3>
+          <hr className="modal-delete-rule" />
           <p>
             Deleting
             {' '}
@@ -67,24 +70,21 @@ export default function FileModal({ fileInfo, setModalOpen, downloadInfo }) {
         </header>
         <div className="delete-modal-lower">
           <div className="delete-button-wrapper">
-            <button
-              type="button"
-              onClick={handleDeleteConfirm}
-              disabled={!showDeleteConfirm}
-            >
-              <div className="button-content-wrapper ">
-                <h2 className="delete">DELETE FILE</h2>
-              </div>
-            </button>
-            <button
-              type="button"
-              onClick={toggleDeleteConfirmClick}
-              disabled={!showDeleteConfirm}
-            >
-              <div className="button-content-wrapper">
-                <h2 className="cancel">CANCEL</h2>
-              </div>
-            </button>
+            <SubmitButton
+              text="DELETE FILE"
+              clickHandle={handleDeleteConfirm}
+              isDisabled={!showDeleteConfirm}
+              destructive
+              exactWidth="250px"
+              exactHeight="50px"
+            />
+            <SubmitButton
+              text="CANCEL"
+              clickHandle={toggleDeleteConfirmClick}
+              isDisabled={!showDeleteConfirm}
+              exactWidth="250px"
+              exactHeight="50px"
+            />
           </div>
         </div>
       </div>
@@ -110,26 +110,19 @@ export default function FileModal({ fileInfo, setModalOpen, downloadInfo }) {
           </div>
         </div>
         <div className="file-button-wrapper">
-          <button
-            type="button"
-            disabled={showDeleteConfirm}
-            onClick={handleDownloadClick}
-          >
-            <div className="button-content-wrapper">
-              <div className="file-icon"><IoCloudDownloadOutline /></div>
-              <h2>DOWNLOAD FILE</h2>
-            </div>
-          </button>
-          <button
-            type="button"
-            disabled={showDeleteConfirm}
-            onClick={toggleDeleteConfirmClick}
-          >
-            <div className="button-content-wrapper">
-              <div className="file-icon delete"><IoTrashOutline /></div>
-              <h2>DELETE FILE</h2>
-            </div>
-          </button>
+          <SubmitBtnWithIcon
+            text="DOWNLOAD FILE"
+            isDisabled={showDeleteConfirm}
+            Icon={IoCloudDownloadOutline}
+            clickHandle={handleDownloadClick}
+          />
+          <SubmitBtnWithIcon
+            text="DELETE FILE"
+            Icon={IoTrashOutline}
+            isDisabled={showDeleteConfirm}
+            clickHandle={toggleDeleteConfirmClick}
+            destructive
+          />
         </div>
       </div>
 
