@@ -35,6 +35,10 @@ export default function BucketDisplay() {
     }
   }
 
+  function currentBuckets() {
+    return buckets.map((bucket) => bucket.Name);
+  }
+
   const loaderVariant = {
     exit: {
       opacity: 0,
@@ -108,7 +112,7 @@ export default function BucketDisplay() {
       {addBucketModal
         && (
         <ModalComponentWrapper close={handleToggleModal}>
-          <AddBucketModal />
+          <AddBucketModal currentBuckets={currentBuckets()} />
         </ModalComponentWrapper>
         )}
     </div>

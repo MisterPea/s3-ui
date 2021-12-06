@@ -98,6 +98,10 @@ export default function FileDisplay() {
     clearFileInput();
   }
 
+  function currentFolders() {
+    return files.filter((file) => file.type === 'folder').map((folder) => folder.name);
+  }
+
   const createKey = (name, filePath, type) => `${name}${filePath}${type}`.replace(/[\\/./\s]/g, '');
 
   /**
@@ -233,7 +237,7 @@ export default function FileDisplay() {
       {addFolderModal
       && (
       <ModalComponentWrapper close={handleToggleAddFolder}>
-        <AddFolderModal />
+        <AddFolderModal folders={currentFolders} />
       </ModalComponentWrapper>
       )}
     </div>

@@ -2,16 +2,20 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import { BsBucket } from 'react-icons/bs';
 import { validateBucketName } from './helpers/validation';
 import { addNewBucketToList } from '../redux/actions/bucket';
+import ModalHeader from './ModalHeader';
+import SubmitButton from './SubmitButton';
 
 /**
  * Content to be wrapped by ModalComponentWrapper - Initiates the creation of a new S3 bucket.
- * @param {func<bool>} setModalOpen Passed in from `ModalComponentWrapper`- controls the
+ * @prop {func<bool>} setModalOpen Passed in from `ModalComponentWrapper`- controls the
  * removal of the `ModalComponentWrapper` from the DOM.
+ * @prop {string[]} currentBuckets Array of strings denoting current s3 buckets
  * @returns {JSX}
  */
-export default function AddBucketModal({ setModalOpen }) {
+export default function AddBucketModal({ setModalOpen, currentBuckets }) {
   const [inputValue, setInputValue] = useState({ name: '', region: 'us-east-1' });
   const [validEntry, setValidEntry] = useState(false);
   const dispatch = useDispatch();
@@ -21,7 +25,7 @@ export default function AddBucketModal({ setModalOpen }) {
   }, []);
 
   useEffect(() => {
-    if (validateBucketName(inputValue.name)) {
+    if (validateBucketName(inputValue.name, currentBuckets)) {
       if (!validEntry) setValidEntry(true);
     } else if (validEntry) setValidEntry(false);
   }, [inputValue]);
@@ -61,7 +65,7 @@ export default function AddBucketModal({ setModalOpen }) {
 
   return (
     <div className="modal-wrapper">
-      <h1>Create Bucket</h1>
+      <ModalHeader text="Create Bucket" Icon={BsBucket} />
       <input
         id="bucket-text-input"
         autoComplete="off"
@@ -73,48 +77,45 @@ export default function AddBucketModal({ setModalOpen }) {
         style={{ textTransform: 'lowercase' }}
       />
       <h2 className="region-select-header">Select Region</h2>
-      <hr />
-      <ul className="region-radio-ul">
-        {awsRegions.map((item, index) => {
-          const region = Object.keys(item);
-          const tag = item[region];
-          const isChecked = index === 0;
-          return (
-            <li
-              key={tag}
-              className="region-radio-li"
-            >
-              <input
-                type="radio"
-                id={tag}
-                value={tag}
-                name="Region"
-                defaultChecked={isChecked}
-                onChange={(e) => handleInputChange(e)}
-              />
-              <label htmlFor={tag}>{`${region} - ${tag}`}</label>
-            </li>
-          );
-        })}
-      </ul>
+      <hr className="add-bucket-rule" />
+      <div className="radio-wrapper">
+        <ul className="region-radio-ul">
+          {awsRegions.map((item, index) => {
+            const region = Object.keys(item);
+            const tag = item[region];
+            const isChecked = index === 0;
+            return (
+              <li
+                key={tag}
+                className="region-radio-li"
+              >
+                <input
+                  type="radio"
+                  id={tag}
+                  value={tag}
+                  name="Region"
+                  defaultChecked={isChecked}
+                  onChange={(e) => handleInputChange(e)}
+                />
+                <label htmlFor={tag}>{`${region} - ${tag}`}</label>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
       <ul className="modal-instructions">
         <li>
           • Bucket name must be between 3 and 63
-          characters long, and can consist only of
-          lowercase letters, numbers,  dots (.), and hyphens (-).
+          characters and can consist of letters, numbers,  dots (.), and hyphens (-).
+          It cannot be formatted as an IP address.
         </li>
         <li>• Bucket name must begin and end with a letter or number.</li>
-        <li>• Bucket name must not be formatted as an IP address.</li>
       </ul>
-      <button
-        tabIndex={0}
-        className="bucket-submit"
-        type="button"
-        disabled={!validEntry}
-        onClick={handleAddBucket}
-      >
-        Create Bucket
-      </button>
+      <SubmitButton
+        text="Create Bucket"
+        clickHandle={handleAddBucket}
+        isDisabled={!validEntry}
+      />
     </div>
   );
 }
@@ -125,4 +126,5 @@ AddBucketModal.defaultProps = {
 
 AddBucketModal.propTypes = {
   setModalOpen: PropTypes.func,
+  currentBuckets: PropTypes.func.isRequired,
 };
