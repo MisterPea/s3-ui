@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { IoFolderOutline } from 'react-icons/io5';
@@ -25,9 +25,19 @@ export default function AddFolderModal({ setModalOpen, folders }) {
   const dispatch = useDispatch();
   const { id: bucket, loc: locale, path: folderPath = '/' } = useParseQuery();
 
+  const handleEnterClick = useCallback((e) => {
+    if (e.key === 'Enter' && validEntry) {
+      handleAddFolder();
+    }
+  }, [validEntry, inputValue]);
+
   useEffect(() => {
     document.getElementById('folder-text-input').focus();
-  }, []);
+    document.addEventListener('keydown', handleEnterClick);
+    return () => {
+      document.removeEventListener('keydown', handleEnterClick);
+    };
+  }, [validEntry, inputValue]);
 
   useEffect(() => {
     if (validateFolderName(inputValue, folders()) === true) {

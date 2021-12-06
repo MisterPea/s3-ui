@@ -497,21 +497,31 @@ li {
     }
   }
   .descend-menu-button-delete {
+    background: none;
+    border: none;
+    position: relative;
+    margin: 5px auto 0;
     margin-right: 5px;
-    margin-top: 5px;
-    align-self: center;
-    border-radius: 100%;
-    border: 1px solid rgb(78, 22, 22);
-    height: 40px;
-    width: 40px;
-    flex-shrink: 0;
-    background-color: $warning-red;
     padding: 0;
+    &::before {
+      content: '';
+      position: absolute;
+      background-color: $warning-red;
+      height: 40px;
+      width: 40px;
+      top:0;
+      left: 0;
+      z-index: 10;
+      border-radius: 50%;
+      border: 1px solid rgb(78, 22, 22);
+    }
     .descend-menu-content {
-      height: 25px;
-      width: 25px;
+      height: 40px;
+      width: 40px;
       margin: 0 auto;
-      padding: 0;
+      padding-top: 6px;
+      z-index: 20;
+      position: relative;
       svg {
         color: rgb(255, 255, 255);
         height: 25px;
