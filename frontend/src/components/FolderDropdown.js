@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IoCloudUploadOutline, IoTrashOutline, IoCloudDownloadOutline } from 'react-icons/io5';
+import { IoCloudUploadOutline, IoTrashOutline } from 'react-icons/io5';
 import PropTypes from 'prop-types';
 
 export default function FolderDropdown({
@@ -39,19 +39,6 @@ export default function FolderDropdown({
         >
           <div className="content-wrapper">
             <div className="descend-menu-content">
-              <IoCloudDownloadOutline className="descend-menu-icon upload" />
-              <p className="descend-menu-title">DOWNLOAD</p>
-            </div>
-          </div>
-        </button>
-        <button
-          className="descend-menu-button"
-          tabIndex={0}
-          type="button"
-          onClick={handleUploadButton}
-        >
-          <div className="content-wrapper">
-            <div className="descend-menu-content">
               <IoCloudUploadOutline className="descend-menu-icon upload" />
               <p className="descend-menu-title">UPLOAD</p>
             </div>
@@ -64,9 +51,7 @@ export default function FolderDropdown({
         type="button"
         onClick={handleDeleteButton}
       >
-        <div
-          className="descend-menu-content"
-        >
+        <div className="descend-menu-content">
           <IoTrashOutline className="descend-menu-icon-delete" />
         </div>
       </button>
