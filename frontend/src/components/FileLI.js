@@ -10,7 +10,6 @@ import FolderDeleteModal from './FolderDeleteModal';
 import FolderUploadModal from './FolderUploadModal';
 import ModalComponentWrapper from './ModalComponentWrapper';
 import FileModal from './FileModal';
-import createId from './helpers/createId';
 
 /**
  * Component to render a folder or a file
