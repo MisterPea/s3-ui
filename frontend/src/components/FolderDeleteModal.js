@@ -2,7 +2,10 @@ import * as React from 'react';
 import { useState } from 'react';
 import propTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import { IoTrashSharp } from 'react-icons/io5';
 import { deleteFolderFromBucket } from '../redux/actions/folder';
+import ModalHeader from './ModalHeader';
+import SubmitButton from './SubmitButton';
 
 export default function FolderDeleteModal({
   setModalOpen, locale, bucket, pathToDelete, folderName,
@@ -35,10 +38,9 @@ export default function FolderDeleteModal({
 
   return (
     <div className="modal-wrapper">
+      <ModalHeader text="Delete Folder" Icon={IoTrashSharp} iconColor="red" rule />
       <div className="modal-button-group">
-        <h1>Delete a folder</h1>
         <div className="warning-red">
-          <h4 className="center-warning">WARNING</h4>
           <div className="warning-body-wrapper">
             <div className="warning-body">
               THIS WILL DELETE THE FOLDER
@@ -47,9 +49,8 @@ export default function FolderDeleteModal({
             </div>
           </div>
         </div>
-
       </div>
-      <hr className="warning-rule" />
+      <hr className="modal-rule" />
       <p className="confirm-message">
         To confirm deletion, type
         <span className="confirm-folder">{` ${lastPath()} `}</span>
@@ -62,7 +63,13 @@ export default function FolderDeleteModal({
         onChange={(e) => handleInputChange(e)}
         value={confirmInput}
       />
-      <button
+      <SubmitButton
+        text="Delete Folder"
+        clickHandle={handleDeleteFolder}
+        isDisabled={!validInput}
+        destructive
+      />
+      {/* <button
         tabIndex={0}
         className="delete-submit"
         type="button"
@@ -70,7 +77,7 @@ export default function FolderDeleteModal({
         onClick={handleDeleteFolder}
       >
         Delete Folder
-      </button>
+      </button> */}
     </div>
   );
 }
