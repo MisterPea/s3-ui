@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 /**
  * Multipart Upload Class
  * Takes in a Blob/File and a Bucket
@@ -51,7 +50,7 @@ export default class MultipartUpload {
    * @param {func} uploadCallback Progress callback
    * @param {func} serverCallback Callback fired when server resolves upload
     */
-  uploadFile(uploadId, uploadCallback, serverCallback) {
+  uploadFile(uploadId, uploadCallback, serverCallback, failCallback) {
     const chunkSize = 1024 ** 2 * 5; // 5MB
     let currentChunk = 0;
     let offset = 0;
@@ -131,7 +130,7 @@ export default class MultipartUpload {
             if (!finalChunk) {
               sendChunk();
             }
-          });
+          }).catch(() => failCallback());
       };
     };
     sendChunk();

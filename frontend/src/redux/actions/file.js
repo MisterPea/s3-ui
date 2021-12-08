@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { errorDeletingFile } from './error';
+import { errorDeletingFile, errorUploadingFile, errorWithInitialUpload } from './error';
 import MultipartUpload from '../../components/MultipartUpload';
 import findFilenames from '../../components/helpers/findFileNames';
 import { ensureUniqueFilename } from '../../components/helpers/validation';
@@ -67,6 +67,10 @@ export function uploadFiles(region, bucket, path = '', files) {
       }
     };
 
+    const failCallback = () => {
+      dispatch(errorWithInitialUpload());
+    };
+
     const classObject = {};
     const activeFilenames = [];
     for (let i = 0; i < fileList.length; i += 1) {
@@ -87,10 +91,11 @@ export function uploadFiles(region, bucket, path = '', files) {
             data,
             uploadProgressCallback,
             uploadCompleteCallback,
+            failCallback,
           );
         })
-        .catch((err) => {
-          console.error(`Upload failure: Can't retrieve UploadId: ${err}`);
+        .catch(() => {
+          dispatch(errorUploadingFile());
         });
     }
   };
