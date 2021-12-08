@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { BsBucket } from 'react-icons/bs';
@@ -20,9 +20,19 @@ export default function AddBucketModal({ setModalOpen, currentBuckets }) {
   const [validEntry, setValidEntry] = useState(false);
   const dispatch = useDispatch();
 
+  const handleEnterClick = useCallback((e) => {
+    if (e.key === 'Enter' && validEntry) {
+      handleAddBucket();
+    }
+  }, [validEntry, inputValue]);
+
   useEffect(() => {
     document.getElementById('bucket-text-input').focus();
-  }, []);
+    document.addEventListener('keydown', handleEnterClick);
+    return () => {
+      document.removeEventListener('keydown', handleEnterClick);
+    };
+  }, [validEntry, inputValue]);
 
   useEffect(() => {
     if (validateBucketName(inputValue.name, currentBuckets)) {
@@ -47,7 +57,7 @@ export default function AddBucketModal({ setModalOpen, currentBuckets }) {
   function handleInputChange(e) {
     const { value } = e.target;
     if (e.target.type === 'text') {
-      return setInputValue((v) => ({ ...v, name: value }));
+      return setInputValue((v) => ({ ...v, name: value.toLowerCase() }));
     }
     return setInputValue((v) => ({ ...v, region: value }));
   }
@@ -74,7 +84,6 @@ export default function AddBucketModal({ setModalOpen, currentBuckets }) {
         tabIndex={0}
         value={inputValue.name}
         onChange={(e) => handleInputChange(e)}
-        style={{ textTransform: 'lowercase' }}
       />
       <h2 className="region-select-header">Select Region</h2>
       <hr className="add-bucket-rule" />
@@ -126,5 +135,6 @@ AddBucketModal.defaultProps = {
 
 AddBucketModal.propTypes = {
   setModalOpen: PropTypes.func,
-  currentBuckets: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  currentBuckets: PropTypes.array.isRequired,
 };

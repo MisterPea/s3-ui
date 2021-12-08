@@ -27,10 +27,15 @@
     }
   }
   &.destructive {
-    background-color:$warning-red;
+    background-color: $warning-red;
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
     h3 {
       color: $white;
+    }
+    &:disabled {
+      h3 {
+        color: rgb(235, 175, 175);
+      }
     }
   }
   &.destructive:disabled {
@@ -59,11 +64,11 @@
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
   }
   &.destructive {
-    background-color:$warning-red;
+    background-color: $warning-red;
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-    & h2{
+    & h2 {
       color: $white;
-    } 
+    }
     & .file-icon svg {
       color: $white;
     }
@@ -81,7 +86,6 @@
   margin: 0 auto;
   .file-icon {
     margin-right: 5px;
-    
     svg {
       height: 100%;
       width: 100%;

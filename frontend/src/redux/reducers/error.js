@@ -7,6 +7,8 @@ import {
   ERR_DELETING_FOLDER,
   ERR_DOWNLOADING_FILE,
   ERR_DELETING_FILE,
+  ERR_UPLOADING_FILE,
+  ERR_INITIAL_UPLOAD,
   RESET_ERROR,
 } from '../actions/error';
 
@@ -20,6 +22,8 @@ export default function error(state = null, action) {
     case ERR_DELETING_FILE:
     case ERR_DELETING_FOLDER:
     case ERR_DOWNLOADING_FILE:
+    case ERR_UPLOADING_FILE:
+    case ERR_INITIAL_UPLOAD:
       return action.message;
     case RESET_ERROR:
       return action.message;

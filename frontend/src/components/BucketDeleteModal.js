@@ -17,6 +17,18 @@ export default function BucketDeleteModal({ Name, Region, setModalOpen }) {
     isDeletionAvailable(Region, Name);
   }, []);
 
+  useEffect(() => {
+    const closeModal = (e) => {
+      if (e.key === 'Enter' && !isDeletable) {
+        setModalOpen();
+      }
+    };
+    document.addEventListener('keypress', closeModal);
+    return () => {
+      document.removeEventListener('keypress', closeModal);
+    };
+  }, [isDeletable]);
+
   /**
  * Method that retrieves the number of of objects in the bucket and sets the `isDeletable` state
  * to false if there are any (n > 0) objects, otherwise it sets it to true,

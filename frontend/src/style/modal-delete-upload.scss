@@ -13,11 +13,13 @@
   .warning-body-wrapper {
     margin: 5px 0 10px;
     .warning-body {
+      @include type-bold;
+      letter-spacing: 0.05rem;
+      font-size: 0.85rem;
       margin-top: 0;
-      padding: 10px 14px;
+      padding: 10px 12px;
       text-align: center;
-      // background-color: rgba(255, 0, 0, 0.1);
-      line-height: 1.35rem;
+      line-height: 1.2rem;
       border-radius: 4px;
     }
   }

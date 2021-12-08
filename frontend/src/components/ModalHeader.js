@@ -22,7 +22,7 @@ ModalHeader.defaultProps = {
 
 ModalHeader.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
-  Icon: propTypes.object.isRequired,
+  Icon: propTypes.func.isRequired,
   iconColor: propTypes.string,
   text: propTypes.string.isRequired,
   rule: propTypes.bool,
