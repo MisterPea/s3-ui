@@ -5,6 +5,8 @@ export const ERR_CREATING_FOLDER = 'ERR_CREATING_FOLDER';
 export const ERR_DELETING_FOLDER = 'ERR_DELETING_FOLDER';
 export const ERR_DELETING_BUCKET = 'ERR_DELETING_BUCKET';
 export const ERR_DELETING_FILE = 'ERR_DELETING_FILE';
+export const ERR_UPLOADING_FILE = 'ERR_UPLOADING_FILE';
+export const ERR_INITIAL_UPLOAD = 'ERR_INITIAL_UPLOAD';
 export const ERR_DOWNLOADING_FILE = 'ERR_DOWNLOADING_FILE';
 export const ERR_GETTING_FOLDER_INFO = 'ERR_GETTING_FOLDER_INFO';
 export const RESET_ERROR = 'RESET_ERROR';
@@ -69,6 +71,20 @@ export function errorDownloadingFile() {
   return {
     type: ERR_DOWNLOADING_FILE,
     message: 'Error downloading file',
+  };
+}
+
+export function errorUploadingFile() {
+  return {
+    type: ERR_UPLOADING_FILE,
+    message: 'Error uploading file(s)',
+  };
+}
+
+export function errorWithInitialUpload() {
+  return {
+    type: ERR_INITIAL_UPLOAD,
+    message: 'Error with upload - Folders not allowed',
   };
 }
 
