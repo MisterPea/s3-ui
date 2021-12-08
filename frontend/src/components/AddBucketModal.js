@@ -57,7 +57,7 @@ export default function AddBucketModal({ setModalOpen, currentBuckets }) {
   function handleInputChange(e) {
     const { value } = e.target;
     if (e.target.type === 'text') {
-      return setInputValue((v) => ({ ...v, name: value }));
+      return setInputValue((v) => ({ ...v, name: value.toLowerCase() }));
     }
     return setInputValue((v) => ({ ...v, region: value }));
   }
@@ -84,7 +84,6 @@ export default function AddBucketModal({ setModalOpen, currentBuckets }) {
         tabIndex={0}
         value={inputValue.name}
         onChange={(e) => handleInputChange(e)}
-        style={{ textTransform: 'lowercase' }}
       />
       <h2 className="region-select-header">Select Region</h2>
       <hr className="add-bucket-rule" />
