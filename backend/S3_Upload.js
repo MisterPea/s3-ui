@@ -50,7 +50,7 @@ module.exports = class S3Upload {
     };
     return this.s3.send(new CreateMultipartUploadCommand(params))
       .then((data) => data)
-      .catch((err) => err);
+      .catch((err) => { throw new Error(err); });
   }
 
   /**
@@ -131,6 +131,6 @@ module.exports = class S3Upload {
       .then((ret) => {
         callback(ret);
       })
-      .catch((err) => console.error(`Error finishing the upload:${err}`));
+      .catch((err) => { throw new Error(err); });
   }
 };
