@@ -1,0 +1,72 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.modal-center {
+  width: 80%;
+  border-radius: 10px;
+  background-color: $white;
+  @include type-reg;
+  font-size: 13px;
+  position: relative;
+
+  .basic-input {
+    @include type-reg;
+    font-size: 100%;
+    padding: 6px 6px;
+    width: 100%;
+    background-color: #ececec;
+    border-radius: 6px;
+    border: 1px rgb(99, 99, 99) solid;
+    text-align: center;
+  }
+
+  li {
+    margin-bottom: 8px;
+    @include type-reg;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .bucket-submit,
+  .folder-submit,
+
+  .delete-submit {
+    @include type-bold;
+    font-size: 15px;
+    color: $white;
+    padding: 7px 20px;
+    border-radius: 20px;
+    display: block;
+    margin: 0 auto;
+    border: none;
+    background-color: $aws-blue;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    &:disabled {
+      background-color: $aws-blue-disabled;
+      transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    }
+  }
+}
+
+.modal-close-button {
+  // position: relative;
+  position: absolute;
+  right: 0;
+  z-index: 100;
+  font-size: 30px;
+  color: rgba(0, 0, 0, 0.7);
+  transition: color 0.3s ease-in-out;
+  &:hover {
+    color: rgba(0, 0, 0, 0.5);
+  }
+}

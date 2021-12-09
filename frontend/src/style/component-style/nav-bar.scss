@@ -1,0 +1,100 @@
+.nav-bar {
+  flex: 1;
+  position: relative;
+  display: flex;
+
+  .logo-lg {
+    width: 180px;
+    height: 35px;
+  }
+
+  .bucket-id-loc {
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    padding-left: 15px;
+    width: 60%;
+
+    .bucket-name {
+      @include type-bold;
+      color: #fff;
+      font-size: 18px;
+      letter-spacing: 0.05rem;
+      margin: 0;
+      @include text-overflow-ellipsis;
+    }
+    .bucket-region {
+      @include type-reg;
+      font-size: 12px;
+      color: #fff;
+      margin: 0;
+    }
+  }
+}
+
+.bucket-number-wrapper {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.buckets-number {
+  @include type-bold;
+  color: $white;
+  font-size: 20px;
+  margin: -5px auto 0;
+  text-align: center;
+}
+
+.contact-btn {
+  display: none;
+}
+
+.file-icon {
+  height: 25px;
+  width: 25px;
+  flex-shrink: 0;
+  color: $blue-text;
+  transition: color 300ms ease-in-out;
+}
+
+// ************* Breadcrumbs ************* //
+.breadcrumb-wrapper {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.breadcrumb-ul {
+  width: calc(100% - 10px);
+  @include type-reg;
+  color: #c6d0db;
+  font-size: 15px;
+  margin-left: 10px;
+  mask-image: linear-gradient(270deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 10%);
+  -webkit-mask-image: linear-gradient(270deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 10%);
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+}
+
+.breadcrumb-li {
+  padding: 10px 0;
+  white-space: nowrap;
+  &:last-child {
+    padding-right: 10px;
+    .breadcrumb-link {
+      text-decoration: underline;
+      color: #e1ecf7;
+      @include type-bold;
+    }
+  }
+}
+

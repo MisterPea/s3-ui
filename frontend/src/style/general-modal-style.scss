@@ -1,0 +1,294 @@
+// ***************** AddBucketModal.js ***************** //
+// ***************** AddFolderModal.js ***************** //
+#bucket-text-input,
+#folder-text-input {
+  @include type-reg;
+  font-size: 100%;
+  padding: 6px 6px;
+  width: 100%;
+  background-color: #ececec;
+  border-radius: 3px;
+  border: 1px rgb(99, 99, 99) solid;
+  text-align: center;
+}
+
+.modal-instructions {
+  @include type-reg;
+  color: $blue-text;
+  font-size: 11px;
+  margin: 15px 0;
+  padding: 10px;
+  background-color: #93bf9841;
+  border-radius: 4px;
+}
+
+// ***************** AddBucketModal.js ***************** //
+.region-select-header {
+  @include type-bold;
+  font-size: 14px;
+  color: $blue-text;
+  margin-top: 20px;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+.add-bucket-rule {
+  width:100%;
+  margin: 10px 0;
+  border:none;
+  border-top: 1px solid $aws-blue;
+}
+
+.radio-wrapper {
+  margin:0 auto;
+}
+
+.region-radio-ul {
+  padding: 0;
+  @include type-reg;
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  align-items: flex-start;
+}
+
+.region-radio-li {
+  display: inline-flex;
+  margin: 0;
+  font-size: 12px;
+  color: $blue-text;
+  &:first-child {
+    margin-top: 0;
+  }
+  input {
+    margin: 0;
+    width: 20px;
+  }
+  label {
+    @include text-overflow-ellipsis;
+  }
+}
+
+
+
+// **************** BucketDeleteModal.js **************** //
+// ******************** FileModal.js ******************** //
+// **************** FolderDeleteModal.js **************** //
+
+.modal-button-group {
+  display: flex;
+  flex-direction: column;
+}
+
+// **************** BucketDeleteModal.js **************** //
+.confirm-message {
+  margin: 15px 10px 20px;
+  .confirm-folder {
+    font-style: italic;
+  }
+}
+
+.confirm-input {
+  @include type-reg;
+  margin: 0 auto 20px;
+  font-size: 100%;
+  padding: 6px 50px;
+  width: fit-content;
+  background-color: rgba(192, 169, 169, 0.1);
+  color: rgb(143, 47, 47);
+  border-radius: 3px;
+  border: 1px rgb(99, 99, 99) solid;
+  text-align: center;
+  &:placeholder-shown {
+    font-style: italic;
+  }
+}
+
+// ******************** FileModal.js ******************** //
+// *** Delete File *** //
+.delete-confirmation {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  position: absolute;
+  width: 100%;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  opacity: 0;
+  transition: opacity 300ms cubic-bezier(.06,.65,.4,.97);
+  z-index: -1;
+  
+  &.visible {
+    z-index: 1000;
+    opacity: 1;
+  }
+  header {
+    flex-shrink: 1;
+    justify-content: center;
+    align-items: center;
+    svg {
+      height: 50px;
+      width: 50px;
+      color: $warning-red;
+    }
+    text-align: center;
+    h3 {
+      @include type-bold;
+      margin-bottom: 10px;
+      color: $blue-text;
+      font-size: 1.125rem;
+    }
+    p {
+      margin-top: 10px;
+      @include type-reg;
+      color: $blue-text;
+      margin-bottom: 10px;
+      span {
+        font-style: italic;
+      }
+    }
+    & * {
+      margin: 0;
+    }
+  }
+  .delete-modal-lower {
+    display: flex;
+    flex-direction: column;
+     justify-content: center;
+  align-items: center;
+  }
+}
+
+.modal-delete-rule {
+  width: 100%;
+  margin: 10px 0;
+  border: none;
+  border-top: 1px solid $aws-blue;
+}
+
+// delete confirmation buttons
+.delete-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  button {
+    border: none;
+    display: flex;
+    align-items: center;
+    background-color: $blue-grey;
+    border-radius: 5px;
+    &:first-child {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.modal-wrapper {
+  padding: 0 15px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+  svg {
+    height: 40px;
+    width: 40px;
+    color: $aws-blue;
+  }
+  h3 {
+    color: $blue-text;
+    margin: 0;
+    margin-left: 10px;
+  }
+}
+
+.file-info-body {
+  margin-left: 40px;
+  margin-bottom: 20px;
+  .file-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+    h4 {
+      color: $blue-text;
+      margin: 0;
+      white-space: nowrap;
+      font-size: 0.7rem;
+      align-self: end;
+    }
+    p {
+      margin: 0;
+      @include text-overflow-ellipsis;
+    }
+  }
+}
+
+.file-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  button {
+    border: none;
+    width: 100%;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background-color: $blue-grey;
+    border-radius: 5px;
+    &:first-child {
+      margin-bottom: 10px;
+    }
+    .button-content-wrapper {
+      height: 50px;
+      display: flex;
+      align-items: center;
+      margin: 0 auto;
+      .file-icon {
+        margin-right: 5px;
+
+        svg {
+          height: 100%;
+          width: 100%;
+          color: $aws-blue;
+        }
+      }
+      h2 {
+        @include type-bold;
+        color: $blue-text;
+        font-size: 0.8rem;
+        margin-left: 5px;
+      }
+    }
+  }
+}
+
+// **************** FolderDeleteModal.js **************** //
+.warning-red {
+  color: red;
+  font-size: 16px;
+  letter-spacing: 0.04rem;
+
+  .warning-body-wrapper {
+    margin: 5px 0 10px;
+    .warning-body {
+      @include type-bold;
+      letter-spacing: 0.05rem;
+      font-size: 0.85rem;
+      margin-top: 0;
+      padding: 10px 12px;
+      text-align: center;
+      line-height: 1.2rem;
+      border-radius: 4px;
+    }
+  }
+}
+
+.folder-path-warning {
+  font-style: italic;
+  color: rgb(173, 2, 2);
+}
+

@@ -1,0 +1,274 @@
+// ****************** BucketDisplay.js ****************** //
+// ******************* FileDisplay.js ******************* //
+.empty-s3,
+.empty-bucket {
+  color: $white;
+  @include type-reg;
+  text-align: center;
+}
+
+.file-display-wrapper,
+.bucket-display-wrapper {
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.file-header-wrapper,
+.bucket-header-wrapper {
+  position: relative;
+  margin-bottom: 4px;
+}
+
+.file-display,
+.bucket-display {
+  width: 100%;
+  background-color: $blue-text;
+  display: flex;
+  border-radius: 0 10px 0 0;
+  height: 35px;
+  position: relative;
+  z-index: 10;
+  box-shadow: 0;
+  transition: box-shadow 0.2s ease-in-out;
+  &.overflow {
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 10px 20px, rgba(0, 0, 0, 0.3) 0px 6px 6px;
+  }
+  h3 {
+    @include type-bold;
+    text-align: center;
+    align-self: center;
+    margin: 0;
+    color: $white;
+    padding: 0;
+    font-size: 16px;
+  }
+  .name-header,
+  .bucket-name-header {
+    justify-content: start;
+    text-align: left;
+    padding-left: 50px;
+  }
+}
+
+.bucket-display {
+  border-radius: 10px 10px 0 0;
+  justify-content: space-around;
+  .bucket-name-header {
+    padding-left: 0;
+  }
+}
+
+.bucket-date-header,
+.bucket-region-header {
+  display: none;
+}
+
+.ul-wrapper {
+  position: relative;
+  overflow: auto;
+  z-index: 5;
+}
+
+.add-bucket-bar {
+  flex: 1 0 35px;
+  height: 100px;
+  margin-top: 2px;
+  background-color: $aws-blue;
+  border-radius: 2px 2px 20px 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  z-index: 10;
+  box-shadow: 0;
+  transition: box-shadow 0.2s ease-in-out;
+  &.overflow {
+    box-shadow: rgba(0, 0, 0, 0.25) 0px -10px 20px, rgba(0, 0, 0, 0.3) 0px -6px 10px;
+  }
+
+  .bucket-cta-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  h3 {
+    @include type-bold;
+    margin: 0;
+    color: #fff;
+    font-size: 15px;
+    margin-right: 10px;
+  }
+  .add-bucket-plus {
+    color: #fff;
+    height: 22px;
+    width: 22px;
+  }
+}
+
+// **************** FileDisplay.js ***************** //
+.add-file-wrapper {
+  cursor: pointer;
+  background-color: $aws-blue;
+  border-top-right-radius: 12px;
+  border-top-left-radius: 4px;
+  display: inline-block;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  .add-file {
+    position: relative;
+    margin: 6px 10px;
+    display: flex;
+    align-items: center;
+    @include type-bold;
+    color: $white;
+    background: none;
+    border: none;
+    input {
+      display: none;
+    }
+  }
+  h3 {
+    margin: 0;
+    font-size: 13px;
+    letter-spacing: 0.05rem;
+  }
+  .add-file-plus {
+    margin: 0 5px;
+    flex-shrink: 0;
+  }
+}
+
+.last-modified-header {
+  display: none;
+  @include phone {
+    display: block;
+  }
+}
+
+.size-header {
+  display: none;
+  @include phone {
+    display: block;
+  }
+}
+
+.options-header {
+  display: none;
+  @include phone {
+    display: block;
+  }
+}
+
+// ****************** BucketLI.js ****************** //
+// ******************* FileLI.js ******************* //
+.file-row-wrapper {
+  position: relative;
+}
+
+.file-folder-li,
+.bucket-li {
+  margin-bottom: 1px;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.file-row,
+.bucket-row {
+  background-color: #fff;
+  display: flex;
+  cursor: pointer;
+  justify-content: space-between;
+  height: 40px;
+  position: relative;
+  transition: background-color 300ms ease-in-out;
+  &.drag-active {
+    background-color: $aws-blue;
+    div > p,
+    svg {
+      color: $white;
+    }
+    .icon-wrapper > div {
+      color: $white;
+    }
+  }
+
+  .file-row-left,
+  .bucket-row-left {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    height: 100%;
+    min-width: 0;
+
+    a {
+      width: 100%;
+    }
+    .bucket-row-wrapper {
+      display: flex;
+      align-items: center;
+    }
+    p {
+      @include type-reg;
+      color: $blue-text;
+      margin: 0;
+      justify-content: center;
+      text-decoration: none;
+      @include text-overflow-ellipsis;
+      font-size: 16px;
+      // letter-spacing: -0.015em;
+      padding: 0;
+      transition: color 300ms ease-in-out;
+    }
+  }
+
+  .file-row-right,
+  .bucket-row-right {
+    color: $blue-text;
+    height: 100%;
+    padding: 0 10px;
+    width: 50px;
+    right: 0;
+    transition: color 300ms ease-in-out;
+  }
+
+  .last-modified,
+  .size {
+    display: none;
+    @include phone {
+      display: block;
+    }
+  }
+}
+
+.bucket-table-data {
+  display: none;
+}
+
+.icon-wrapper,
+.bucket-icon-wrapper {
+  width: 50px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.folder-icon,
+.bucket-icon {
+  height: 25px;
+  width: 25px;
+  flex-shrink: 0;
+  color: $blue-text;
+  transition: color 300ms ease-in-out;
+}
