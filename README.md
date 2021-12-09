@@ -1,7 +1,7 @@
 ## S3 UI  :seedling:
 ### User interface for AWS's Simple Storage Service 
 
-Functionality includes the ability to:
+__Base functionality includes the ability to:__
 * Create/Delete buckets
 * Create/Delete folders
 * Upload/download/delete files
@@ -11,7 +11,7 @@ Functionality includes the ability to:
 * Bucket and folder navigation is done via query string; allowing bookmarking and sharing
 * Usages across all screen sizes
 
-Features to be included in future iterations:
+__Features to be included in future iterations:__
 * Send email links for file/folder download
 * Ability to change filename
 * File preview
