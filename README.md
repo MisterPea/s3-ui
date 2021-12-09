@@ -1,18 +1,21 @@
-## S3 Uploader
+## S3 UI  :seedling:
+### User interface for AWS's Simple Storage Service 
 
-Methods to operate buckets and upload files to S3.
-<hr />
-The basic setup for multipart-uploading is:
+Functionality includes the ability to:
+* Create/Delete buckets
+* Create/Delete folders
+* Upload/download/delete files
+* Upload via drag and drop
+* Breadcrumb folder navigation
+* Files uploaded with the same filename will be automatically renamed with a numeric iterator
+* Bucket and folder navigation is done via query string; allowing bookmarking and sharing
+* Usages across all screen sizes
 
-- A user chooses which file(s) to upload and the bucket they'll reside.
-- On Submit, Express calls the `CreateMultipartUpload` method, which returns an `UploadId`.
-- The file/Blob is sliced into 5MB chunks and each chunk is converted to a `base64` string via `FileReader()`.
-- This is then passed in body data, via `FormData()` to the server.
-  * Within the server, a class instance is created for each upload instance.
-- On the server-side the file chunk is encoded into a `Buffer` and is sent to the `UploadPart` method along with `UploadId`, `PartNumber`, `Key` and `Bucket`.
-- `UploadPart` returns a promise that gives an `ETag` which is stored in an array along with its corresponding `PartNumber`.
-- Upon the completion of all uploaded parts `UploadId`, `Key`, `Bucket`, and a `Parts` array with all the `ETag` and `PartNumber` is sent to `CompleteMultipartUpload`.
-- At this point the file chunks are stitched back together into a recognizable file.
+Features to be included in future iterations:
+* Send email links for file/folder download
+* Ability to change filename
+* File preview
+
 <hr />
 
 ### To do:
@@ -45,6 +48,7 @@ Longer-term development
 * [ ] Generate a download url
 * [ ] Upload folders with nested content
 * [ ] Ability to change filename
+* [ ] Preview files. Lo-res images or small text extracts
 
 <hr />
 
@@ -74,6 +78,21 @@ Command line usage - s3api:
 AWS S3 CLI Reference: https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3/index.html#cli-aws-s3
 
 AWS S3api CLI Reference: https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3api/index.html
+
+
+
+<hr />
+The basic setup for multipart-uploading is:
+
+- A user chooses which file(s) to upload and the bucket they'll reside.
+- On Submit, Express calls the `CreateMultipartUpload` method, which returns an `UploadId`.
+- The file/Blob is sliced into 5MB chunks and each chunk is converted to a `base64` string via `FileReader()`.
+- This is then passed in body data, via `FormData()` to the server.
+  * Within the server, a class instance is created for each upload instance.
+- On the server-side the file chunk is encoded into a `Buffer` and is sent to the `UploadPart` method along with `UploadId`, `PartNumber`, `Key` and `Bucket`.
+- `UploadPart` returns a promise that gives an `ETag` which is stored in an array along with its corresponding `PartNumber`.
+- Upon the completion of all uploaded parts `UploadId`, `Key`, `Bucket`, and a `Parts` array with all the `ETag` and `PartNumber` is sent to `CompleteMultipartUpload`.
+- At this point the file chunks are stitched back together into a recognizable file.
 
 ##### Stack:
 * React
