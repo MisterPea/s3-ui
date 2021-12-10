@@ -44,6 +44,7 @@ __Features to be included in future iterations:__
 <hr />
 
 Longer-term development
+* [ ] Right click to delete/shift-click multiple files (via append current right-click menu)
 * [ ] Send Email
 * [ ] Generate a download url
 * [ ] Upload folders with nested content
