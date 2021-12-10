@@ -20,7 +20,7 @@
     height: 45px;
     justify-content: space-around;
     .descend-menu-button {
-        box-shadow: rgba(0, 0, 0, 0.3) 0px 9px 5px -6px inset, rgba(0, 0, 0, 0.35) 0px 12px 10px -5px inset;
+      box-shadow: rgba(0, 0, 0, 0.3) 0px 9px 5px -6px inset, rgba(0, 0, 0, 0.35) 0px 12px 10px -5px inset;
       max-width: 250px;
       margin: 0;
       height: 100%;
@@ -56,11 +56,19 @@
             color: $blue-text;
             font-size: 0.8rem;
             @include type-bold;
+            @include phone {
+              font-size: 0.9rem;
+              letter-spacing: 0.05rem;
+            }
           }
         }
       }
+      @include phone {
+        max-width: 350px;
+      }
     }
   }
+
   .descend-menu-button-delete {
     background: none;
     border: none;
