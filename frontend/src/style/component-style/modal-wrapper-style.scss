@@ -11,13 +11,13 @@
 }
 
 .modal-center {
-  width: 80%;
+  max-width: 320px;
   border-radius: 10px;
   background-color: $white;
   @include type-reg;
   font-size: 13px;
   position: relative;
-
+  transition: max-width 0.3s ease-in-out;
   .basic-input {
     @include type-reg;
     font-size: 100%;
@@ -55,6 +55,9 @@
       background-color: $aws-blue-disabled;
       transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
     }
+  }
+  @include phone {
+    min-width: 400px;
   }
 }
 

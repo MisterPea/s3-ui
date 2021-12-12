@@ -28,6 +28,10 @@ export default function FileIcon({ name }) {
     case 'sh':
     case 'xml':
     case 'md':
+    case 'plist':
+    case 'conf':
+    case 'config':
+    case 'dylib':
       return <Code />;
     case 'pdf':
     case 'ps':
@@ -36,10 +40,14 @@ export default function FileIcon({ name }) {
     case 'pkg':
     case 'gz':
     case 'rar':
+    case 'tar':
+    case 'bz2':
       return <Zip />;
     case 'mp3':
     case 'mp4':
+    case 'm4p':
     case 'aiff':
+    case 'aif':
     case 'mpeg':
     case 'ogg':
     case 'wav':

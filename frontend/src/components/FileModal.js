@@ -36,6 +36,7 @@ export default function FileModal({ fileInfo, setModalOpen, downloadInfo }) {
       link.setAttribute('download', name);
       document.body.appendChild(link);
       link.click();
+      link.remove();
     })
       .catch(() => dispatch(errorDownloadingFile()));
   }

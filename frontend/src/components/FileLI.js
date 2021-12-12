@@ -9,6 +9,7 @@ import FolderDropdown from './FolderDropdown';
 import FolderDeleteModal from './FolderDeleteModal';
 import ModalComponentWrapper from './ModalComponentWrapper';
 import FileModal from './FileModal';
+import fileSizeTruncate from './helpers/fileSizeTruncate';
 
 /**
  * Component to render a folder or a file
@@ -58,6 +59,14 @@ export default function FileLI({
   function handleDeleteModal() {
     setToggleDeleteFolderModal((s) => !s);
   }
+
+  const lastModifiedFormatted = (() => {
+    if (lastModified) {
+      const timeArray = lastModified.split(/[T.]/);
+      return `${timeArray[0]} ${timeArray[1]}`;
+    }
+    return null;
+  })();
 
   if (type === 'folder') {
     return (
@@ -131,8 +140,8 @@ export default function FileLI({
           >
             <div className="icon-wrapper"><FileIcon name={name} /></div>
             <p className="file-table-data name">{name}</p>
-            <p className="file-table-data last-modified">{lastModified}</p>
-            <p className="file-table-data size">{size}</p>
+            <p className="file-table-data last-modified">{lastModifiedFormatted}</p>
+            <p className="file-table-data size">{fileSizeTruncate(size)}</p>
           </div>
           <IoInformationCircleSharp
             className="file-row-right"

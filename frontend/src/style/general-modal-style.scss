@@ -20,6 +20,10 @@
   padding: 10px;
   background-color: #93bf9841;
   border-radius: 4px;
+  @include phone {
+    width: 90%;
+    margin: 25px auto;
+  }
 }
 
 // ***************** AddBucketModal.js ***************** //
@@ -37,6 +41,9 @@
   margin: 10px 0;
   border:none;
   border-top: 1px solid $aws-blue;
+  @include phone {
+     margin: 10px 0 20px;
+  }
 }
 
 .radio-wrapper {
@@ -83,6 +90,10 @@
 // **************** BucketDeleteModal.js **************** //
 .confirm-message {
   margin: 15px 10px 20px;
+  @include phone {
+    margin: 15px 0 20px;
+    text-align: center;
+  }
   .confirm-folder {
     font-style: italic;
   }
@@ -99,6 +110,9 @@
   border-radius: 3px;
   border: 1px rgb(99, 99, 99) solid;
   text-align: center;
+  @include phone {
+    width: 100%;
+  }
   &:placeholder-shown {
     font-style: italic;
   }
@@ -220,10 +234,17 @@
       white-space: nowrap;
       font-size: 0.7rem;
       align-self: end;
+      @include phone {
+        font-size: 0.8rem;
+      }
     }
     p {
       margin: 0;
       @include text-overflow-ellipsis;
+      color: $blue-text;
+      @include phone {
+        font-size: 0.9rem;
+      }
     }
   }
 }
@@ -231,6 +252,10 @@
 .file-button-wrapper {
   display: flex;
   flex-direction: column;
+  @include phone{
+    flex-direction: row;
+    // margin: 0 10px 5px;
+  }
   button {
     border: none;
     width: 100%;
@@ -239,8 +264,23 @@
     align-items: center;
     background-color: $blue-grey;
     border-radius: 5px;
+    @include phone {
+      flex: 1;
+      height: 100%;
+      &:first-child{
+        margin-right: 5px;
+        
+      }
+      &:last-child{
+        margin-left: 5px;
+      }
+      // flex-shrink: 0;
+    }
     &:first-child {
       margin-bottom: 10px;
+      @include phone {
+        margin-bottom: 0;
+      }
     }
     .button-content-wrapper {
       height: 50px;
@@ -283,6 +323,9 @@
       text-align: center;
       line-height: 1.2rem;
       border-radius: 4px;
+      @include phone {
+        padding: 10px 0; 
+      }
     }
   }
 }

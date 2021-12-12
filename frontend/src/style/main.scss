@@ -30,6 +30,9 @@ body,
   margin: 0px;
   padding: 0px;
   border: 0px;
+  @include phone {
+    background-color: rgb(13, 18, 24);
+  }
 }
 
 button {
@@ -44,8 +47,6 @@ button {
 }
 
 .nav-component {
-  flex: 1 1 112px;
-  height: 112px;
   display: flex;
   flex-direction: column;
   & + .main-body-wrapper {
@@ -68,14 +69,26 @@ button {
   flex-direction: column;
   & + .main-body-wrapper {
     height: 100%;
-    height: calc(100% - 150px);
-    padding: 0 5px;
     max-width: 1200px;
     margin: 0;
     flex: 1 1 100%;
-    @include phone {
-      padding: 0 50px;
-    }
+  }
+}
+
+.nav-component {
+  flex: 1 1 112px;
+  transition: flex 0.3s ease-in-out;
+  @include phone {
+    flex: 1 1 135px;
+  }
+}
+.main-body-wrapper {
+  height: calc(100% - 150px);
+  padding: 0 5px;
+  transition: all 0.3s ease-in-out;
+  @include phone {
+    padding: 0 50px;
+    height: calc(100% - 135px);
   }
 }
 

@@ -91,7 +91,7 @@ export function addFolder(targetPath, folderName, bucketName, state) {
         };
       }
       // if match, but not at terminus
-      return { ...item, children: [parseParent(item.children, targetArray)] };
+      return { ...item, children: parseParent(item.children, targetArray) };
     }
     // if no match
     return item;
