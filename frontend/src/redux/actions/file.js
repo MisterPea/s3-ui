@@ -3,6 +3,7 @@ import { errorDeletingFile, errorUploadingFile, errorWithInitialUpload } from '.
 import MultipartUpload from '../../components/MultipartUpload';
 import findFilenames from '../../components/helpers/findFileNames';
 import { ensureUniqueFilename } from '../../components/helpers/validation';
+import { uploadInit, uploadProgress, uploadEnd } from './uploadProgress';
 
 export const ADD_FILE = 'ADD_FILE';
 export const DELETE_FILE = 'DELETE_FILE';
@@ -46,29 +47,25 @@ export function deleteFileFromList(region, bucket, key) {
 export function uploadFiles(region, bucket, path = '', files) {
   const fileList = files;
 
-  // const [activeUpload, setActiveUpload] = useState([]);
-  // const activeUploadRef = useRef();
-  // activeUploadRef.current = activeUpload;
-
   return (dispatch, getState) => {
-    const uploadProgressCallback = (data) => console.log(data);
-    // const uploadCallback = (data) => {
-    //   setActiveUpload(activeUploadRef.current.map((upload) => (
-    //     upload.title === data.title ? { ...upload, p: data.p } : upload)));
-    // };
+    const uploadProgressCallback = ({ fileId, p }) => {
+      dispatch(uploadProgress(fileId, p));
+    };
 
     // This data is sent from MultipartUpload.js
     const uploadCompleteCallback = ({
-      data, size, lastModified, filePath, fileName,
+      data, size, lastModified, filePath, fileName, fileId,
     }) => {
       if (data) {
         const { Bucket } = data;
+        dispatch(uploadEnd(fileId));
         dispatch(addFile(Bucket, filePath, fileName, size, lastModified));
       }
     };
 
-    const failCallback = () => {
+    const failCallback = (failedUploadId) => {
       dispatch(errorWithInitialUpload());
+      dispatch(uploadEnd(failedUploadId))
     };
 
     const classObject = {};
@@ -84,9 +81,7 @@ export function uploadFiles(region, bucket, path = '', files) {
       classObject[`_${i}`] = new MultipartUpload(fileList[i], bucket, region, filename);
       classObject[`_${i}`].getUploadId()
         .then(({ data }) => {
-          // setActiveUpload((cur) => [...cur, {
-          //   title: fileList[i].name, p: 0,
-          // }]);
+          dispatch(uploadInit(data));
           classObject[`_${i}`].uploadFile(
             data,
             uploadProgressCallback,
