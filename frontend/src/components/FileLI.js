@@ -60,10 +60,13 @@ export default function FileLI({
     setToggleDeleteFolderModal((s) => !s);
   }
 
-  function formatLastModified(timeString) {
-    const timeArray = timeString.split(/[T.]/);
-    return `${timeArray[0]} ${timeArray[1]}`;
-  }
+  const lastModifiedFormatted = (() => {
+    if (lastModified) {
+      const timeArray = lastModified.split(/[T.]/);
+      return `${timeArray[0]} ${timeArray[1]}`;
+    }
+    return null;
+  })();
 
   if (type === 'folder') {
     return (
@@ -137,8 +140,8 @@ export default function FileLI({
           >
             <div className="icon-wrapper"><FileIcon name={name} /></div>
             <p className="file-table-data name">{name}</p>
-            <p className="file-table-data last-modified">{() => formatLastModified(lastModified)}</p>
-            <p className="file-table-data size">{() => fileSizeTruncate(size)}</p>
+            <p className="file-table-data last-modified">{lastModifiedFormatted}</p>
+            <p className="file-table-data size">{fileSizeTruncate(size)}</p>
           </div>
           <IoInformationCircleSharp
             className="file-row-right"
