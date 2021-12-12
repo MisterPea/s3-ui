@@ -38,6 +38,7 @@ __Features to be included in future iterations:__
 * [x] Delete Files
 * [x] Error catching - File Deletion
 * [ ] Get/Subscribe to Loading Percentage
+* [ ] Upload progress bar
 * [x] Mobile Layout
 * [ ] Tablet Layout
 * [ ] Desktop Layout
