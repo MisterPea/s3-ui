@@ -11,14 +11,15 @@ import { errorDownloadingFile } from '../redux/actions/error';
 import SubmitBtnWithIcon from './SubmitBtnWithIcon';
 import SubmitButton from './SubmitButton';
 
-export default function FileModal({ fileInfo, setModalOpen, downloadInfo }) {
+export default function FileModal({
+  fileInfo, setModalOpen, downloadInfo, modalId,
+}) {
   const { name, lastModified, size } = fileInfo;
   const { hostname } = window.location;
   const { locale, bucket, filePath } = downloadInfo;
   const key = `${(filePath && filePath.slice(1)) || ''}/${name}`;
   const dispatch = useDispatch();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-
   function handleDownloadClick() {
     setModalOpen();
     axios({
@@ -46,8 +47,8 @@ export default function FileModal({ fileInfo, setModalOpen, downloadInfo }) {
   }
 
   function handleDeleteConfirm() {
+    document.getElementById(modalId).remove();
     dispatch(deleteFileFromList(locale, bucket, key));
-    setModalOpen();
   }
 
   function toDate() {
@@ -136,6 +137,7 @@ FileModal.defaultProps = {
     bucket: '',
     filePath: null,
   },
+  modalId: undefined,
 };
 
 FileModal.propTypes = {
@@ -151,4 +153,5 @@ FileModal.propTypes = {
     bucket: propTypes.string,
     filePath: propTypes.string,
   }),
+  modalId: propTypes.string,
 };
