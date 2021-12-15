@@ -13,7 +13,7 @@ export default function DragDrop({ bucket, locale, children }) {
     e.preventDefault();
     const currentDragSelect = e.target;
     const dataPath = currentDragSelect.dataset;
-    const backgroundElement = currentDragSelect.parentElement;
+    const backgroundElement = currentDragSelect.closest('.file-row');
     if (prevTarget.current.path !== dataPath.path) {
       prevTarget.current.path = dataPath.path;
       prevTarget.current.type = dataPath.type;
