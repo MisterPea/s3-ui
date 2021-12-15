@@ -38,13 +38,16 @@ export default function FileLI({
   const [toggleTooltip, setToggleTooltip] = useState(false);
   // For Folders
   const [toggleDeleteFolderModal, setToggleDeleteFolderModal] = useState(false);
-
-  // For Files
-  const [toggleFileModal, setToggleFileModal] = useState(false);
-
   function onKeyDownFolder(e) {
     e.preventDefault();
     if (e.key === 'Enter') folderClick(filePath);
+  }
+
+  // For Files
+  const [toggleFileModal, setToggleFileModal] = useState(false);
+  function onKeyDownFile(e) {
+    e.preventDefault();
+    if (e.key === 'Enter') handleToggleTooltip();
   }
 
   // *********** Folder *********** //
@@ -77,11 +80,11 @@ export default function FileLI({
         <div className="file-row-wrapper">
           <div className="file-row">
             <div
+              className="file-row-left"
               role="button"
               tabIndex={0}
               onClick={() => folderClick(filePath)}
               onKeyDown={(e) => onKeyDownFolder(e)}
-              className="file-row-left"
               data-path={filePath}
               data-type="folder"
             >
@@ -128,13 +131,13 @@ export default function FileLI({
       className="file-folder-li"
     >
       <div className="file-row-wrapper">
-        <div
-          className="file-row"
-        >
+        <div className="file-row">
           <div
             className="file-row-left"
             role="button"
             tabIndex={0}
+            onClick={handleToggleFileModal}
+            onKeyDown={(e) => onKeyDownFile(e)}
             data-path={filePath}
             data-type="file"
           >
@@ -145,7 +148,7 @@ export default function FileLI({
           </div>
           <IoInformationCircleSharp
             className="file-row-right"
-            onClick={() => handleToggleFileModal()}
+            onClick={handleToggleFileModal}
           />
         </div>
         {toggleFileModal
