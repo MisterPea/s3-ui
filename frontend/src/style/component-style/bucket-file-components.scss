@@ -235,6 +235,9 @@
   height: 40px;
   position: relative;
   transition: background-color 300ms ease-in-out;
+  p {
+    pointer-events: none;
+  }
   &.drag-active {
     background-color: $aws-blue;
     div > p,
