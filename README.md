@@ -52,6 +52,7 @@ Longer-term development
 * [ ] Upload folders with nested content
 * [ ] Ability to change filename
 * [ ] Preview files. Lo-res images or small text extracts
+* [ ] Catches for incompatable filetypes like .app (which causes a hang) 
 
 <hr />
 
