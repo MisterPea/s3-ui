@@ -1,8 +1,13 @@
 import * as React from 'react';
 import { useState } from 'react';
 import propTypes from 'prop-types';
-import { IoEllipsisVerticalCircle, IoInformationCircleSharp } from 'react-icons/io5';
+import {
+  IoCloudUploadOutline, IoEllipsisVerticalCircle, IoInformationCircleSharp, IoCloudDownloadOutline,
+} from 'react-icons/io5';
+import { FiTrash } from 'react-icons/fi';
 import { motion } from 'framer-motion';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import { Folder } from './graphic_elements/Icons';
 import FileIcon from './helpers/FileIcon';
 import FolderDropdown from './FolderDropdown';
@@ -10,6 +15,9 @@ import FolderDeleteModal from './FolderDeleteModal';
 import ModalComponentWrapper from './ModalComponentWrapper';
 import FileModal from './FileModal';
 import fileSizeTruncate from './helpers/fileSizeTruncate';
+import { errorDownloadingFile } from '../redux/actions/error';
+import utcFormat from './helpers/utcFormat';
+import DeleteFileModal from './DeleteFileModal';
 
 /**
  * Component to render a folder or a file
@@ -35,7 +43,9 @@ export default function FileLI({
   uploadClick = null,
 }) {
   // For Both
+  const dispatch = useDispatch();
   const [toggleTooltip, setToggleTooltip] = useState(false);
+  const [toggleDeleteFileModal, setToggleDeleteFileModal] = useState(false);
   // For Folders
   const [toggleDeleteFolderModal, setToggleDeleteFolderModal] = useState(false);
   function onKeyDownFolder(e) {
@@ -45,14 +55,42 @@ export default function FileLI({
 
   // For Files
   const [toggleFileModal, setToggleFileModal] = useState(false);
+  const { hostname } = window.location;
+  const key = `${(filePath && filePath.slice(1)) || ''}/${name}`;
+
   function onKeyDownFile(e) {
     e.preventDefault();
     if (e.key === 'Enter') handleToggleTooltip();
   }
 
+  function handleDownloadClick() {
+    axios({
+      method: 'GET',
+      url: `http://${hostname}/api/downloadFile`,
+      params: { locale, bucket, key },
+      headers: {
+        'content-type': 'application/json',
+      },
+      responseType: 'blob',
+    }).then((response) => {
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', name);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    })
+      .catch(() => dispatch(errorDownloadingFile()));
+  }
+
   // *********** Folder *********** //
   function handleToggleTooltip() {
     setToggleTooltip((s) => !s);
+  }
+
+  function handleToggleDeleteModal() {
+    setToggleDeleteFileModal((s) => !s);
   }
 
   function handleCloseTooltip() {
@@ -62,14 +100,6 @@ export default function FileLI({
   function handleDeleteModal() {
     setToggleDeleteFolderModal((s) => !s);
   }
-
-  const lastModifiedFormatted = (() => {
-    if (lastModified) {
-      const timeArray = lastModified.split(/[T.]/);
-      return `${timeArray[0]} ${timeArray[1]}`;
-    }
-    return null;
-  })();
 
   if (type === 'folder') {
     return (
@@ -91,10 +121,22 @@ export default function FileLI({
               <div className="icon-wrapper"><Folder /></div>
               <p className="file-table-data">{name}</p>
             </div>
-            <IoEllipsisVerticalCircle
-              className="file-row-right"
-              onClick={handleToggleTooltip}
-            />
+            <div className="file-row-right folder">
+              <IoEllipsisVerticalCircle
+                className="phone"
+                onClick={handleToggleTooltip}
+              />
+              <IoCloudUploadOutline
+                className="tablet upload"
+                title={`Upload to ${name}`}
+                onClick={() => uploadClick(filePath)}
+              />
+              <FiTrash
+                className="tablet delete"
+                title={`Delete ${name}`}
+                onClick={handleDeleteModal}
+              />
+            </div>
           </div>
           <FolderDropdown
             isOpen={toggleTooltip}
@@ -136,20 +178,31 @@ export default function FileLI({
             className="file-row-left"
             role="button"
             tabIndex={0}
-            onClick={handleToggleFileModal}
             onKeyDown={(e) => onKeyDownFile(e)}
             data-path={filePath}
             data-type="file"
           >
             <div className="icon-wrapper"><FileIcon name={name} /></div>
             <p className="file-table-data name">{name}</p>
-            <p className="file-table-data last-modified">{lastModifiedFormatted}</p>
+            <p className="file-table-data last-modified">{utcFormat(lastModified)}</p>
             <p className="file-table-data size">{fileSizeTruncate(size)}</p>
           </div>
-          <IoInformationCircleSharp
-            className="file-row-right"
-            onClick={handleToggleFileModal}
-          />
+          <div className="file-row-right">
+            <IoInformationCircleSharp
+              className="tablet info"
+              onClick={handleToggleFileModal}
+            />
+            <IoCloudDownloadOutline
+              title={`Download ${name}`}
+              className="desktop download"
+              onClick={handleDownloadClick}
+            />
+            <FiTrash
+              className="desktop delete"
+              title={`Delete ${name}`}
+              onClick={handleToggleDeleteModal}
+            />
+          </div>
         </div>
         {toggleFileModal
         && (
@@ -160,6 +213,12 @@ export default function FileLI({
           />
         </ModalComponentWrapper>
         )}
+        {toggleDeleteFileModal && (
+          <ModalComponentWrapper>
+            <DeleteFileModal name={name} deleteFileInfo={downloadInfo} />
+          </ModalComponentWrapper>
+        )}
+
       </div>
     </motion.li>
   );
