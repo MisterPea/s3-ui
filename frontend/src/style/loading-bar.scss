@@ -1,36 +1,14 @@
-@keyframes scaler {
-  0% {
-    padding: 0 0;
-    /* background-color: #6e7da5; */
-  }
-  25% {
-    padding: 0 5%;
-    /* background-color: #8a9ccc; */
-  }
-  50% {
-    padding: 0 0;
-    /* background-color: #576794; */
-  }
-  75% {
-    padding: 0 5%;
-    /* background-color: #8a9ccc; */
-  }
-  100% {
-    padding: 0 0;
-    /* background-color: #576794; */
-  }
-}
 @keyframes slide {
   0% {
-    transform: translateX(0);
+    padding-left: 0;
   }
   42%,
   50% {
-    transform: translateX(calc(100vw - 100vw * 0.21));
+    padding-left: calc(100% - 100px);
   }
   92%,
   100% {
-    transform: translateX(0);
+    padding-left: 0;
   }
 }
 
@@ -42,14 +20,14 @@
   width: 100%;
   margin: 10px auto;
   overflow: hidden;
+  animation: slide 1s infinite cubic-bezier(0.29, 0.16, 0.51, 0.99);
   background-color: rgb(107, 107, 107);
 }
 
 .bar {
   position: absolute;
   background-color: $aws-blue;
-  width: 20%;
+  width: 100px;
   height: 30px;
-  animation: slide 1s infinite cubic-bezier(0.29, 0.16, 0.51, 0.99), scaler 1s infinite ease-out;
   opacity: 1;
 }

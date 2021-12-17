@@ -7,6 +7,7 @@ $desktop: 1024px;
 $blue-text: #475d74;
 $blue-grey: #dbe3e7;
 $aws-blue: rgb(55, 179, 218);
+$aws-blue-darker: rgb(51, 147, 177);
 $aws-blue-disabled: rgb(159, 223, 243);
 $orange: rgb(224, 135, 33);
 $green-disabled: #cee0d1;
@@ -15,14 +16,7 @@ $white-disabled: rgb(243, 243, 243);
 $warning-red: #ff0f0f;
 $warning-red-disabled: #ff0f0f;
 
-// @import url("https://use.typekit.net/wgv2kbv.css");
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");
-
-// @mixin type-reg {
-//   font-family: pt-mono, monospace;
-//   font-weight: 400;
-//   font-style: normal;
-// }
 
 @mixin type-reg {
   font-family: "Inter", sans-serif;
@@ -44,8 +38,14 @@ $warning-red-disabled: #ff0f0f;
   text-overflow: ellipsis;
 }
 
-@mixin phone {
-  @media only screen and (min-width: #{$phone}) {
+@mixin tablet {
+  @media only screen and (min-width: #{$tablet}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media only screen and (min-width: #{$desktop}) {
     @content;
   }
 }

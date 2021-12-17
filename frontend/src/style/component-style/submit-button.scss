@@ -56,6 +56,11 @@
   border: none;
   background-color: $aws-blue;
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  & .submit-file-icon svg {
+      height: 20px;
+      width: 20px;
+      color: $blue-text;
+  }
   &.longer {
     padding: 0 50px;
   }
@@ -66,10 +71,15 @@
   &.destructive {
     background-color: $warning-red;
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    .file-icon svg{
+      color: $white;
+    }
     & h2 {
       color: $white;
     }
-    & .file-icon svg {
+    & .submit-file-icon svg {
+      height: 20px;
+      width: 20px;
       color: $white;
     }
   }
@@ -77,6 +87,7 @@
     background-color: rgb(255, 255, 255);
     border: 1px solid $warning-red-disabled;
     color: $warning-red-disabled;
+ 
   }
 }
 .submit-content-wrapper {
@@ -86,11 +97,6 @@
   margin: 0 auto;
   .file-icon {
     margin-right: 5px;
-    svg {
-      height: 100%;
-      width: 100%;
-      color: $blue-text;
-    }
   }
   h2 {
     @include type-bold;
