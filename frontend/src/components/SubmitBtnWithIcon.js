@@ -36,7 +36,7 @@ export default function SubmitBtnWithIcon({
       onClick={clickHandle}
     >
       <div className="submit-content-wrapper">
-        <div className="file-icon">
+        <div className="submit-file-icon">
           <Icon />
         </div>
         <h2>{text}</h2>
