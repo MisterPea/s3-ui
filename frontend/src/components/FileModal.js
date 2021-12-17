@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { IoCloudDownloadOutline, IoTrashOutline, IoInformationCircleSharp } from 'react-icons/io5';
+import { IoCloudDownloadOutline, IoInformationCircleSharp } from 'react-icons/io5';
+import { FiTrash } from 'react-icons/fi';
 import { FaExclamationTriangle } from 'react-icons/fa';
 import propTypes from 'prop-types';
 import axios from 'axios';
@@ -91,12 +92,12 @@ export default function FileModal({
         </div>
       </div>
       <div className="modal-wrapper">
-        <div className="modal-button-group">
-          <header className="modal-header">
+        <div className="modal-button-group file">
+          <header className="modal-header file">
             <IoInformationCircleSharp />
-            <h3>FILE INFO:</h3>
           </header>
           <div className="file-info-body">
+            <h3>FILE INFO:</h3>
             <div className="file-info">
               <h4>NAME:</h4>
               <p>{` ${name}`}</p>
@@ -120,7 +121,7 @@ export default function FileModal({
           />
           <SubmitBtnWithIcon
             text="DELETE FILE"
-            Icon={IoTrashOutline}
+            Icon={FiTrash}
             isDisabled={showDeleteConfirm}
             clickHandle={toggleDeleteConfirmClick}
             destructive
