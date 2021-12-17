@@ -177,7 +177,6 @@ export default function FileDisplay() {
           <h3 className="name-header">NAME</h3>
           <h3 className="last-modified-header">LAST MODIFIED</h3>
           <h3 className="size-header">SIZE</h3>
-          <h3 className="options-header">Options</h3>
         </div>
       </div>
 

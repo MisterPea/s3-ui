@@ -58,14 +58,14 @@ export function uploadFiles(region, bucket, path = '', files) {
     }) => {
       if (data) {
         const { Bucket } = data;
-        dispatch(uploadEnd(fileId));
         dispatch(addFile(Bucket, filePath, fileName, size, lastModified));
+        dispatch(uploadEnd(fileId));
       }
     };
 
     const failCallback = (failedUploadId) => {
       dispatch(errorWithInitialUpload());
-      dispatch(uploadEnd(failedUploadId))
+      dispatch(uploadEnd(failedUploadId));
     };
 
     const classObject = {};

@@ -56,14 +56,14 @@
             color: $blue-text;
             font-size: 0.8rem;
             @include type-bold;
-            @include phone {
+            @include tablet {
               font-size: 0.9rem;
               letter-spacing: 0.05rem;
             }
           }
         }
       }
-      @include phone {
+      @include tablet {
         max-width: 350px;
       }
     }

@@ -1,17 +1,21 @@
 import * as React from 'react';
+import { useState, useEffect, useRef } from 'react';
 import propTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import { useSelector } from 'react-redux';
+import { motion } from 'framer-motion';
 import useParseQuery from './helpers/useParseQuery';
 import MainLogo from './graphic_elements/MainLogo';
 import createId from './helpers/createId';
 import removeQuery from './helpers/removeQuery';
 
 export default function NavBar() {
+  const [showProgress, setShowProgress] = useState(undefined);
   const parsedQuery = useParseQuery();
   const history = useHistory();
-  const { buckets } = useSelector((state) => state);
+  const { buckets, uploadProgress } = useSelector((state) => state);
   const { id, loc, path = null } = parsedQuery;
+  const progressCapture = useRef(0);
 
   function handleBreadcrumbNav(query, modifier = null) {
     const newPath = removeQuery(query, modifier, parsedQuery);
@@ -36,6 +40,21 @@ export default function NavBar() {
     const newArray = array.slice(0, stopIndex + 1);
     return newArray.join('/');
   }
+
+  // This function and useEffect (below) handle the deployment of upload progress
+  function calcUploadProgress() {
+    let total = 0;
+    uploadProgress.forEach((upload) => { total += upload.percentage; });
+    return total / uploadProgress.length;
+  }
+
+  useEffect(() => {
+    if (uploadProgress.length > 0) {
+      setShowProgress(calcUploadProgress());
+    } else if (uploadProgress.length === 0 && showProgress) {
+      setShowProgress(undefined);
+    }
+  }, [uploadProgress]);
 
   function Breadcrumbs({ bcPath }) {
     const pathArray = bcPath ? bcPath.split('/') : [];
@@ -79,7 +98,6 @@ export default function NavBar() {
               >
                 <span className="breadcrumb-arrow">{'\u00A0>\u00A0'}</span>
                 <span className="breadcrumb-link">{link}</span>
-
               </div>
             </li>
           ))}
@@ -95,6 +113,7 @@ export default function NavBar() {
   Breadcrumbs.propTypes = {
     bcPath: propTypes.string,
   };
+
   function DisplayBucketCount() {
     return (
       <div className="bucket-number-wrapper">
@@ -103,9 +122,54 @@ export default function NavBar() {
     );
   }
 
+  const progressBarVariant = {
+    init: {
+      scaleY: 0,
+      height: 0,
+    },
+    closed: {
+      scaleY: 0,
+      height: 0,
+      transition: {
+        delay: 0.4,
+        duration: 0.3,
+      },
+    },
+    open: {
+      scaleY: 1,
+      height: '5px',
+      transition: {
+        duration: 0.2,
+      },
+    },
+  };
+
+  // floating method to hold 100% once it's met
+  if (showProgress !== undefined) {
+    progressCapture.current = showProgress;
+  }
+
   return (
     <div className={`nav-component${id ? '' : '-bucket'}`}>
+
+      <motion.div
+        key="progress-outer"
+        className="progress-wrapper"
+        initial="init"
+        variants={progressBarVariant}
+        animate={showProgress !== undefined ? 'open' : 'closed'}
+      >
+        <motion.div
+          key="progress-motion-bar"
+          className="progress-bar-top"
+          initial={{ width: 0 }}
+          animate={{ width: `${progressCapture.current}%` }}
+        />
+        <div className="progress-bar-back" />
+      </motion.div>
+
       <div className="nav-bar">
+
         <div className="logo-lg"><MainLogo /></div>
         <div className="bucket-id-loc">
           <div className="bucket-id-wrapper">

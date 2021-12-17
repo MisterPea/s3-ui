@@ -70,9 +70,9 @@ export default function BucketDisplay() {
     <div className="bucket-display-wrapper">
       <div className="bucket-header-wrapper">
         <div className={`bucket-display ${topScrollShadow ? 'overflow' : ''}`}>
-          <h3 className="bucket-name-header">Bucket Name</h3>
-          <h3 className="bucket-date-header">Creation Date</h3>
-          <h3 className="bucket-region-header">AWS Region</h3>
+          <h3 className="bucket-name-header">BUCKET NAME</h3>
+          <h3 className="bucket-header date">CREATION DATE</h3>
+          <h3 className="bucket-header region">REGION</h3>
         </div>
       </div>
       <AnimatePresence exitBeforeEnter>

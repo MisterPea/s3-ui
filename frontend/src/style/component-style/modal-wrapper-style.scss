@@ -56,13 +56,13 @@
       transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
     }
   }
-  @include phone {
+  @include tablet {
     min-width: 400px;
   }
 }
 
 .modal-close-button {
-  // position: relative;
+  cursor: pointer;
   position: absolute;
   right: 0;
   z-index: 100;

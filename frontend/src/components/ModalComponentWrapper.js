@@ -16,6 +16,10 @@ import createId from './helpers/createId';
  * This component is fully self-contained. Upon mounting, it creates a DOM node,
  * mounts a React component to it and renders children. On component unmount, the modal
  * fades out the DOM node is removed.
+ * * For cases where the DOM node is removed (e.g. deleteFile, deleteFolder), we need to pass the
+ * name of the node element to the method that removed it, so it can also remove the extraneous
+ * element. This is because any reference to it or its methods has been removed.
+ * So, it must be removed by the surviving method.
  * @returns {JSX} Returns a parent/wrapper component.
  */
 export default function ModalComponentWrapper({ children, close }) {
@@ -40,7 +44,6 @@ export default function ModalComponentWrapper({ children, close }) {
     const closeModal = (e) => {
       if (e.key === 'Escape') setModalOpen(false);
     };
-
     document.addEventListener('keydown', closeModal);
     return () => {
       document.removeEventListener('keydown', closeModal);
@@ -128,7 +131,9 @@ export default function ModalComponentWrapper({ children, close }) {
       >
         <IoIosClose onClick={() => setModalOpen(false)} tabIndex={0} className="modal-close-button" />
         <>
-          {React.cloneElement(children, { setModalOpen: () => setModalOpen() })}
+          {React.cloneElement(children, {
+            setModalOpen: () => setModalOpen(), modalId: modalMountId.current,
+          })}
         </>
       </motion.div>
     </motion.div>

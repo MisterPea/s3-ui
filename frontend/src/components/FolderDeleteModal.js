@@ -8,7 +8,7 @@ import ModalHeader from './ModalHeader';
 import SubmitButton from './SubmitButton';
 
 export default function FolderDeleteModal({
-  setModalOpen, locale, bucket, pathToDelete, folderName,
+  locale, bucket, pathToDelete, folderName, modalId,
 }) {
   const [confirmInput, setConfirmInput] = useState('');
   const [validInput, setValidInput] = useState(false);
@@ -19,8 +19,8 @@ export default function FolderDeleteModal({
   }
 
   function handleDeleteFolder() {
+    document.getElementById(modalId).remove();
     dispatch(deleteFolderFromBucket(locale, bucket, pathToDelete, folderName));
-    setModalOpen();
   }
 
   const lastPath = () => {
@@ -69,15 +69,6 @@ export default function FolderDeleteModal({
         isDisabled={!validInput}
         destructive
       />
-      {/* <button
-        tabIndex={0}
-        className="delete-submit"
-        type="button"
-        disabled={!validInput}
-        onClick={handleDeleteFolder}
-      >
-        Delete Folder
-      </button> */}
     </div>
   );
 }
@@ -92,4 +83,5 @@ FolderDeleteModal.propTypes = {
   bucket: propTypes.string.isRequired,
   pathToDelete: propTypes.string.isRequired,
   folderName: propTypes.string.isRequired,
+  modalId: propTypes.string.isRequired,
 };

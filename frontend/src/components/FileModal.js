@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { IoCloudDownloadOutline, IoTrashOutline, IoInformationCircleSharp } from 'react-icons/io5';
+import { IoCloudDownloadOutline, IoInformationCircleSharp } from 'react-icons/io5';
+import { FiTrash } from 'react-icons/fi';
 import { FaExclamationTriangle } from 'react-icons/fa';
 import propTypes from 'prop-types';
 import axios from 'axios';
@@ -11,14 +12,15 @@ import { errorDownloadingFile } from '../redux/actions/error';
 import SubmitBtnWithIcon from './SubmitBtnWithIcon';
 import SubmitButton from './SubmitButton';
 
-export default function FileModal({ fileInfo, setModalOpen, downloadInfo }) {
+export default function FileModal({
+  fileInfo, setModalOpen, downloadInfo, modalId,
+}) {
   const { name, lastModified, size } = fileInfo;
   const { hostname } = window.location;
   const { locale, bucket, filePath } = downloadInfo;
   const key = `${(filePath && filePath.slice(1)) || ''}/${name}`;
   const dispatch = useDispatch();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-
   function handleDownloadClick() {
     setModalOpen();
     axios({
@@ -46,8 +48,8 @@ export default function FileModal({ fileInfo, setModalOpen, downloadInfo }) {
   }
 
   function handleDeleteConfirm() {
+    document.getElementById(modalId).remove();
     dispatch(deleteFileFromList(locale, bucket, key));
-    setModalOpen();
   }
 
   function toDate() {
@@ -90,12 +92,12 @@ export default function FileModal({ fileInfo, setModalOpen, downloadInfo }) {
         </div>
       </div>
       <div className="modal-wrapper">
-        <div className="modal-button-group">
-          <header className="modal-header">
+        <div className="modal-button-group file">
+          <header className="modal-header file">
             <IoInformationCircleSharp />
-            <h3>FILE INFO:</h3>
           </header>
           <div className="file-info-body">
+            <h3>FILE INFO:</h3>
             <div className="file-info">
               <h4>NAME:</h4>
               <p>{` ${name}`}</p>
@@ -119,7 +121,7 @@ export default function FileModal({ fileInfo, setModalOpen, downloadInfo }) {
           />
           <SubmitBtnWithIcon
             text="DELETE FILE"
-            Icon={IoTrashOutline}
+            Icon={FiTrash}
             isDisabled={showDeleteConfirm}
             clickHandle={toggleDeleteConfirmClick}
             destructive
@@ -136,6 +138,7 @@ FileModal.defaultProps = {
     bucket: '',
     filePath: null,
   },
+  modalId: undefined,
 };
 
 FileModal.propTypes = {
@@ -151,4 +154,5 @@ FileModal.propTypes = {
     bucket: propTypes.string,
     filePath: propTypes.string,
   }),
+  modalId: propTypes.string,
 };

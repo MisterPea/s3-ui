@@ -12,6 +12,10 @@
   max-height: 100%;
   display: flex;
   flex-direction: column;
+  @include desktop {
+    max-width: 1024px;
+    margin: 0 auto;
+  }
 }
 
 .file-header-wrapper,
@@ -46,21 +50,25 @@
   .name-header,
   .bucket-name-header {
     justify-content: start;
-    text-align: left;
+    text-align: center;
+    margin: 0 auto;
+    @include tablet {
     padding-left: 50px;
+    text-align: left;
+    // &.bucket-name-header {
+    //   padding: 0;
+    //   margin-left: 50px;
+    // }
+    }
   }
 }
 
 .bucket-display {
   border-radius: 10px 10px 0 0;
-  justify-content: space-around;
-  .bucket-name-header {
-    padding-left: 0;
-  }
+  // justify-content: space-around;
 }
 
-.bucket-date-header,
-.bucket-region-header {
+.bucket-header {
   display: none;
 }
 
@@ -140,6 +148,8 @@
   .add-file-plus {
     margin: 0 5px;
     flex-shrink: 0;
+    height: 15px;
+      width: 15px;
   }
 }
 
@@ -148,12 +158,14 @@
   display: none;
 }
 
-@include phone {
-  .file-display {
+@include tablet {
+  .file-display,
+  .bucket-display {
     h3 {
       font-size: 15px;
     }
-    .last-modified-header {
+    .last-modified-header,
+    .date {
       text-align: left;
     }
 
@@ -161,50 +173,32 @@
       text-align: center;
     }
 
-    .name-header {
-      margin-right: 5px;
+    .name-header,
+    .bucket-name-header {
+      // margin-right: 5px;
       flex: 3 3 55%;
     }
 
-    .last-modified-header {
+    .last-modified-header,
+    .date {
       display: block;
-      margin-right: -35px;
       flex: 2 2 35%;
+      &.date {
+        margin-right: -45px;
+      }
     }
 
-    .size-header {
-      margin-right: 40px;
+    .size-header,
+    .region {
       display: block;
       min-width: fit-content;
       flex: 1 3 20%;
+      margin-right: 50px;
+      &.region {
+        margin-right: 40px;
+      }
     }
   }
-}
-
-// .file-table-data {
-//   @include phone {
-//     width: 100%;
-//     &.name {
-//       margin-right: 5px;
-//       flex: 3 3 55% ;
-//     }
-//     &.last-modified {
-//       margin-right: 5px;
-//       flex: 2 2 35%;
-//     }
-//     &.size {
-//       min-width: fit-content;
-//       flex: 1 3 20%;
-//       text-align: right;
-//     }
-//   }
-// }
-
-.options-header {
-  display: none;
-  // @include phone {
-  //   display: block;
-  // }
 }
 
 // ****************** BucketLI.js ****************** //
@@ -230,11 +224,13 @@
 .bucket-row {
   background-color: #fff;
   display: flex;
-  cursor: pointer;
   justify-content: space-between;
   height: 40px;
   position: relative;
   transition: background-color 300ms ease-in-out;
+  p {
+    pointer-events: none;
+  }
   &.drag-active {
     background-color: $aws-blue;
     div > p,
@@ -269,17 +265,19 @@
       text-decoration: none;
       @include text-overflow-ellipsis;
       font-size: 16px;
-      // letter-spacing: -0.015em;
       padding: 0;
       transition: color 300ms ease-in-out;
+      @include desktop {
+        font-size: 15px;
+      }
     }
   }
 
   .file-table-data {
-    @include phone {
+    @include tablet {
       width: 100%;
       &.name {
-        margin-right: 5px;
+        margin-right: 8px;
         flex: 3 3 55%;
       }
       &.last-modified {
@@ -293,21 +291,82 @@
       }
     }
   }
+  @include tablet {
+    width: 100%;
+    .bucket-name {
+      margin-right: 5px;
+      flex: 3 3 50%;
+    }
+    .bucket-table-data {
+      &.date {
+        padding-left: 10px;
+        flex:2 2 35%;
+      }
+      &.region {
+        min-width: fit-content;
+        flex: 1 1 15%;
+        text-align: center;
+      }
+    }
+  }
 
   .file-row-right,
   .bucket-row-right {
-    color: $blue-text;
+    cursor: pointer;
+    color: $aws-blue;
     height: 100%;
-    padding: 0 10px;
     width: 50px;
     right: 0;
-    transition: color 300ms ease-in-out;
+    font-size: 30px;
+    display: block;
+    &.bucket-row-right {
+      display: flex;
+      align-items: center;
+      font-size: 25px;
+      justify-content: space-around;
+      flex: 50px;
+    }
+    & .desktop {
+      display: none;
+    }
+    & .tablet,
+    .phone {
+      vertical-align: middle;
+      width: 100%;
+    }
+
+    @include tablet {
+      .phone {
+        display: none;
+      }
+      display: flex;
+      align-items: center;
+      width: 80px;
+      font-size: 20px;
+      justify-content: space-around;
+      margin-left: 10px;
+      flex-shrink: 0;
+
+      &.folder {
+        display: flex;
+        align-items: center;
+        width: 80px;
+        font-size: 20px;
+        justify-content: space-around;
+      }
+      & .info {
+        display: none;
+      }
+      & .desktop {
+        display: block;
+      }
+    }
   }
 
   .last-modified,
   .size {
     display: none;
-    @include phone {
+    @include tablet {
       display: block;
     }
   }
@@ -315,6 +374,9 @@
 
 .bucket-table-data {
   display: none;
+  @include tablet {
+    display: block;
+  }
 }
 
 .icon-wrapper,
@@ -323,13 +385,28 @@
   flex-shrink: 0;
   display: flex;
   justify-content: space-around;
-}
-
-.folder-icon,
-.bucket-icon {
-  height: 25px;
-  width: 25px;
-  flex-shrink: 0;
-  color: $blue-text;
-  transition: color 300ms ease-in-out;
+  & .file-icon,
+  .folder-icon {
+    color: $aws-blue-darker;
+    height: 25px;
+    width: 25px;
+    flex-shrink: 0;
+    @include tablet {
+      height: 22px;
+      width: 22px;
+    }
+    @include desktop {
+      height: 20px;
+      width: 20px;
+      &.folder-icon {
+        font-size: 1.4rem;
+      }
+    }
+  }
+  & .bucket-icon {
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    color: $aws-blue;
+  }
 }

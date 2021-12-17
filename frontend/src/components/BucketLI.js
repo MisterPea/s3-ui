@@ -3,10 +3,11 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { IoTrashSharp } from 'react-icons/io5';
-import BucketLogo from './graphic_elements/BucketLogo';
+import { IoCloudOutline } from 'react-icons/io5';
+import { FiTrash } from 'react-icons/fi';
 import ModalComponentWrapper from './ModalComponentWrapper';
 import BucketDeleteModal from './BucketDeleteModal';
+import utcFormat from './helpers/utcFormat';
 
 export default function BucketLI({ bucket }) {
   const { Name, Region, CreationDate } = bucket;
@@ -44,20 +45,22 @@ export default function BucketLI({ bucket }) {
               <div className="bucket-row-wrapper">
                 <div className="bucket-icon-wrapper">
                   <div className="bucket-icon">
-                    <BucketLogo />
+                    <IoCloudOutline />
                   </div>
                 </div>
-                <p className="bucket-name">{Name}</p>
-                <p className="bucket-table-data date">{CreationDate}</p>
+                <p className="bucket-name name">{Name}</p>
+                <p className="bucket-table-data date">{utcFormat(CreationDate)}</p>
                 <p className="bucket-table-data region">{Region}</p>
               </div>
             </Link>
           </div>
-          <IoTrashSharp
-            onClick={handleDeleteBucket}
-            role="button"
-            className="bucket-row-right"
-          />
+          <div className="bucket-row-right">
+            <FiTrash
+              title={`Delete ${Name} bucket`}
+              onClick={handleDeleteBucket}
+              role="button"
+            />
+          </div>
         </div>
       </motion.li>
       { modalOpen

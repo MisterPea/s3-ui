@@ -20,7 +20,7 @@
   padding: 10px;
   background-color: #93bf9841;
   border-radius: 4px;
-  @include phone {
+  @include tablet {
     width: 90%;
     margin: 25px auto;
   }
@@ -41,7 +41,7 @@
   margin: 10px 0;
   border:none;
   border-top: 1px solid $aws-blue;
-  @include phone {
+  @include tablet {
      margin: 10px 0 20px;
   }
 }
@@ -85,12 +85,23 @@
 .modal-button-group {
   display: flex;
   flex-direction: column;
+  
+  &.file {
+    flex-direction: row;
+    max-width: calc(100% - 55px);
+    margin: 10px 0 20px;
+    
+  }
+  header {
+    border-right: 1px solid $aws-blue;
+    margin-right: 10px;
+  }
 }
 
 // **************** BucketDeleteModal.js **************** //
 .confirm-message {
   margin: 15px 10px 20px;
-  @include phone {
+  @include tablet {
     margin: 15px 0 20px;
     text-align: center;
   }
@@ -110,7 +121,7 @@
   border-radius: 3px;
   border: 1px rgb(99, 99, 99) solid;
   text-align: center;
-  @include phone {
+  @include tablet {
     width: 100%;
   }
   &:placeholder-shown {
@@ -136,6 +147,14 @@
     z-index: 1000;
     opacity: 1;
   }
+  
+  &.solo {
+    position: relative;
+    z-index: 1;
+    opacity: 1;
+    background-color: none;
+  }
+
   header {
     flex-shrink: 1;
     justify-content: center;
@@ -216,11 +235,20 @@
     margin: 0;
     margin-left: 10px;
   }
+  &.file svg{
+    height: 45px;
+    width: 45px;
+  }
 }
 
 .file-info-body {
-  margin-left: 40px;
-  margin-bottom: 20px;
+  width: 100%;
+  h3 {
+    color: $blue-text;
+    margin-bottom: 10px;
+  }
+  // margin-left: 40px;
+  // margin-bottom: 20px;
   .file-info {
     display: flex;
     align-items: center;
@@ -232,19 +260,22 @@
       color: $blue-text;
       margin: 0;
       white-space: nowrap;
-      font-size: 0.7rem;
+      font-size: 0.85rem;
       align-self: end;
-      @include phone {
+      @include tablet {
         font-size: 0.8rem;
       }
     }
     p {
       margin: 0;
       @include text-overflow-ellipsis;
-      color: $blue-text;
-      @include phone {
-        font-size: 0.9rem;
-      }
+      // color: $blue-text;
+      color: black;
+      font-size: 0.85rem;
+      // @include tablet {
+      //   font-size: 0.8rem;
+        
+      // }
     }
   }
 }
@@ -252,7 +283,7 @@
 .file-button-wrapper {
   display: flex;
   flex-direction: column;
-  @include phone{
+  @include tablet{
     flex-direction: row;
     // margin: 0 10px 5px;
   }
@@ -264,7 +295,7 @@
     align-items: center;
     background-color: $blue-grey;
     border-radius: 5px;
-    @include phone {
+    @include tablet {
       flex: 1;
       height: 100%;
       &:first-child{
@@ -278,7 +309,7 @@
     }
     &:first-child {
       margin-bottom: 10px;
-      @include phone {
+      @include tablet {
         margin-bottom: 0;
       }
     }
@@ -323,7 +354,7 @@
       text-align: center;
       line-height: 1.2rem;
       border-radius: 4px;
-      @include phone {
+      @include tablet {
         padding: 10px 0; 
       }
     }
