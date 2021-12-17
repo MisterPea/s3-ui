@@ -37,11 +37,12 @@ __Features to be included in future iterations:__
 * [x] Error catching - File Upload
 * [x] Delete Files
 * [x] Error catching - File Deletion
-* [ ] Get/Subscribe to Loading Percentage
-* [ ] Upload progress bar
+* [x] Get/Subscribe to Loading Percentage
+* [x] Upload progress bar
 * [x] Mobile Layout
-* [ ] Tablet Layout
-* [ ] Desktop Layout
+* [x] Tablet Layout
+* [x] Desktop Layout
+* [ ] Drag and drop when in an empty folder
 <hr />
 
 Longer-term development
