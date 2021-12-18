@@ -42,7 +42,7 @@ __Features to be included in future iterations:__
 * [x] Mobile Layout
 * [x] Tablet Layout
 * [x] Desktop Layout
-* [ ] Drag and drop when in an empty folder
+* [x] Drag and drop when in an empty folder
 <hr />
 
 Longer-term development
