@@ -1,5 +1,16 @@
 // ****************** BucketDisplay.js ****************** //
 // ******************* FileDisplay.js ******************* //
+.empty-bucket-li {
+  padding: 10px 0;
+  margin: 0 0 2px;
+  transition: background-color 0.3s ease-in-out;
+  &.drag-active {
+    background-color: $aws-blue;
+  }
+  & p {
+    margin: 0;
+  }
+}
 .empty-s3,
 .empty-bucket {
   color: $white;
@@ -318,7 +329,8 @@
     width: 50px;
     right: 0;
     font-size: 30px;
-    display: block;
+    display: flex;
+    align-items: center;
     &.bucket-row-right {
       display: flex;
       align-items: center;
@@ -327,6 +339,9 @@
       flex: 50px;
     }
     & .desktop {
+      display: none;
+    }
+    & .tablet.delete, .tablet.upload {
       display: none;
     }
     & .tablet,
@@ -347,7 +362,7 @@
       margin-left: 10px;
       flex-shrink: 0;
 
-      &.folder {
+      & .folder.tablet.upload, .folder.tablet.delete {
         display: flex;
         align-items: center;
         width: 80px;

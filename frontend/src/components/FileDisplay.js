@@ -16,9 +16,19 @@ import DragDrop from './DragDrop';
 import { uploadFiles } from '../redux/actions/file';
 import useSetFilePath from './helpers/useSetFilePath';
 
-function EmptyBucket() {
+// eslint-disable-next-line react/prop-types
+function EmptyBucket({ path }) {
   return (
-    <><motion.p layout className="empty-bucket">Looks like this is empty.</motion.p></>
+    <li className="empty-bucket-li">
+      <motion.p
+        layout
+        className="empty-bucket"
+        data-type="file"
+        data-path={`/${path}`}
+      >
+        Looks like this is empty.
+      </motion.p>
+    </li>
   );
 }
 
@@ -200,7 +210,7 @@ export default function FileDisplay() {
                     key="motion-file-ul"
                     className="file-ul"
                   >
-                    {isEmptyFile(files) ? <EmptyBucket /> : files.map(({
+                    {isEmptyFile(files) ? <EmptyBucket path={currentPath} /> : files.map(({
                       type, name, lastModified = null, size, path: filePath,
                     }) => (
                       <FileLI
