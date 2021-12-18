@@ -127,12 +127,12 @@ export default function FileLI({
                 onClick={handleToggleTooltip}
               />
               <IoCloudUploadOutline
-                className="tablet upload"
+                className="folder tablet upload"
                 title={`Upload to ${name}`}
                 onClick={() => uploadClick(filePath)}
               />
               <FiTrash
-                className="tablet delete"
+                className="folder tablet delete"
                 title={`Delete ${name}`}
                 onClick={handleDeleteModal}
               />
