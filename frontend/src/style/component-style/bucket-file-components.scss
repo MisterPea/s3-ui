@@ -233,6 +233,9 @@
 
 .file-row,
 .bucket-row {
+  &.folder {
+    cursor: pointer;
+  }
   background-color: #fff;
   display: flex;
   justify-content: space-between;

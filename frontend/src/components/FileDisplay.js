@@ -167,6 +167,7 @@ export default function FileDisplay() {
       <div className="file-header-wrapper">
         <div className="add-file-wrapper">
           <button
+            aria-label="Add File Button"
             type="button"
             onClick={() => handleAddFileButtonClick(null)}
             className="add-file"

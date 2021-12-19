@@ -30,6 +30,7 @@ export default function SubmitBtnWithIcon({
   return (
     <button
       className={`submit-button-icon${buildClassName()}`}
+      aria-label={`${text} button`}
       tabIndex={0}
       type="button"
       disabled={isDisabled}

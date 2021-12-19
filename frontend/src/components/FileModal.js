@@ -96,19 +96,19 @@ export default function FileModal({
           <header className="modal-header file">
             <IoInformationCircleSharp />
           </header>
-          <div className="file-info-body">
+          <div className="file-info-body" aria-label="File Info Title">
             <h3>FILE INFO:</h3>
             <div className="file-info">
               <h4>NAME:</h4>
-              <p>{` ${name}`}</p>
+              <p aria-label="Filename">{` ${name}`}</p>
             </div>
             <div className="file-info">
-              <h4>SIZE:</h4>
+              <h4 aria-label="File Size">SIZE:</h4>
               <p>{` ${fileSizeTruncate(size)}`}</p>
             </div>
             <div className="file-info">
               <h4>LAST MODIFIED:</h4>
-              <p>{` ${toDate()}`}</p>
+              <p aria-label="Last Modified">{` ${toDate()}`}</p>
             </div>
           </div>
         </div>

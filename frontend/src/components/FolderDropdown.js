@@ -3,7 +3,7 @@ import { IoCloudUploadOutline, IoTrashOutline } from 'react-icons/io5';
 import PropTypes from 'prop-types';
 
 export default function FolderDropdown({
-  isOpen, buttonClick, closeDropdown, toggleDeleteFolderModal, uploadClick, filePath,
+  isOpen, buttonClick, closeDropdown, toggleDeleteFolderModal, uploadClick, filePath, name,
 }) {
   if (isOpen) {
     document.addEventListener('click', handleClose);
@@ -27,6 +27,8 @@ export default function FolderDropdown({
     <div className={`descend-menu ${isOpen ? 'visible-folder' : ''}`}>
       <div className="left-buttons">
         <button
+          title={`Upload to ${name}`}
+          aria-label={`Upload to ${name} folder`}
           className="descend-menu-button"
           tabIndex={0}
           type="button"
@@ -44,6 +46,8 @@ export default function FolderDropdown({
         </button>
       </div>
       <button
+        title={`Delete ${name}`}
+        aria-label={`Delete ${name} folder`}
         className="descend-menu-button-delete"
         tabIndex={0}
         type="button"
@@ -67,4 +71,5 @@ FolderDropdown.propTypes = {
   toggleDeleteFolderModal: PropTypes.func.isRequired,
   uploadClick: PropTypes.func.isRequired,
   filePath: PropTypes.string,
+  name: PropTypes.string.isRequired,
 };

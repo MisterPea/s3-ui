@@ -61,19 +61,19 @@ export default function NavBar() {
     const links = bcPath !== null ? pathArray : [];
     return (
       <div className="breadcrumb-wrapper">
-        <ul className="breadcrumb-ul">
-          <li className="breadcrumb-li">
+        <ul className="breadcrumb-ul" role="menubar">
+          <li className="breadcrumb-li" role="menuitem">
             <div
               onClick={() => handleBreadcrumbRoot()}
-              onKeyDown={(e) => handleKeyboardClick(e)}
               role="button"
+              onKeyDown={(e) => handleKeyboardClick(e)}
               tabIndex={0}
               style={{ cursor: 'pointer' }}
             >
-              {'S3\u00A0>\u00A0'}
+              {'S3-Root\u00A0>\u00A0'}
             </div>
           </li>
-          <li className="breadcrumb-li">
+          <li className="breadcrumb-li" role="menuitem">
             <div
               onClick={() => handleBreadcrumbNav('path')}
               onKeyDown={(e) => handleKeyboardClick(e, 'path')}
@@ -169,12 +169,11 @@ export default function NavBar() {
       </motion.div>
 
       <div className="nav-bar">
-
-        <div className="logo-lg"><MainLogo /></div>
+        <div className="logo-lg" role="img" aria-label="S3 UI" alt="S3 UI"><MainLogo /></div>
         <div className="bucket-id-loc">
           <div className="bucket-id-wrapper">
-            <h3 className="bucket-name">{id}</h3>
-            <p className="bucket-region">{loc}</p>
+            <h3 className="bucket-name" aria-label="Bucket Name">{id}</h3>
+            <p className="bucket-region" aria-label="Bucket Region">{loc}</p>
           </div>
         </div>
         <p className="contact-btn">Contact</p>

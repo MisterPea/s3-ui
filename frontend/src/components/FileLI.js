@@ -108,8 +108,9 @@ export default function FileLI({
         className="file-folder-li"
       >
         <div className="file-row-wrapper">
-          <div className="file-row">
+          <div className="file-row folder">
             <div
+              aria-label={`Folder for ${name}`}
               className="file-row-left"
               role="button"
               tabIndex={0}
@@ -144,6 +145,7 @@ export default function FileLI({
             closeDropdown={handleToggleTooltip}
             buttonClick={handleCloseTooltip}
             uploadClick={() => uploadClick(filePath)}
+            name={name}
           />
           { toggleDeleteFolderModal
     && (
@@ -183,23 +185,27 @@ export default function FileLI({
             data-type="file"
           >
             <div className="icon-wrapper"><FileIcon name={name} /></div>
-            <p className="file-table-data name">{name}</p>
-            <p className="file-table-data last-modified">{utcFormat(lastModified)}</p>
-            <p className="file-table-data size">{fileSizeTruncate(size)}</p>
+            <p className="file-table-data name" aria-label="Filename">{name}</p>
+            <p className="file-table-data last-modified" aria-label="Last Modified">{utcFormat(lastModified)}</p>
+            <p className="file-table-data size" aria-label="File size">{fileSizeTruncate(size)}</p>
           </div>
           <div className="file-row-right">
             <IoInformationCircleSharp
               className="tablet info"
+              title="File Info"
+              aria-label="File Info"
               onClick={handleToggleFileModal}
             />
             <IoCloudDownloadOutline
               title={`Download ${name}`}
+              aria-label={`Download ${name}`}
               className="desktop download"
               onClick={handleDownloadClick}
             />
             <FiTrash
               className="desktop delete"
               title={`Delete ${name}`}
+              aria-label={`Delete ${name}`}
               onClick={handleToggleDeleteModal}
             />
           </div>

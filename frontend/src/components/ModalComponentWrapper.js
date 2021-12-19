@@ -114,6 +114,7 @@ export default function ModalComponentWrapper({ children, close }) {
 
   const portalJSX = (
     <motion.div
+      role="dialog"
       variants={modalBackOverlay}
       initial="closed"
       animate={modalOpen ? 'open' : 'closed'}
@@ -129,7 +130,12 @@ export default function ModalComponentWrapper({ children, close }) {
         initial="init"
         animate={modalOpen ? 'open' : 'closed'}
       >
-        <IoIosClose onClick={() => setModalOpen(false)} tabIndex={0} className="modal-close-button" />
+        <IoIosClose
+          aria-label="Close modal"
+          onClick={() => setModalOpen(false)}
+          tabIndex={0}
+          className="modal-close-button"
+        />
         <>
           {React.cloneElement(children, {
             setModalOpen: () => setModalOpen(), modalId: modalMountId.current,

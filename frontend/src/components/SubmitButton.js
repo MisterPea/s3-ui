@@ -25,6 +25,7 @@ export default function SubmitButton({
 }) {
   return (
     <button
+      aria-label={`${text} Button`}
       className={`submit-button${longer ? ' longer' : ''} ${destructive ? ' destructive' : ''}`}
       tabIndex={0}
       type="button"
