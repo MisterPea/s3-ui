@@ -1,9 +1,3 @@
-# node production
-FROM python:3.7-bullseye
-
-RUN pip install localstack
-RUN start localstack
-
 FROM node:14-alpine
 
 WORKDIR /backend
@@ -15,6 +9,6 @@ RUN npm install
 
 COPY . ./
 
-EXPOSE 80
+EXPOSE 5001
 
 CMD ["node", "server.js"]

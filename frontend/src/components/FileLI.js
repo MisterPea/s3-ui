@@ -55,7 +55,7 @@ export default function FileLI({
 
   // For Files
   const [toggleFileModal, setToggleFileModal] = useState(false);
-  const { hostname } = window.location;
+  const hostname = process.env.HOSTNAME;
   const key = `${(filePath && filePath.slice(1)) || ''}/${name}`;
 
   function onKeyDownFile(e) {

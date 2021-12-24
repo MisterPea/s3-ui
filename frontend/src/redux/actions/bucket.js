@@ -13,7 +13,7 @@ export const DELETE_BUCKET = 'DELETE_BUCKET';
 export const GET_BUCKET_CONTENTS = 'GET_BUCKET_CONTENTS';
 export const GET_BUCKETS_AND_CONTENTS = 'GET_BUCKETS_AND_CONTENTS';
 
-const { hostname } = window.location;
+const hostname = process.env.HOSTNAME;
 
 function getBuckets(buckets) {
   return {

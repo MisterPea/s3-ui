@@ -43,6 +43,7 @@ __Features to be included in future iterations:__
 * [x] Tablet Layout
 * [x] Desktop Layout
 * [x] Drag and drop when in an empty folder
+* [ ] Docker deployment
 <hr />
 
 Longer-term development
@@ -53,7 +54,7 @@ Longer-term development
 * [ ] Upload folders with nested content
 * [ ] Ability to change filename
 * [ ] Preview files. Lo-res images or small text extracts
-* [ ] Catches for incompatable filetypes like .app (which causes a hang) 
+* [ ] Catches for incompatible filetypes like .app (which causes a hang) 
 
 <hr />
 
@@ -71,7 +72,7 @@ AWS_REGION=us-east-1
 ``` 
 <hr />
 
-#### localStack CLI intergration:
+#### localStack CLI integration:
 Your actual S3 buckets can be cloned and populated into your localStack mock with [this script.](https://github.com/MisterPea/S3-Uploader/blob/d03793e7afabbc8ad6cc0580a94cbafae822fda2/shell%20scripts/CloneS3ToLocalstack.sh)
 
 Command line usage - s3:
@@ -104,7 +105,7 @@ The basic setup for multipart-uploading is:
 * SCSS
 * Redux
 * Axios
-* Expressjs
+* ExpressJS
 * AWS S3 Client V3 - `@aws-sdk/client-s3`
 * localStack
 * Jest/Enzyme

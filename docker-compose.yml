@@ -1,43 +1,32 @@
 version: "3.9"
 
-services: 
-  frontend:
-    build: ./frontend
-    image: "frontend:1.0.0"
-    networks: 
-      - local_S3
-    
+services:
   backend:
-    build: ./backend
-    image: "backend:1.0.0"
-    networks:
-      - local_S3
-   
-  localstack:
-    image: localstack/localstack:latest
-    hostname: localstack
-    networks:
-      - local_S3
+    build:
+      context: ./backend
     ports:
-      # - "4566:4566"
-    environment:
-      - AWS_DEFAULT_REGION=us-east-1
-      - SERVICES=s3
-      - DEBUG=1
-      - HOST_TMP_FOLDER=${TMPDIR}
-      - HOSTNAME_EXTERNAL=localstack
-    volumes:
-      - ./data:/tmp/localstack
-      - "/var/run/docker.sock:/var/run/docker.sock"
-
-  revproxy:
-    build: ./nginx
-    image: "revproxy:1.0.0"
-    networks:
-      - local_S3
-    ports:
-      - "80:80"
+      - "5001:5001"
+    container_name: backend
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - nginx
     
-networks:
-  local_S3:
+  frontend:
+    build: 
+      context: ./frontend
+    container_name: frontend
+    depends_on:
+      - nginx
+      - backend
+    
+  nginx:
+    restart: always
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - "./nginx/default.conf:/etc/nginx/conf.d/default.conf"
+    ports:
+      - "8080:80"
+
     

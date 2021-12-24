@@ -16,7 +16,7 @@ export default function FileModal({
   fileInfo, setModalOpen, downloadInfo, modalId,
 }) {
   const { name, lastModified, size } = fileInfo;
-  const { hostname } = window.location;
+  const hostname = process.env.HOSTNAME;
   const { locale, bucket, filePath } = downloadInfo;
   const key = `${(filePath && filePath.slice(1)) || ''}/${name}`;
   const dispatch = useDispatch();

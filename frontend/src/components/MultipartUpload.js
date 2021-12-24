@@ -21,7 +21,7 @@ export default class MultipartUpload {
     this.sentPromises = [];
     this.totalBytesLoaded = 0;
     this.base64Size = Math.round((4 * ((this.size + 2) / 3)));
-    this.hostname = window.location.hostname;
+    this.hostname = process.env.HOSTNAME;
   }
 
   /**
@@ -31,7 +31,7 @@ export default class MultipartUpload {
   getUploadId() {
     return axios({
       method: 'POST',
-      url: `http://${this.hostname}/upload/getUploadId`,
+      url: `http://${this.hostname}/api/upload/getUploadId`,
       data: {
         bucket: this.bucket,
         key: this.key,
@@ -94,7 +94,7 @@ export default class MultipartUpload {
         formData.append('numberOfChunks', numberOfChunks);
         axios({
           method: 'POST',
-          url: `http://${this.hostname}/upload/${uploadId}`,
+          url: `http://${this.hostname}/api/upload/${uploadId}`,
           data: formData,
           headers: {
             'content-type': 'multipart/form-data',
