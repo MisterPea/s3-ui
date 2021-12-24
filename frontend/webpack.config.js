@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   resolve: {
@@ -40,7 +41,10 @@ module.exports = {
       },
     ],
   },
-  plugins: [new HtmlWebpackPlugin({ template: './src/index.html' })],
+  plugins: [
+    new HtmlWebpackPlugin({ template: './src/index.html' }),
+    new Dotenv(),
+  ],
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   devServer: {
     historyApiFallback: true,
