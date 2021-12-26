@@ -8,8 +8,6 @@ import { uploadInit, uploadProgress, uploadEnd } from './uploadProgress';
 export const ADD_FILE = 'ADD_FILE';
 export const DELETE_FILE = 'DELETE_FILE';
 
-
-
 function deleteFile(locale, bucket, key) {
   return {
     type: DELETE_FILE,
