@@ -66,11 +66,12 @@ Longer-term development
 * `$ cd frontend` `npm start`
 * `$ cd backend` `nodemon server` or `node server`
 
-<hr />
-
 #### localStack CLI integration:
 Your actual S3 buckets can be cloned and populated into your localstack mock with [this script.](https://github.com/MisterPea/S3-Uploader/blob/d03793e7afabbc8ad6cc0580a94cbafae822fda2/shell%20scripts/CloneS3ToLocalstack.sh)
 
+<hr />
+
+#### Accessing/manipulating localstact S3 via CLI
 Command line usage - s3:
 `aws s3 ls --endpoint-url http://localhost:4566 s3://myS3Bucket`
 
@@ -81,9 +82,8 @@ AWS S3 CLI Reference: https://awscli.amazonaws.com/v2/documentation/api/latest/r
 
 AWS S3api CLI Reference: https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3api/index.html
 
-
-
 <hr />
+
 The basic setup for multipart-uploading is:
 
 - A user chooses which file(s) to upload and the bucket they'll reside.
