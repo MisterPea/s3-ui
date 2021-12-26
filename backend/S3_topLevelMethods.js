@@ -10,25 +10,24 @@ const {
   GetObjectCommand,
   DeleteObjectCommand,
 } = require('@aws-sdk/client-s3');
-
 const { tree, isPathDeletable } = require('./utilities');
 
 const region = 'us-east-1';
-// const endpoint = encodeURI('http://localhost:4566');
 
 /**
  * Method to create a new S3Client
  * @param {string} locale Location to bind the Client to
  * @return {S3Client} Return is a new instance of a S3Client
  */
-// const newClient = (locale) => new S3Client({
-//   region: locale,
-//   endpoint,
-//   forcePathStyle: true,
-// });
-const newClient = (locale) => new S3Client({
-  region: locale,
-});
+const newClient = (locale) => new S3Client(
+  process.env.ENV === 'local'
+    ? {
+      region: locale,
+      endpoint: encodeURI('http://localhost:4566'),
+      forcePathStyle: true,
+    }
+    : { region: locale },
+);
 
 /**
  * Method standardizing error error reporting
