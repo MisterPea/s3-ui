@@ -58,22 +58,18 @@ Longer-term development
 
 <hr />
 
-#### To run:
+#### To run locally:
+* Create a `.env` file in the `backend` folder with `ENV=local`
+* Create a `.env` file in the `frontend` folder with `HOSTNAME=192.168.1.152:5001` - this points to the node server
+
+* `$ localstack start` - To start aws development server
 * `$ cd frontend` `npm start`
 * `$ cd backend` `nodemon server` or `node server`
-* To start aws development server `localstack start`
 
-In the backend folder place your aws credentials into a `.env` file.
-The credentials will look like:
-```
-AWS_ACCESS_KEY_ID=ABCDEFGHIJ123456789
-AWS_SECRET_ACCESS_KEY=O12ABC3456DEFGHIJKLMNOPQRXTUVWX987654321 
-AWS_REGION=us-east-1
-``` 
 <hr />
 
 #### localStack CLI integration:
-Your actual S3 buckets can be cloned and populated into your localStack mock with [this script.](https://github.com/MisterPea/S3-Uploader/blob/d03793e7afabbc8ad6cc0580a94cbafae822fda2/shell%20scripts/CloneS3ToLocalstack.sh)
+Your actual S3 buckets can be cloned and populated into your localstack mock with [this script.](https://github.com/MisterPea/S3-Uploader/blob/d03793e7afabbc8ad6cc0580a94cbafae822fda2/shell%20scripts/CloneS3ToLocalstack.sh)
 
 Command line usage - s3:
 `aws s3 ls --endpoint-url http://localhost:4566 s3://myS3Bucket`
