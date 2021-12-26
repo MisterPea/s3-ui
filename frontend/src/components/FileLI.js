@@ -55,7 +55,7 @@ export default function FileLI({
 
   // For Files
   const [toggleFileModal, setToggleFileModal] = useState(false);
-  const hostname = process.env.HOSTNAME;
+  
   const key = `${(filePath && filePath.slice(1)) || ''}/${name}`;
 
   function onKeyDownFile(e) {
@@ -66,7 +66,7 @@ export default function FileLI({
   function handleDownloadClick() {
     axios({
       method: 'GET',
-      url: `http://${hostname}/api/downloadFile`,
+      url: `http://${HOSTNAME}/api/downloadFile`,
       params: { locale, bucket, key },
       headers: {
         'content-type': 'application/json',

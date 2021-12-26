@@ -4,7 +4,7 @@ import { errorCreatingFolder, errorDeletingFolder } from './error';
 export const ADD_FOLDER = 'ADD_FOLDER';
 export const DELETE_FOLDER = 'DELETE_FOLDER';
 
-const hostname = process.env.HOSTNAME;
+
 
 function addFolder(locale, folderPath, bucket, folderName) {
   return {
@@ -28,7 +28,7 @@ export function addFolderToBucket(locale, folderPath, bucket, folderName) {
   return (dispatch) => {
     axios({
       method: 'POST',
-      url: `http://${hostname}/api/createFolder`,
+      url: `http://${HOSTNAME}/api/createFolder`,
       data: JSON.stringify({
         locale, folderPath, bucket, folderName,
       }),
@@ -44,7 +44,7 @@ export function deleteFolderFromBucket(locale, bucket, pathToDelete, folderName)
   return (dispatch) => {
     axios({
       method: 'POST',
-      url: `http://${hostname}/api/deleteFolder`,
+      url: `http://${HOSTNAME}/api/deleteFolder`,
       data: JSON.stringify({
         locale, bucket, pathToDelete, folderName,
       }),
