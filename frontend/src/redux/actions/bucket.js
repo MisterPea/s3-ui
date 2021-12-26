@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import {
   errorGettingBucketContents,
   errorGettingBuckets,
@@ -12,8 +13,6 @@ export const CREATE_BUCKET = 'CREATE_BUCKET';
 export const DELETE_BUCKET = 'DELETE_BUCKET';
 export const GET_BUCKET_CONTENTS = 'GET_BUCKET_CONTENTS';
 export const GET_BUCKETS_AND_CONTENTS = 'GET_BUCKETS_AND_CONTENTS';
-
-const hostname = process.env.HOSTNAME;
 
 function getBuckets(buckets) {
   return {
@@ -61,7 +60,7 @@ export function getBucketList() {
     dispatch(showLoader());
     axios({
       method: 'GET',
-      url: `http://${hostname}/api/getBucketList`,
+      url: `http://${HOSTNAME}/api/getBucketList`,
     }).then(({ data }) => {
       dispatch(hideLoader());
       dispatch(getBuckets(data));
@@ -74,7 +73,7 @@ export function getBucketContentsList(region, bucket) {
     dispatch(showLoader());
     axios({
       method: 'POST',
-      url: `http://${hostname}/api/getBucketContents`,
+      url: `http://${HOSTNAME}/api/getBucketContents`,
       data: JSON.stringify({ locale: region, bucket }),
       headers: {
         'content-type': 'application/json',
@@ -94,7 +93,7 @@ export function getBucketsAndContentsList(region, bucket) {
     dispatch(showLoader());
     axios({
       method: 'POST',
-      url: `http://${hostname}/api/getBucketsAndContents`,
+      url: `http://${HOSTNAME}/api/getBucketsAndContents`,
       data: JSON.stringify({ locale: region, bucket }),
       headers: {
         'content-type': 'application/json',
@@ -113,7 +112,7 @@ export function addNewBucketToList(newBucket) {
   return (dispatch) => {
     axios({
       method: 'POST',
-      url: `http://${hostname}/api/createBucket`,
+      url: `http://${HOSTNAME}/api/createBucket`,
       data: JSON.stringify({ locale: newBucket.Region, bucket: newBucket.Name }),
       headers: {
         'content-type': 'application/json',
@@ -127,7 +126,7 @@ export function deleteBucketFromList(region, bucket) {
   return (dispatch) => {
     axios({
       method: 'POST',
-      url: `http://${hostname}/api/deleteBucket`,
+      url: `http://${HOSTNAME}/api/deleteBucket`,
       data: JSON.stringify({ locale: region, bucket }),
       headers: {
         'content-type': 'application/json',

@@ -8,7 +8,7 @@ import { uploadInit, uploadProgress, uploadEnd } from './uploadProgress';
 export const ADD_FILE = 'ADD_FILE';
 export const DELETE_FILE = 'DELETE_FILE';
 
-const hostname = process.env.HOSTNAME;
+
 
 function deleteFile(locale, bucket, key) {
   return {
@@ -34,7 +34,7 @@ export function deleteFileFromList(region, bucket, key) {
   return (dispatch) => {
     axios({
       method: 'DELETE',
-      url: `http://${hostname}/api/file`,
+      url: `http://${HOSTNAME}/api/file`,
       data: JSON.stringify({ locale: region, bucket, key }),
       headers: {
         'content-type': 'application/json',

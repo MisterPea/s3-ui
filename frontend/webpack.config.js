@@ -1,6 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const Dotenv = require('dotenv-webpack');
+const { DefinePlugin } = require('webpack');
 
 module.exports = {
   resolve: {
@@ -43,12 +43,13 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({ template: './src/index.html' }),
-    new Dotenv(),
+    new DefinePlugin({
+      HOSTNAME: process.env.NODE_ENV === 'production' ? JSON.stringify('localhost:8080') : JSON.stringify('192.168.1.152:5001'),
+    }),
   ],
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   devServer: {
     historyApiFallback: true,
-    // inline: true,
     host: '192.168.1.152',
   },
 };

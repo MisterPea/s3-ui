@@ -38,10 +38,10 @@ export default function BucketDeleteModal({ Name, Region, setModalOpen }) {
  * @param {function} isDeletableCallback Callback, reference to the `setIsDeletable` set-state
  */
   function isDeletionAvailable() {
-    const hostname = process.env.HOSTNAME;
+    
     axios({
       method: 'POST',
-      url: `http://${hostname}/api/getBucketObjectsLength`,
+      url: `http://${HOSTNAME}/api/getBucketObjectsLength`,
       data: JSON.stringify({ locale: Region, bucket: Name }),
       headers: {
         'content-type': 'application/json',
