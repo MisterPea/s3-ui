@@ -21,7 +21,7 @@ export default class MultipartUpload {
     this.sentPromises = [];
     this.totalBytesLoaded = 0;
     this.base64Size = Math.round((4 * ((this.size + 2) / 3)));
-    this.hostname = process.env.HOSTNAME;
+    this.hostname = HOSTNAME;
   }
 
   /**
