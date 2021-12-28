@@ -90,6 +90,7 @@ AWS S3api CLI Reference: https://awscli.amazonaws.com/v2/documentation/api/lates
 * [x] Drag and drop when in an empty folder
 * [x] Docker deployment
 * [ ] HTTPS
+* [ ] Code splitting
 <hr />
 
 Longer-term development
@@ -100,7 +101,8 @@ Longer-term development
 * [ ] Upload folders with nested content
 * [ ] Ability to change filename
 * [ ] Preview files. Lo-res images or small text extracts
-* [ ] Catches for incompatible filetypes like .app (which causes a hang) 
+* [ ] Catches for incompatible filetypes like .app (which causes a hang)
+* [ ] User/Error logs
 
 <hr />
 
