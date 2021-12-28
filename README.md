@@ -1,5 +1,5 @@
-## S3 UI  :seedling:
-### User interface for AWS's Simple Storage Service 
+# S3 UI  :seedling:
+## User interface for AWS's Simple Storage Service 
 
 __Base functionality includes the ability to:__
 * Create/Delete buckets
@@ -16,9 +16,7 @@ __Features to be included in future iterations:__
 * Ability to change filename
 * File preview
 
-<hr />
-
-#### Modes:
+## Configuration:
 ##### S3_UI can be run in either development or production mode.
 
 * For both, create a `.env` file in the `backend` folder.
@@ -32,7 +30,9 @@ __Features to be included in future iterations:__
    - `localhost` (For local development using the webpack dev server. Initiated through `localstack start` in the cli)
    - `localstack` (Use the impermanent emulator - through docker-compose. `NODE_ENV` needs to be `prod`)
    - `aws` (Use the actual aws s3 server - provide access key and secret key. `NODE_ENV` needs to be `prod`)
+
 ---
+
 _**Running locally:**_
 * Adjust the `devServer` `host` and the argument within `DefinePlugin` in [webpack.config.js](https://github.com/MisterPea/S3-UI/blob/main-origin/frontend/webpack.config.js#L47-L53) to match your local IP address.
 * `$ localstack start` - To start aws development server
@@ -61,9 +61,7 @@ AWS S3 CLI Reference: https://awscli.amazonaws.com/v2/documentation/api/latest/r
 
 AWS S3api CLI Reference: https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3api/index.html
 
-<hr />
-
-### To do:
+## To do:
 * [x] Get List of Buckets - Name - Date Created - AWS Region
 * [x] Create New Bucket
 * [x] Prevent the addition of buckets of the same name
