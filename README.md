@@ -19,8 +19,8 @@ __Features to be included in future iterations:__
 ## Configuration:
 ##### S3_UI can be run in either development or production mode.
 
-* For both, create a `.env` file in the `backend` folder.
-  Options within the environment file are as follows:
+* For both, modify the `.env` file in the `backend` folder as needed.
+  Options within the .env file are as follows:
   
 **`NODE_ENV`**
    - `dev` (webpack dev server)
@@ -89,6 +89,8 @@ AWS S3api CLI Reference: https://awscli.amazonaws.com/v2/documentation/api/lates
 * [x] Docker deployment
 * [ ] HTTPS
 * [ ] Code splitting
+* [ ] 404
+* [ ] Handling for non-existent query string
 <hr />
 
 Longer-term development
