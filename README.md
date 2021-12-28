@@ -9,7 +9,7 @@ __Base functionality includes the ability to:__
 * Breadcrumb folder navigation
 * Files uploaded with the same filename will be automatically renamed with a numeric iterator
 * Bucket and folder navigation is done via query string; allowing bookmarking and sharing
-* Usages across all screen sizes
+* Usage across all screen sizes
 
 __Features to be included in future iterations:__
 * Send email links for file/folder download
@@ -40,9 +40,9 @@ _**Running locally:**_
 * `$ cd backend` `nodemon server` or `node server`
 
 _**Running via docker compose:**_
-From the project, root level in you cli:
-To start: `docker-compose up`
-To stop and remove all docker images: `docker-compose down && docker rmi $(docker images -q)`
+From the project, root level in your cli:
+* To start: `docker-compose up`
+* To stop and remove all docker images: `docker-compose down && docker rmi $(docker images -q)`
 
 
 #### localStack CLI integration:
