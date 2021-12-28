@@ -1,7 +1,6 @@
 node_modules/
 package-lock.json
 backend/node_modules/
-backend/.env
 .DS_Store
 backend/***s3BucketMethods.js
 backend/***S3Upload.js
@@ -37,3 +36,4 @@ data/server.test.pem.crt
 data/server.test.pem.key
 issue-tracker.md
 frontend/.env
+backend/.secrets
