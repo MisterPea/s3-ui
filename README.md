@@ -43,7 +43,7 @@ __Features to be included in future iterations:__
 * [x] Tablet Layout
 * [x] Desktop Layout
 * [x] Drag and drop when in an empty folder
-* [ ] Docker deployment
+* [x] Docker deployment
 <hr />
 
 Longer-term development
@@ -58,13 +58,29 @@ Longer-term development
 
 <hr />
 
-#### To run locally:
-* Create a `.env` file in the `backend` folder with `ENV=local`
-* Create a `.env` file in the `frontend` folder with `HOSTNAME=192.168.1.152:5001` - this points to the node server
+#### Modes:
+* Create a `.env` file in the `backend` folder.
+  Options within the environment file are as follows:
+  * `NODE_ENV`
+   - `dev` (webpack dev server)
+   - `prod` (docker-compose)
+  
+  * `ENV`
+   - `localhost` (For local development using the webpack dev server. Initiated through `localstack start` in the cli)
+   - `localstack` (Use the impermanent emulator - through docker-compose. `NODE_ENV` needs to be `prod`)
+   - `aws` (Use the actual aws s3 server - provide access key and secret key. `NODE_ENV` needs to be `prod`)
 
+##### Running locally:
+Adjust the `devServer` `host` in [webpack.config.js] to match your local IP address.
 * `$ localstack start` - To start aws development server
 * `$ cd frontend` `npm start`
 * `$ cd backend` `nodemon server` or `node server`
+
+##### Running via docker compose:
+From the project, root level in you cli:
+To start: `docker-compose up`
+To stop and remove all docker images: `docker-compose down && docker rmi $(docker images -q)`
+
 
 #### localStack CLI integration:
 Your actual S3 buckets can be cloned and populated into your localstack mock with [this script.](https://github.com/MisterPea/S3-Uploader/blob/d03793e7afabbc8ad6cc0580a94cbafae822fda2/shell%20scripts/CloneS3ToLocalstack.sh)
