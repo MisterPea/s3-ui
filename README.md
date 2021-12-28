@@ -43,7 +43,7 @@ __Features to be included in future iterations:__
 * [x] Tablet Layout
 * [x] Desktop Layout
 * [x] Drag and drop when in an empty folder
-* [ ] Docker deployment
+* [x] Docker deployment
 <hr />
 
 Longer-term development
@@ -58,23 +58,36 @@ Longer-term development
 
 <hr />
 
-#### To run:
+#### Modes:
+* Create a `.env` file in the `backend` folder.
+  Options within the environment file are as follows:
+  * `NODE_ENV`
+   - `dev` (webpack dev server)
+   - `prod` (docker-compose)
+  
+  * `ENV`
+   - `localhost` (For local development using the webpack dev server. Initiated through `localstack start` in the cli)
+   - `localstack` (Use the impermanent emulator - through docker-compose. `NODE_ENV` needs to be `prod`)
+   - `aws` (Use the actual aws s3 server - provide access key and secret key. `NODE_ENV` needs to be `prod`)
+
+##### Running locally:
+Adjust the `devServer` `host` in [webpack.config.js] to match your local IP address.
+* `$ localstack start` - To start aws development server
 * `$ cd frontend` `npm start`
 * `$ cd backend` `nodemon server` or `node server`
-* To start aws development server `localstack start`
 
-In the backend folder place your aws credentials into a `.env` file.
-The credentials will look like:
-```
-AWS_ACCESS_KEY_ID=ABCDEFGHIJ123456789
-AWS_SECRET_ACCESS_KEY=O12ABC3456DEFGHIJKLMNOPQRXTUVWX987654321 
-AWS_REGION=us-east-1
-``` 
-<hr />
+##### Running via docker compose:
+From the project, root level in you cli:
+To start: `docker-compose up`
+To stop and remove all docker images: `docker-compose down && docker rmi $(docker images -q)`
+
 
 #### localStack CLI integration:
-Your actual S3 buckets can be cloned and populated into your localStack mock with [this script.](https://github.com/MisterPea/S3-Uploader/blob/d03793e7afabbc8ad6cc0580a94cbafae822fda2/shell%20scripts/CloneS3ToLocalstack.sh)
+Your actual S3 buckets can be cloned and populated into your localstack mock with [this script.](https://github.com/MisterPea/S3-Uploader/blob/d03793e7afabbc8ad6cc0580a94cbafae822fda2/shell%20scripts/CloneS3ToLocalstack.sh)
 
+<hr />
+
+#### Accessing/manipulating localstact S3 via CLI
 Command line usage - s3:
 `aws s3 ls --endpoint-url http://localhost:4566 s3://myS3Bucket`
 
@@ -85,9 +98,8 @@ AWS S3 CLI Reference: https://awscli.amazonaws.com/v2/documentation/api/latest/r
 
 AWS S3api CLI Reference: https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3api/index.html
 
-
-
 <hr />
+
 The basic setup for multipart-uploading is:
 
 - A user chooses which file(s) to upload and the bucket they'll reside.

@@ -21,12 +21,6 @@ module.exports = class S3Upload {
   // eslint-disable-next-line require-jsdoc
   constructor(region) {
     this.region = region;
-    this.endpoint = encodeURI('http://localhost:4566');
-    this.s3 = new S3Client({
-      egion: this.region,
-      endpoint: this.endpoint,
-      forcePathStyle: true,
-    });
     this.numberOfChunks = 0;
     this.chunksProcessed = 1;
     this.completeParams = {
@@ -34,6 +28,17 @@ module.exports = class S3Upload {
         Parts: [],
       },
     };
+    if (process.env.ENV === 'localstack' || process.env.ENV === 'localhost') {
+      this.s3 = new S3Client({
+        region: this.region,
+        endpoint: encodeURI(`http://${process.env.ENV}:4566`),
+        forcePathStyle: true,
+      });
+    } else {
+      this.s3 = new S3Client({
+        region: this.region,
+      });
+    }
   }
 
   /**

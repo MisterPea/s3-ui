@@ -4,8 +4,26 @@
   display: flex;
 
   .logo-lg {
+    margin-left: -136px;
+    margin-top: -3px;
     width: 180px;
     height: 35px;
+    cursor: pointer;
+    transform: scale(90%);
+    // margin-left: 0;
+    transition: margin-left 300ms ease-in-out;
+    @include tablet {
+      margin-left:25px;
+    }
+    @include desktop {
+      // max-width: 1024px;
+    }
+    // this is to allow maximum expansion on the
+    // main content and keep the breadcrumb bar
+    // stationary while the 50px margin is used up.
+    @media only screen and (min-width: 1124px) {
+      margin-left: calc((100% - 1074px) / 2);
+    }
   }
 
   .bucket-id-loc {

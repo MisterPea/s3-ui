@@ -20,14 +20,26 @@ import useSetFilePath from './helpers/useSetFilePath';
 function EmptyBucket({ path }) {
   return (
     <li className="empty-bucket-li">
-      <motion.p
-        layout
-        className="empty-bucket"
-        data-type="file"
-        data-path={`/${path}`}
-      >
-        Looks like this is empty.
-      </motion.p>
+      {path !== undefined
+        ? (
+          <motion.p
+            layout
+            className="empty-bucket"
+            data-type="file"
+            data-path={`/${path}`}
+          >
+            Looks like this is empty.
+          </motion.p>
+        )
+        : (
+          <motion.p
+            layout
+            className="empty-bucket"
+            data-type="file"
+          >
+            Looks like this is empty.
+          </motion.p>
+        )}
     </li>
   );
 }
