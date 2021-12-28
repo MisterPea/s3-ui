@@ -50,7 +50,7 @@ Your actual S3 buckets can be cloned and populated into your localstack mock wit
 
 <hr />
 
-#### Accessing/manipulating localstact S3 via CLI
+#### Accessing/manipulating localstack S3 via CLI
 Command line usage - s3:
 `aws s3 ls --endpoint-url http://localhost:4566 s3://myS3Bucket`
 
@@ -92,6 +92,7 @@ AWS S3api CLI Reference: https://awscli.amazonaws.com/v2/documentation/api/lates
 <hr />
 
 Longer-term development
+* [ ] Change file/folder/bucket list to use event delegation
 * [ ] Change Drag/Drop to use a specific drag-overlay-area, rather than a per list-item area
 * [ ] Right click to delete/shift-click multiple files (via append current right-click menu)
 * [ ] Send Email
