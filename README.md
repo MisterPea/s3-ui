@@ -89,6 +89,8 @@ AWS S3api CLI Reference: https://awscli.amazonaws.com/v2/documentation/api/lates
 * [x] Docker deployment
 * [ ] HTTPS
 * [ ] Code splitting
+* [ ] 404
+* [ ] Handling for non-existent query string
 <hr />
 
 Longer-term development
