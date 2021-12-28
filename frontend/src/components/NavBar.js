@@ -5,7 +5,7 @@ import { useHistory } from 'react-router';
 import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import useParseQuery from './helpers/useParseQuery';
-import MainLogo from './graphic_elements/MainLogo';
+import { MainLogoAlt } from './graphic_elements/MainLogo';
 import createId from './helpers/createId';
 import removeQuery from './helpers/removeQuery';
 
@@ -64,7 +64,7 @@ export default function NavBar() {
         <ul className="breadcrumb-ul" role="menubar">
           <li className="breadcrumb-li" role="menuitem">
             <div
-              onClick={() => handleBreadcrumbRoot()}
+              onClick={handleBreadcrumbRoot}
               role="button"
               onKeyDown={(e) => handleKeyboardClick(e)}
               tabIndex={0}
@@ -169,7 +169,18 @@ export default function NavBar() {
       </motion.div>
 
       <div className="nav-bar">
-        <div className="logo-lg" role="img" aria-label="S3 UI" alt="S3 UI"><MainLogo /></div>
+        <div
+          className="logo-lg"
+          tabIndex={0}
+          role="button"
+          onClick={handleBreadcrumbRoot}
+          onKeyDown={(e) => handleKeyboardClick(e)}
+          aria-label="S3 UI"
+          alt="S3 UI"
+        >
+          <MainLogoAlt />
+
+        </div>
         <div className="bucket-id-loc">
           <div className="bucket-id-wrapper">
             <h3 className="bucket-name" aria-label="Bucket Name">{id}</h3>
