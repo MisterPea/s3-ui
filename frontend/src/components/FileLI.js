@@ -55,7 +55,7 @@ export default function FileLI({
 
   // For Files
   const [toggleFileModal, setToggleFileModal] = useState(false);
-  
+
   const key = `${(filePath && filePath.slice(1)) || ''}/${name}`;
 
   function onKeyDownFile(e) {
@@ -167,6 +167,16 @@ export default function FileLI({
   function handleToggleFileModal() {
     setToggleFileModal((s) => !s);
   }
+  /* This is done so we don't pass empty strings into data-path.
+    When an empty string is passed in it breaks the drag and drop
+    upload onDragEnter highlighting, as well as what redux is processed */
+  let checkedPath;
+  if (filePath === '') {
+    checkedPath = null;
+  } else {
+    checkedPath = filePath;
+  }
+
   const downloadInfo = { locale, bucket, filePath };
   const fileInfo = { name, lastModified, size };
   return (
@@ -181,7 +191,7 @@ export default function FileLI({
             role="button"
             tabIndex={0}
             onKeyDown={(e) => onKeyDownFile(e)}
-            data-path={filePath}
+            data-path={checkedPath}
             data-type="file"
           >
             <div className="icon-wrapper"><FileIcon name={name} /></div>
