@@ -13,19 +13,23 @@ const {
 const { tree, isPathDeletable } = require('./utilities');
 
 const region = 'us-east-1';
-
 /**
  * Method to create a new S3Client
  * @param {string} locale Location to bind the Client to
  * @return {S3Client} Return is a new instance of a S3Client
+ * * Note: `process.env.ENV` is set to local if you want to use localstack instead
+ * of an actual aws deployment. The `process.env.ENV_URI` is used to set the endpoint
+ * when you want to use localstack. If you're running locally, the `ENV_URI` variable
+ * should be `localhost:4566`; if it's in docker, it should be `localstack:4566`
  */
 const newClient = (locale) => new S3Client(
-  process.env.ENV === 'local'
+  process.env.ENV === 'localstack' || process.env.ENV === 'localhost'
     ? {
       region: locale,
-      endpoint: encodeURI('http://localhost:4566'),
+      endpoint: encodeURI(`http://${process.env.ENV}:4566`),
       forcePathStyle: true,
     }
+    // for aws linkage
     : { region: locale },
 );
 

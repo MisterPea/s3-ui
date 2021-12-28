@@ -20,7 +20,7 @@ function errorHandler(err, req, res, next) {
 
 app.use(cors(corsOptions));
 
-if (process.env.ENV === 'local') {
+if (process.env.NODE_ENV === 'dev') {
   app.use('/api', routes);
   app.use('/api/upload', uploadRoutes);
 } else {
