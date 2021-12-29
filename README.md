@@ -35,6 +35,7 @@ __Features to be included in future iterations:__
 
 _**Running locally:**_
 * Adjust the `devServer` `host` and the argument within `DefinePlugin` in [webpack.config.js](https://github.com/MisterPea/S3-UI/blob/main-origin/frontend/webpack.config.js#L47-L53) to match your local IP address.
+* `$ pip install localstack`
 * `$ localstack start` - To start aws development server
 * `$ cd frontend` `npm start`
 * `$ cd backend` `nodemon server` or `node server`
