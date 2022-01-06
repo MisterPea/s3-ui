@@ -47,7 +47,8 @@ From the project, root level in your cli:
 
 
 #### localStack CLI integration:
-Your actual S3 buckets can be cloned and populated into your localstack mock with [this script.](https://github.com/MisterPea/S3-Uploader/blob/d03793e7afabbc8ad6cc0580a94cbafae822fda2/shell%20scripts/CloneS3ToLocalstack.sh)
+Your actual S3 buckets can be cloned and populated into your localstack mock with [this script.](https://github.com/MisterPea/S3-UI/blob/main-origin/shell%20scripts/CloneS3ToLocalstack.sh)
+
 
 <hr />
 
