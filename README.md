@@ -98,6 +98,7 @@ AWS S3api CLI Reference: https://awscli.amazonaws.com/v2/documentation/api/lates
 <hr />
 
 Longer-term development
+* [ ] Conditional fetches for buckets utilizing cache control
 * [ ] Change file/folder/bucket list to use event delegation
 * [ ] Change Drag/Drop to use a specific drag-overlay-area, rather than a per list-item area
 * [ ] Right click to delete/shift-click multiple files (via append current right-click menu)
