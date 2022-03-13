@@ -37,7 +37,7 @@ services:
     volumes:
       - "./nginx/default.conf:/etc/nginx/conf.d/default.conf"
     ports:
-      - "8081:80"
+      - "80:80"
     networks:
       - S3Local
     
