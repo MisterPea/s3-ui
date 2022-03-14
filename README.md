@@ -95,6 +95,7 @@ AWS S3api CLI Reference: https://awscli.amazonaws.com/v2/documentation/api/lates
 * [ ] Code splitting
 * [ ] 404
 * [ ] Handling for non-existent query string
+* [ ] Handling for PDF and ZIP formats
 <hr />
 
 Longer-term development
