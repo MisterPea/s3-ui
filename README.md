@@ -34,7 +34,7 @@ __Features to be included in future iterations:__
 ---
 
 _**Running locally:**_
-* Adjust the `devServer` `host` and the argument within `DefinePlugin` in [webpack.config.js](https://github.com/MisterPea/S3-UI/blob/main-origin/frontend/webpack.config.js#L47-L53) to match your local IP address.
+* Adjust the `devServer` `host` and the argument within `DefinePlugin > HOSTNAME` in [webpack.config.js](https://github.com/MisterPea/S3-UI/blob/main-origin/frontend/webpack.config.js#L47-L53) to match your local IP address.
 * `$ pip install localstack`
 * `$ localstack start` - To start aws development server
 * `$ cd frontend` `npm start`
@@ -42,6 +42,7 @@ _**Running locally:**_
 
 _**Running via docker compose:**_
 From the project, root level in your cli:
+* For local usage, change the `HOSTNAME` endpoint from `s3ui.misterpea.me` to `localhost` within [`webpack.config.js`](https://github.com/MisterPea/s3-ui/blob/4c873e8d0c40c7dfa0c418e003f988a1b5822929/frontend/webpack.config.js#L47).
 * To start: `docker-compose up`
 * To stop and remove all docker images: `docker-compose down && docker rmi $(docker images -q)`
 
