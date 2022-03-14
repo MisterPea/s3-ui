@@ -91,6 +91,7 @@ AWS S3api CLI Reference: https://awscli.amazonaws.com/v2/documentation/api/lates
 * [x] Desktop Layout
 * [x] Drag and drop when in an empty folder
 * [x] Docker deployment
+* [ ] Remove Redux Logging
 * [ ] HTTPS
 * [ ] Code splitting
 * [ ] 404
