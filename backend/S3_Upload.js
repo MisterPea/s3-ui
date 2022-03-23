@@ -28,7 +28,7 @@ module.exports = class S3Upload {
         Parts: [],
       },
     };
-    if (process.env.ENV === 'localstack' || process.env.ENV === 'localhost') {
+    if (process.env.ENV === 'localstack_main' || process.env.ENV === 'localhost') {
       this.s3 = new S3Client({
         region: this.region,
         endpoint: encodeURI(`http://${process.env.ENV}:4566`),
