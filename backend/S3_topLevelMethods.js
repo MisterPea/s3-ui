@@ -23,7 +23,7 @@ const region = 'us-east-1';
  * should be `localhost:4566`; if it's in docker, it should be `localstack:4566`
  */
 const newClient = (locale) => new S3Client(
-  process.env.ENV === 'localstack' || process.env.ENV === 'localhost'
+  process.env.ENV === 'localstack_main' || process.env.ENV === 'localhost'
     ? {
       region: locale,
       endpoint: encodeURI(`http://${process.env.ENV}:4566`),
