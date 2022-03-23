@@ -60,7 +60,7 @@ export function getBucketList() {
     dispatch(showLoader());
     axios({
       method: 'GET',
-      url: `http://${HOSTNAME}/api/getBucketList`,
+      url: `${HOSTNAME}/api/getBucketList`,
     }).then(({ data }) => {
       dispatch(hideLoader());
       dispatch(getBuckets(data));
@@ -73,7 +73,7 @@ export function getBucketContentsList(region, bucket) {
     dispatch(showLoader());
     axios({
       method: 'POST',
-      url: `http://${HOSTNAME}/api/getBucketContents`,
+      url: `${HOSTNAME}/api/getBucketContents`,
       data: JSON.stringify({ locale: region, bucket }),
       headers: {
         'content-type': 'application/json',
@@ -93,7 +93,7 @@ export function getBucketsAndContentsList(region, bucket) {
     dispatch(showLoader());
     axios({
       method: 'POST',
-      url: `http://${HOSTNAME}/api/getBucketsAndContents`,
+      url: `${HOSTNAME}/api/getBucketsAndContents`,
       data: JSON.stringify({ locale: region, bucket }),
       headers: {
         'content-type': 'application/json',
@@ -112,7 +112,7 @@ export function addNewBucketToList(newBucket) {
   return (dispatch) => {
     axios({
       method: 'POST',
-      url: `http://${HOSTNAME}/api/createBucket`,
+      url: `${HOSTNAME}/api/createBucket`,
       data: JSON.stringify({ locale: newBucket.Region, bucket: newBucket.Name }),
       headers: {
         'content-type': 'application/json',
@@ -126,7 +126,7 @@ export function deleteBucketFromList(region, bucket) {
   return (dispatch) => {
     axios({
       method: 'POST',
-      url: `http://${HOSTNAME}/api/deleteBucket`,
+      url: `${HOSTNAME}/api/deleteBucket`,
       data: JSON.stringify({ locale: region, bucket }),
       headers: {
         'content-type': 'application/json',
