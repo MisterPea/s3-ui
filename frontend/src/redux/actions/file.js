@@ -32,7 +32,7 @@ export function deleteFileFromList(region, bucket, key) {
   return (dispatch) => {
     axios({
       method: 'DELETE',
-      url: `${HOSTNAME}/api/file`,
+      url: `https://${HOSTNAME}/api/file`,
       data: JSON.stringify({ locale: region, bucket, key }),
       headers: {
         'content-type': 'application/json',

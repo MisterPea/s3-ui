@@ -31,7 +31,7 @@ export default class MultipartUpload {
   getUploadId() {
     return axios({
       method: 'POST',
-      url: `${this.hostname}/api/upload/getUploadId`,
+      url: `https://${this.hostname}/api/upload/getUploadId`,
       data: {
         bucket: this.bucket,
         key: this.key,

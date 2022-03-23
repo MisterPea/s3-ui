@@ -28,7 +28,7 @@ export function addFolderToBucket(locale, folderPath, bucket, folderName) {
   return (dispatch) => {
     axios({
       method: 'POST',
-      url: `${HOSTNAME}/api/createFolder`,
+      url: `https://${HOSTNAME}/api/createFolder`,
       data: JSON.stringify({
         locale, folderPath, bucket, folderName,
       }),
@@ -44,7 +44,7 @@ export function deleteFolderFromBucket(locale, bucket, pathToDelete, folderName)
   return (dispatch) => {
     axios({
       method: 'POST',
-      url: `${HOSTNAME}/api/deleteFolder`,
+      url: `https://${HOSTNAME}/api/deleteFolder`,
       data: JSON.stringify({
         locale, bucket, pathToDelete, folderName,
       }),

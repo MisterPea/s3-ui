@@ -66,7 +66,7 @@ export default function FileLI({
   function handleDownloadClick() {
     axios({
       method: 'GET',
-      url: `${HOSTNAME}/api/downloadFile`,
+      url: `https://${HOSTNAME}/api/downloadFile`,
       params: { locale, bucket, key },
       headers: {
         'content-type': 'application/json',
