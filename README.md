@@ -34,19 +34,24 @@ __Features to be included in future iterations:__
 ---
 
 _**Running locally:**_
-* Adjust the `devServer` `host` and the argument within `DefinePlugin` in [webpack.config.js](https://github.com/MisterPea/S3-UI/blob/main-origin/frontend/webpack.config.js#L47-L53) to match your local IP address.
+* Adjust the `devServer` `host` and the argument within `DefinePlugin > HOSTNAME` in [webpack.config.js](https://github.com/MisterPea/S3-UI/blob/main-origin/frontend/webpack.config.js#L47-L53) to match your local IP address.
+* `$ pip install localstack`
 * `$ localstack start` - To start aws development server
 * `$ cd frontend` `npm start`
 * `$ cd backend` `nodemon server` or `node server`
 
 _**Running via docker compose:**_
 From the project, root level in your cli:
+* For local usage, change the `HOSTNAME` endpoint from `s3ui.misterpea.me` to `localhost` within [`webpack.config.js`](https://github.com/MisterPea/s3-ui/blob/4c873e8d0c40c7dfa0c418e003f988a1b5822929/frontend/webpack.config.js#L47).
 * To start: `docker-compose up`
 * To stop and remove all docker images: `docker-compose down && docker rmi $(docker images -q)`
 
 
 #### localStack CLI integration:
-Your actual S3 buckets can be cloned and populated into your localstack mock with [this script.](https://github.com/MisterPea/S3-Uploader/blob/d03793e7afabbc8ad6cc0580a94cbafae822fda2/shell%20scripts/CloneS3ToLocalstack.sh)
+Your actual S3 buckets can be cloned and populated into your localstack[^1] mock with [this script.](https://github.com/MisterPea/S3-UI/blob/main-origin/shell%20scripts/CloneS3ToLocalstack.sh)
+
+[^1]:Only works when running localstack via `localstack start`, with the project running locally
+
 
 <hr />
 
@@ -87,13 +92,16 @@ AWS S3api CLI Reference: https://awscli.amazonaws.com/v2/documentation/api/lates
 * [x] Desktop Layout
 * [x] Drag and drop when in an empty folder
 * [x] Docker deployment
+* [ ] Remove Redux Logging
 * [ ] HTTPS
 * [ ] Code splitting
 * [ ] 404
 * [ ] Handling for non-existent query string
+* [ ] Handling for PDF and ZIP formats
 <hr />
 
 Longer-term development
+* [ ] Conditional fetches for buckets utilizing cache control
 * [ ] Change file/folder/bucket list to use event delegation
 * [ ] Change Drag/Drop to use a specific drag-overlay-area, rather than a per list-item area
 * [ ] Right click to delete/shift-click multiple files (via append current right-click menu)

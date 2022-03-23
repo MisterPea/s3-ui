@@ -20,7 +20,7 @@ import useSetFilePath from './helpers/useSetFilePath';
 function EmptyBucket({ path }) {
   return (
     <li className="empty-bucket-li">
-      {path !== undefined
+      {path !== null
         ? (
           <motion.p
             layout
