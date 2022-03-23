@@ -49,7 +49,7 @@
   },
   "scripts": {
     "start-docker": "webpack-dev-server --host: 0.0.0.0",
-    "start": "webpack-dev-server PREFIX='http://'",
+    "start": "webpack-dev-server",
     "build": "NODE_ENV='production' PREFIX='https://' webpack",
     "test": "jest --env=jsdom --watchAll"
   },
