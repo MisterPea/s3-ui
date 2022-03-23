@@ -49,8 +49,8 @@
   },
   "scripts": {
     "start-docker": "webpack-dev-server --host: 0.0.0.0",
-    "start": "webpack-dev-server",
-    "build": "NODE_ENV='production' webpack",
+    "start": "webpack-dev-server && SECURE=false",
+    "build": "NODE_ENV='production' webpack && SECURE=true",
     "test": "jest --env=jsdom --watchAll"
   },
   "jest": {
