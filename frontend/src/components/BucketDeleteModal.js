@@ -41,7 +41,7 @@ export default function BucketDeleteModal({ Name, Region, setModalOpen }) {
     
     axios({
       method: 'POST',
-      url: `http://${HOSTNAME}/api/getBucketObjectsLength`,
+      url: `${HOSTNAME}/api/getBucketObjectsLength`,
       data: JSON.stringify({ locale: Region, bucket: Name }),
       headers: {
         'content-type': 'application/json',
