@@ -22,6 +22,7 @@ export default class MultipartUpload {
     this.totalBytesLoaded = 0;
     this.base64Size = Math.round((4 * ((this.size + 2) / 3)));
     this.hostname = HOSTNAME;
+    this.ssl = SSL;
   }
 
   /**
@@ -31,7 +32,7 @@ export default class MultipartUpload {
   getUploadId() {
     return axios({
       method: 'POST',
-      url: `${SSL}${this.hostname}/api/upload/getUploadId`,
+      url: `${this.ssl}${this.hostname}/api/upload/getUploadId`,
       data: {
         bucket: this.bucket,
         key: this.key,
@@ -94,7 +95,7 @@ export default class MultipartUpload {
         formData.append('numberOfChunks', numberOfChunks);
         axios({
           method: 'POST',
-          url: `http://${this.hostname}/api/upload/${uploadId}`,
+          url: `${this.ssl}${this.hostname}/api/upload/${uploadId}`,
           data: formData,
           headers: {
             'content-type': 'multipart/form-data',
