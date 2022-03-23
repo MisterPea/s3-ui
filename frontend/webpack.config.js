@@ -45,7 +45,7 @@ module.exports = {
     new HtmlWebpackPlugin({ template: './src/index.html' }),
     new DefinePlugin({
       HOSTNAME: process.env.NODE_ENV === 'production' ? JSON.stringify('s3ui.misterpea.me') : JSON.stringify('192.168.1.152:5001'),
-      SSL: process.env.SECURE === true ? JSON.stringify('https://') : JSON.stringify('http://'),
+      SSL: process.env.PREFIX,
     }),
   ],
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
