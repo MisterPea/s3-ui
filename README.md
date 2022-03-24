@@ -125,6 +125,9 @@ Longer-term development
 * Axios
 * ExpressJS
 * AWS S3 Client V3 - `@aws-sdk/client-s3`
+* Docker
+* Nginx
+* GCP Compute Engine
 * localStack
 * Jest/Enzyme
 * Adobe XD
