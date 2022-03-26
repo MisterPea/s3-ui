@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ${{ env.GITHUB_WORKSPACE}}
+        working-directory: s3-ui
     
     permissions:
       contents: 'read'
