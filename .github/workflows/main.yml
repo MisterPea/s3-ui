@@ -22,6 +22,6 @@ jobs:
   
     - name: Use gcloud cli
       run: |
-        ls
+        gcloud compute ssh s3ui-instance-group-k51p
         docker ps
   
