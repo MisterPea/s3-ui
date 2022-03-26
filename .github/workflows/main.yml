@@ -10,6 +10,9 @@ jobs:
   deploy:
     name: Deploy to GCP Compute Engine
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./s3-ui
     
     permissions:
       contents: 'read'
@@ -29,7 +32,6 @@ jobs:
       uses: google-github-actions/setup-gcloud@v0
     
     - name: Use gcloud cli
-      working-directory: '${{ env.GITHUB_WORKSPACE }}/s3-ui'
       run: |
         gcloud compute ssh s3ui-instance-group-vnv4 --zone=us-east4-c --command="sudo docker ps"
         gcloud compute ssh s3ui-instance-group-vnv4 --zone=us-east4-c --command="sudo docker-compose up -d"
