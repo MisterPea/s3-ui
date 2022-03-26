@@ -32,5 +32,5 @@ jobs:
       run: |
         gcloud compute ssh s3ui-instance-group-vnv4 --zone=us-east4-c --command="sudo docker ps"
         gcloud compute ssh s3ui-instance-group-vnv4 --zone=us-east4-c --command="sudo git clone https://github.com/MisterPea/s3-ui.git"
-        gcloud compute ssh s3ui-instance-group-vnv4 --zone=us-east4-c --command="sudo cd s3-ui"
-        gcloud compute ssh s3ui-instance-group-vnv4 --zone=us-east4-c --command="docker-compose up -d"
+        gcloud compute ssh s3ui-instance-group-vnv4 --zone=us-east4-c --command="cd s3-ui"
+        gcloud compute ssh s3ui-instance-group-vnv4 --zone=us-east4-c --command="sudo docker-compose up -d"
