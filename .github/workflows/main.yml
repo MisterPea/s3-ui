@@ -10,13 +10,6 @@ jobs:
   deploy:
     name: Deploy to GCP Compute Engine
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: s3-ui
-    
-    permissions:
-      contents: 'read'
-      id-token: 'write'
 
     steps:
     - name: Checkout
