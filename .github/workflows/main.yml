@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./s3-ui
+        working-directory: s3-ui
     
     permissions:
       contents: 'read'
