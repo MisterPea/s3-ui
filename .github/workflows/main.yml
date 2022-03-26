@@ -1,0 +1,24 @@
+name: Deploy to GCP Compute Engine
+
+on:
+  pull_request:
+    branches: [ main-origin ]
+
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to GCP Compute Engine
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup gcloud SDK
+      uses: google-github-actions/setup-gcloud@master
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        export_default_credentials: true
+    - name: Use gcloud cli
+      run: |
+        gcloud compute instances list
+  
