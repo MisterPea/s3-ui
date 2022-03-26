@@ -22,6 +22,6 @@ jobs:
   
     - name: Use gcloud cli
       run: |
-        cd s*
-        docker-compose down && docker rmi $(docker images -q)
+        ls
+        docker ps
   
