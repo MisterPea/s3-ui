@@ -18,8 +18,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-      with:
-        path: s3-ui
+    - name: Set Working Directory
+      working-directory: ./s3-ui
       
     - id: 'auth'
       name: 'Authenticate to GCP'
