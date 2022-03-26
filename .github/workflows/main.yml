@@ -11,6 +11,7 @@ jobs:
     name: Deploy to GCP Compute Engine
     runs-on: ubuntu-18.04
     steps:
+    - uses: actions/checkout@v2
     - id: 'auth'
       uses: google-github-actions/auth@v0
       with:
@@ -21,5 +22,6 @@ jobs:
   
     - name: Use gcloud cli
       run: |
-        gcloud compute instances list
+        cd s*
+        docker-compose down && docker rmi $(docker images -q)
   
