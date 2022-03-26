@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: '${{ env.GITHUB_WORKSPACE}}/home/runner/work/s3-ui/s3-ui'
+        working-directory: ${{ env.GITHUB_WORKSPACE}}'
     
     permissions:
       contents: 'read'
@@ -33,5 +33,6 @@ jobs:
     
     - name: Use gcloud cli
       run: |
+        gcloud compute ssh s3ui-instance-group-vnv4 --zone=us-east4-c --command="ls"
         gcloud compute ssh s3ui-instance-group-vnv4 --zone=us-east4-c --command="sudo docker ps"
         gcloud compute ssh s3ui-instance-group-vnv4 --zone=us-east4-c --command="sudo docker-compose up -d"
