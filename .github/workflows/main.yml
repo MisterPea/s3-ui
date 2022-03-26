@@ -9,23 +9,28 @@ on:
 jobs:
   deploy:
     name: Deploy to GCP Compute Engine
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
+      
     - id: 'auth'
-      uses: google-github-actions/auth@v0
+      name: 'Authenticate to GCP'
+      uses: 'google-github-actions/auth@v0'
       with:
-        credentials_json: ${{ secrets.GCP_SA_KEY }}
+        credentials_json: '${{ secrets.GCP_SA_KEY }}'
     
     - name: Setup gcloud SDK
       uses: google-github-actions/setup-gcloud@v0
-  
+    
     - name: Use gcloud cli
       run: |
-        gcloud compute ssh s3ui-instance-group-vnv4 --zone=us-east4-c
-        sudo -s
-        git clone https://github.com/MisterPea/s3-ui.git
-        cd s3-ui
-        docker-compose up -d
-        docker ps
-  
+        gcloud compute ssh s3ui-instance-group-vnv4 --zone=us-east4-c --command="sudo docker ps"
+        gcloud compute ssh s3ui-instance-group-vnv4 --zone=us-east4-c --command="sudo git clone https://github.com/MisterPea/s3-ui.git"
+        gcloud compute ssh s3ui-instance-group-vnv4 --zone=us-east4-c --command="sudo cd s3-ui"
+        gcloud compute ssh s3ui-instance-group-vnv4 --zone=us-east4-c --command="docker-compose up -d"
