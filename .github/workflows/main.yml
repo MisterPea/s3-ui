@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ${{ env.GITHUB_WORKSPACE}}'
+        working-directory: ${{ env.GITHUB_WORKSPACE}}
     
     permissions:
       contents: 'read'
