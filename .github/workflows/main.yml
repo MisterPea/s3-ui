@@ -14,25 +14,26 @@ jobs:
     steps:
     - name: Checkout S3-UI Repo
       uses: actions/checkout@v3
-      with:
-        path: s3-ui
+
+    - name: Open Directory
+      run: find .
       
-    - id: 'auth'
-      name: 'Authenticate to GCP'
-      uses: 'google-github-actions/auth@v0'
-      with:
-        credentials_json: '${{ secrets.GCP_SA_KEY }}'
+    # - id: 'auth'
+    #   name: 'Authenticate to GCP'
+    #   uses: 'google-github-actions/auth@v0'
+    #   with:
+    #     credentials_json: '${{ secrets.GCP_SA_KEY }}'
     
-    - name: Setup gcloud SDK
-      uses: google-github-actions/setup-gcloud@v0
+    # - name: Setup gcloud SDK
+    #   uses: google-github-actions/setup-gcloud@v0
     
-    - name: Remove previous docker files
-      run: |
-        # gcloud compute ssh s3ui-instance-group-vnv4 --zone=us-east4-c --command="cd s3-ui && docker-compose down"
-        # gcloud compute ssh s3ui-instance-group-vnv4 --zone=us-east4-c --command="sudo docker rmi $(docker images -q) && sudo docker image prune -a --force"
-        # gcloud compute ssh s3ui-instance-group-vnv4 --zone=us-east4-c --command="sudo docker image prune -a --force"
-    - name: Run docker-compose - detached
-      # run: gcloud compute ssh s3ui-instance-group-4ljm --zone=us-east4-c --command="cd s3-ui && sudo docker-compose up -d"
-      run: |
-        gcloud compute ssh s3ui-instance-group-4ljm --zone=us-east4-c --command="sudo cd s3-ui && sudo docker-compose up -d"
+    # - name: Remove previous docker files
+    #   run: |
+    #     # gcloud compute ssh s3ui-instance-group-vnv4 --zone=us-east4-c --command="cd s3-ui && docker-compose down"
+    #     # gcloud compute ssh s3ui-instance-group-vnv4 --zone=us-east4-c --command="sudo docker rmi $(docker images -q) && sudo docker image prune -a --force"
+    #     # gcloud compute ssh s3ui-instance-group-vnv4 --zone=us-east4-c --command="sudo docker image prune -a --force"
+    # - name: Run docker-compose - detached
+    #   # run: gcloud compute ssh s3ui-instance-group-4ljm --zone=us-east4-c --command="cd s3-ui && sudo docker-compose up -d"
+    #   run: |
+    #     gcloud compute ssh s3ui-instance-group-4ljm --zone=us-east4-c --command="sudo cd s3-ui && sudo docker-compose up -d"
 
