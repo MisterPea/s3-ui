@@ -33,5 +33,5 @@ jobs:
       # run: gcloud compute ssh s3ui-instance-group-4ljm --zone=us-east4-c --command="cd s3-ui && sudo docker-compose up -d"
       run: |
         gcloud compute ssh s3ui-instance-group-4ljm --zone=us-east4-c --command="ls"
-        gcloud compute ssh s3ui-instance-group-4ljm --zone=us-east4-c --command="cd s3-ui && ls"
+        gcloud compute ssh s3ui-instance-group-4ljm --zone=us-east4-c --command="cd ./s3-ui && ls"
         gcloud compute ssh s3ui-instance-group-4ljm --zone=us-east4-c --command="cd .. && ls"
