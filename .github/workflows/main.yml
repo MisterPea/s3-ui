@@ -30,4 +30,4 @@ jobs:
         # gcloud compute ssh s3ui-instance-group-vnv4 --zone=us-east4-c --command="sudo docker rmi $(docker images -q) && sudo docker image prune -a --force"
         # gcloud compute ssh s3ui-instance-group-vnv4 --zone=us-east4-c --command="sudo docker image prune -a --force"
     - name: Run docker-compose - detached
-      run: gcloud compute ssh s3ui-instance-group-vnv4 --zone=us-east4-c --command="cd s3-ui && sudo docker-compose up -d"
+      run: gcloud compute ssh s3ui-instance-group-4ljm --zone=us-east4-c --command="cd s3-ui && sudo docker-compose up -d"
