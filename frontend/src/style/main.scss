@@ -9,9 +9,11 @@
 @import "./component-style/modal-header.scss";
 @import "./component-style/folder-dropdown.scss";
 @import "./component-style/modal-wrapper-style.scss";
+@import "./demo-modal.scss";
 
 html {
   box-sizing: border-box;
+  background-color: rgb(67, 86, 110);
 }
 *,
 *:before,
@@ -21,13 +23,32 @@ html {
 
 body {
   padding: 0;
-  background-color: #232f3e;
+  background: linear-gradient(0deg, rgba(57, 75, 98, 1) 0%, rgb(30, 41, 54) 95%);
+  position: fixed;
+  z-index: 1;
+  overflow-y: scroll;
+  &::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: inherit;
+    height: inherit;
+    background-image: url("./diag.svg");
+    background-size: 6px;
+    transform: scaleX(-1);
+    opacity: 0.125;
+    z-index: -1;
+  }
 }
 
 html,
 body,
 #root {
-  height: 100%;
+  width:100%;
+  height: 100.1vh;
   margin: 0px;
   padding: 0px;
   border: 0px;
@@ -76,7 +97,6 @@ button {
       max-width: unset;
     }
   }
- 
 }
 
 .nav-component {

@@ -1,0 +1,21 @@
+.demo-modal {
+  .modal-component-header-text {
+    margin-bottom: 5px;
+  }
+  button {
+    margin-bottom: 10px;
+  }
+}
+
+.demo-text {
+  padding: 0 15px 15px;
+  line-height: 1.35rem;
+  font-size: 1.2em;
+  strong {
+    color: $blue-text;
+  }
+  @include tablet {
+    font-size: 1.1em;
+  }
+
+}

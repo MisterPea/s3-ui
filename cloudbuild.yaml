@@ -1,6 +1,0 @@
-steps:
-- name: 'docker/compose:1.29.0'
-  args: ['up', '-d']
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['tag', '$REPO_NAME:latest', 'gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA']
-images: ['gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA']
