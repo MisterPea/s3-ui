@@ -13,7 +13,7 @@ jobs:
 
     steps:
     - name: Checkout S3-UI Repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       
     - id: 'auth'
       name: 'Authenticate to GCP'
