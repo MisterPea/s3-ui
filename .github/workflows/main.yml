@@ -12,9 +12,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout S3-UI Repo
-      uses: actions/checkout@v3
-      
     - id: 'auth'
       name: 'Authenticate to GCP'
       uses: 'google-github-actions/auth@v0'
