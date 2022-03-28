@@ -25,8 +25,8 @@ jobs:
       uses: google-github-actions/setup-gcloud@v0
 
     - name: Stop and Remove Docker Containers
-      run: gcloud compute ssh s3ui-instance-group-4ljm --zone=us-east4-c --command="cd s3-ui && sudo docker-compose down && sudo docker image prune -a --force"
+      run: gcloud compute ssh s3ui-instance-group-197d --zone=us-east4-c --command="cd s3-ui && sudo docker-compose down && sudo docker image prune -a --force"
 
     - name: Deploy Docker
-      run: gcloud compute ssh s3ui-instance-group-4ljm --zone=us-east4-c --command="cd s3-ui && sudo docker-compose up -d"
+      run: gcloud compute ssh s3ui-instance-group-197d --zone=us-east4-c --command="cd s3-ui && sudo docker-compose up -d"
     
