@@ -22,7 +22,9 @@ jobs:
       uses: google-github-actions/setup-gcloud@v0
 
     - name: Clone Repo
-      run: gcloud compute ssh s3ui-instance-group-197d --zone=us-east4-c --command="git clone https://github.com/MisterPea/s3-ui.git"
+      run: |
+        gcloud compute ssh s3ui-instance-group-197d --zone=us-east4-c --command="sudo rm -r s3-ui"
+        gcloud compute ssh s3ui-instance-group-197d --zone=us-east4-c --command="git clone https://github.com/MisterPea/s3-ui.git"
 
     - name: Stop and Remove Docker Containers
       run: |
