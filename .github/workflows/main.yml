@@ -26,7 +26,7 @@ jobs:
 
     - name: Stop and Remove Docker Containers
       run: |
-        gcloud compute ssh s3ui-instance-group-197d --zone=us-east4-c --command="sudo docker ps -a | awk '{print $1}'| grep -v CONTAINER | xargs sudo docker stop"
+        gcloud compute ssh s3ui-instance-group-197d --zone=us-east4-c --command="sudo docker ps -q | awk '{print $1}'| grep -v CONTAINER | xargs sudo docker stop"
         gcloud compute ssh s3ui-instance-group-197d --zone=us-east4-c --command="sudo docker images | awk '{print $3}' | grep -v IMAGE | xargs sudo docker rmi"
         gcloud compute ssh s3ui-instance-group-197d --zone=us-east4-c --command="sudo docker images | awk '{print $1}' | grep -v REPOSITORY | xargs sudo docker rmi"
 
