@@ -21,14 +21,13 @@ jobs:
     - name: Setup gcloud SDK
       uses: google-github-actions/setup-gcloud@v0
 
-    - name: Stop and Remove Docker Containers
-      run: |
-        gcloud compute ssh s3ui-instance-group-197d --zone=us-east4-c --command="sudo docker ps -a | awk '{print $1}'| grep -v CONTAINER | xargs sudo docker stop"
-        gcloud compute ssh s3ui-instance-group-197d --zone=us-east4-c --command="sudo docker images -q | awk '{print $3}' | grep -v IMAGE | xargs sudo docker rmi"
-        gcloud compute ssh s3ui-instance-group-197d --zone=us-east4-c --command="sudo docker images -q | awk '{print $1}' | grep -v REPOSITORY | xargs sudo docker rmi"
-
     - name: Clone Repo
       run: gcloud compute ssh s3ui-instance-group-197d --zone=us-east4-c --command="git clone https://github.com/MisterPea/s3-ui.git"
+
+    - name: Stop and Remove Docker Containers
+      run: |
+        gcloud compute ssh s3ui-instance-group-197d --zone=us-east4-c --command="cd s3-ui && sudo docker-compose down"
+        gcloud compute ssh s3ui-instance-group-197d --zone=us-east4-c --command="sudo docker image prune -a --force"
 
     - name: Deploy Docker
       run: gcloud compute ssh s3ui-instance-group-197d --zone=us-east4-c --command="cd s3-ui && sudo docker-compose up -d"
