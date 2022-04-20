@@ -76,6 +76,7 @@ button {
     flex: 1 1 100%;
     @include tablet {
       padding: 0 50px;
+      height: calc(90% - 112px);
     }
     @include desktop {
       max-width: unset;
