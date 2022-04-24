@@ -23,14 +23,14 @@ jobs:
 
     - name: Clone Repo
       run: |
-        gcloud compute ssh s3ui-instance-group-197d --zone=us-east4-c --command="sudo rm -r s3-ui"
-        gcloud compute ssh s3ui-instance-group-197d --zone=us-east4-c --command="git clone https://github.com/MisterPea/s3-ui.git"
+        gcloud compute ssh s3ui-instance-group-h0wf --zone=us-east4-c --command="sudo rm -r s3-ui"
+        gcloud compute ssh s3ui-instance-group-h0wf --zone=us-east4-c --command="git clone https://github.com/MisterPea/s3-ui.git"
 
     - name: Stop and Remove Docker Containers
       run: |
-        gcloud compute ssh s3ui-instance-group-197d --zone=us-east4-c --command="cd s3-ui && sudo docker-compose down"
-        gcloud compute ssh s3ui-instance-group-197d --zone=us-east4-c --command="sudo docker image prune -a --force"
+        gcloud compute ssh s3ui-instance-group-h0wf --zone=us-east4-c --command="cd s3-ui && sudo docker-compose down"
+        gcloud compute ssh s3ui-instance-group-h0wf --zone=us-east4-c --command="sudo docker image prune -a --force"
 
     - name: Deploy Docker
-      run: gcloud compute ssh s3ui-instance-group-197d --zone=us-east4-c --command="cd s3-ui && sudo docker-compose up -d"
+      run: gcloud compute ssh s3ui-instance-group-h0wf --zone=us-east4-c --command="cd s3-ui && sudo docker-compose up -d"
     
