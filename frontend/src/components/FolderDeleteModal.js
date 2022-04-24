@@ -74,14 +74,13 @@ export default function FolderDeleteModal({
 }
 
 FolderDeleteModal.defaultProps = {
-  setModalOpen: null,
+  modalId: undefined,
 };
 
 FolderDeleteModal.propTypes = {
-  setModalOpen: propTypes.func,
   locale: propTypes.string.isRequired,
   bucket: propTypes.string.isRequired,
   pathToDelete: propTypes.string.isRequired,
   folderName: propTypes.string.isRequired,
-  modalId: propTypes.string.isRequired,
+  modalId: propTypes.string,
 };
