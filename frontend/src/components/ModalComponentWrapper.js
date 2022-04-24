@@ -22,7 +22,7 @@ import createId from './helpers/createId';
  * So, it must be removed by the surviving method.
  * @returns {JSX} Returns a parent/wrapper component.
  */
-export default function ModalComponentWrapper({ children, close }) {
+export default function ModalComponentWrapper({ children, close = undefined }) {
   const [modalOpen, setModalOpen] = useState(true);
   const modalMountId = useRef(null);
   const [root, setRoot] = useState(null);
@@ -103,7 +103,7 @@ export default function ModalComponentWrapper({ children, close }) {
   function handleModalCloseSequence() {
     const modalMount = document.getElementById(modalMountId.current);
     modalMount.remove();
-    close();
+    close && close();
   }
 
   function handleClickOutside(e) {
