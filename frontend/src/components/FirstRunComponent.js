@@ -24,7 +24,7 @@ export default function FirstRunComponent({ setModalOpen }) {
         {' '}
         and see what improvements are in the works.
       </p>
-      <SubmitButton text="Let's Go!" longer="true" clickHandle={() => setModalOpen((s) => !s)} />
+      <SubmitButton text="Let's Go!" longer clickHandle={() => setModalOpen((s) => !s)} />
     </div>
   );
 }
