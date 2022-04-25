@@ -97,6 +97,7 @@ AWS S3api CLI Reference: https://awscli.amazonaws.com/v2/documentation/api/lates
 * [x] Docker deployment
 * [x] Remove Redux Logging
 * [x] HTTPS
+* [ ] Fix address bar retract on mobile/tablet - prolly will need to reconfigure the DOM construction.
 * [ ] Code splitting
 * [ ] 404
 * [ ] Handling for non-existent query string
