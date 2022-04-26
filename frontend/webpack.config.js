@@ -44,7 +44,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({ template: './src/index.html' }),
     new DefinePlugin({
-      HOSTNAME: process.env.NODE_ENV === 'production' ? JSON.stringify('s3ui.misterpea.me') : JSON.stringify('192.168.1.152:5001'),
+      HOSTNAME: process.env.NODE_ENV === 'production' ? JSON.stringify('objectui.misterpea.me') : JSON.stringify('192.168.1.152:5001'),
       SSL: process.env.PREFIX ? JSON.stringify(process.env.PREFIX) : JSON.stringify('http://'),
       API_ROUTE: process.env.NODE_ENV === 'production' ? JSON.stringify('/api') : JSON.stringify(''),
     }),
