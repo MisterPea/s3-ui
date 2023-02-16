@@ -13,6 +13,8 @@ services:
   localstack:
     container_name: "localstack_main"
     image: localstack/localstack
+    storage_opt:
+      size: '25G'
     environment:
       - SERVICES=s3
       - DEBUG=1
